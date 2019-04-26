@@ -1,0 +1,49 @@
+#-----------------------------------------------------------
+# xsim v2018.2 (64-bit)
+# SW Build 2258646 on Thu Jun 14 20:02:38 MDT 2018
+# IP Build 2256618 on Thu Jun 14 22:10:49 MDT 2018
+# Start of session at: Mon Feb 25 23:01:11 2019
+# Process ID: 32765
+# Current directory: /tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/verif/sim/vivado/test_null
+# Command line: xsim -log test_null.log -source {xsim.dir/tb/xsim_script.tcl}
+# Log file: /tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/verif/sim/vivado/test_null/test_null.log
+# Journal file: /tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/verif/sim/vivado/test_null/xsim.jou
+#-----------------------------------------------------------
+start_gui
+source xsim.dir/tb/xsim_script.tcl
+# set_param project.enableReportConfiguration 0
+# load_feature core
+# current_fileset
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/usr/licensed/xilinx/Vivado/2018.2/data/ip'.
+current_fileset: Time (s): cpu = 00:00:08 ; elapsed = 00:00:06 . Memory (MB): peak = 9589.582 ; gain = 279.066 ; free physical = 77369 ; free virtual = 95437
+# xsim {tb} -autoloadwcfg
+Vivado Simulator 2018.2
+Time resolution is 1 ps
+open_wave_config /tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/verif/sim/vivado/test_null/tb.wcfg
+xsim: Time (s): cpu = 00:00:09 ; elapsed = 00:00:08 . Memory (MB): peak = 9881.430 ; gain = 291.848 ; free physical = 77252 ; free virtual = 95321
+run all
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+             5052000 : tb.card.fpga.sh.axi_pc_mstr_inst_pcis.REP : BIT(         58) :   ERROR : Invalid state x
+             5052000 : tb.card.fpga.sh.axi_pc_mstr_inst_pcis.REP : BIT(         59) :   ERROR : Invalid state x
+             5052000 : tb.card.fpga.sh.axi_pc_mstr_inst_pcis.REP : BIT(         60) :   ERROR : Invalid state x
+run: Time (s): cpu = 00:00:12 ; elapsed = 00:00:16 . Memory (MB): peak = 10011.434 ; gain = 130.000 ; free physical = 77118 ; free virtual = 95192
+close_sim
+INFO: [Simtcl 6-16] Simulation closed
+exit
+INFO: [Common 17-206] Exiting xsim at Mon Feb 25 23:05:19 2019...

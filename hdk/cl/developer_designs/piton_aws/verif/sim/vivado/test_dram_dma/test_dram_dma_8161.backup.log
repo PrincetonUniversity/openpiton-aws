@@ -1,0 +1,27 @@
+#-----------------------------------------------------------
+# xsim v2018.2 (64-bit)
+# SW Build 2258646 on Thu Jun 14 20:02:38 MDT 2018
+# IP Build 2256618 on Thu Jun 14 22:10:49 MDT 2018
+# Start of session at: Tue Feb 26 11:32:51 2019
+# Process ID: 8161
+# Current directory: /tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/verif/sim/vivado/test_dram_dma
+# Command line: xsim -log test_dram_dma.log -source {xsim.dir/tb/xsim_script.tcl}
+# Log file: /tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/verif/sim/vivado/test_dram_dma/test_dram_dma.log
+# Journal file: /tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/verif/sim/vivado/test_dram_dma/xsim.jou
+#-----------------------------------------------------------
+start_gui
+source xsim.dir/tb/xsim_script.tcl
+# set_param project.enableReportConfiguration 0
+# load_feature core
+# current_fileset
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/usr/licensed/xilinx/Vivado/2018.2/data/ip'.
+current_fileset: Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 9589.582 ; gain = 279.066 ; free physical = 75285 ; free virtual = 93527
+# xsim {tb} -autoloadwcfg
+Vivado Simulator 2018.2
+INFO: [Common 17-41] Interrupt caught. Command should exit soon.
+Time resolution is 1 ps
+xsim: Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 9744.426 ; gain = 154.844 ; free physical = 75184 ; free virtual = 93427
+INFO: [Common 17-344] 'xsim' was cancelled
+INFO: [Common 17-344] 'source' was cancelled

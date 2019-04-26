@@ -1,0 +1,247 @@
+#-----------------------------------------------------------
+# Vivado v2018.2 (64-bit)
+# SW Build 2258646 on Thu Jun 14 20:02:38 MDT 2018
+# IP Build 2256618 on Thu Jun 14 22:10:49 MDT 2018
+# Start of session at: Sat Feb 16 15:55:41 2019
+# Process ID: 24487
+# Current directory: /tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/build/scripts
+# Command line: vivado -mode batch -nojournal -log 19_02_16-155539.vivado.log -source create_dcp_from_cl.tcl -tclargs 19_02_16-155539 DEFAULT 1.4.6 0x04261818 0xF001 0x1D0F 0x1D51 0xFEDC A0 B0 C0 2 0
+# Log file: /tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/build/scripts/19_02_16-155539.vivado.log
+# Journal file: 
+#-----------------------------------------------------------
+source create_dcp_from_cl.tcl
+# package require tar
+# set TOP top_sp
+# set CL_MODULE cl_dram_dma 
+# set timestamp           [lindex $argv  0]
+# set strategy            [lindex $argv  1]
+# set hdk_version         [lindex $argv  2]
+# set shell_version       [lindex $argv  3]
+# set device_id           [lindex $argv  4]
+# set vendor_id           [lindex $argv  5]
+# set subsystem_id        [lindex $argv  6]
+# set subsystem_vendor_id [lindex $argv  7]
+# set clock_recipe_a      [lindex $argv  8]
+# set clock_recipe_b      [lindex $argv  9]
+# set clock_recipe_c      [lindex $argv 10]
+# set uram_option         [lindex $argv 11]
+# set notify_via_sns      [lindex $argv 12]
+# set VDEFINES            [lindex $argv 13]
+# set cl.synth   1
+# set implement  1
+# puts "AWS FPGA Scripts";
+AWS FPGA Scripts
+# puts "Creating Design Checkpoint from Custom Logic source code";
+Creating Design Checkpoint from Custom Logic source code
+# puts "HDK Version:            $hdk_version";
+HDK Version:            1.4.6
+# puts "Shell Version:          $shell_version";
+Shell Version:          0x04261818
+# puts "Vivado Script Name:     $argv0";
+Vivado Script Name:     create_dcp_from_cl.tcl
+# puts "Strategy:               $strategy";
+Strategy:               DEFAULT
+# puts "PCI Device ID           $device_id";
+PCI Device ID           0xF001
+# puts "PCI Vendor ID           $vendor_id";
+PCI Vendor ID           0x1D0F
+# puts "PCI Subsystem ID        $subsystem_id";
+PCI Subsystem ID        0x1D51
+# puts "PCI Subsystem Vendor ID $subsystem_vendor_id";
+PCI Subsystem Vendor ID 0xFEDC
+# puts "Clock Recipe A:         $clock_recipe_a";
+Clock Recipe A:         A0
+# puts "Clock Recipe B:         $clock_recipe_b";
+Clock Recipe B:         B0
+# puts "Clock Recipe C:         $clock_recipe_c";
+Clock Recipe C:         C0
+# puts "URAM option:            $uram_option";
+URAM option:            2
+# puts "Notify when done:       $notify_via_sns";
+Notify when done:       0
+# if { [info exists ::env(CL_DIR)] } {
+#         set CL_DIR $::env(CL_DIR)
+#         puts "Using CL directory $CL_DIR";
+# } else {
+#         puts "Error: CL_DIR environment variable not defined ! ";
+#         puts "Use export CL_DIR=Your_Design_Root_Directory"
+#         exit 2
+# }
+Using CL directory /home/gchirkov/tank/aws-fpga/hdk/cl/developer_designs/cl_dram_dma
+# if { [info exists ::env(HDK_SHELL_DIR)] } {
+#         set HDK_SHELL_DIR $::env(HDK_SHELL_DIR)
+#         puts "Using Shell directory $HDK_SHELL_DIR";
+# } else {
+#         puts "Error: HDK_SHELL_DIR environment variable not defined ! ";
+#         puts "Run the hdk_setup.sh script from the root directory of aws-fpga";
+#         exit 2
+# }
+Using Shell directory /tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818
+# if { [info exists ::env(HDK_SHELL_DESIGN_DIR)] } {
+#         set HDK_SHELL_DESIGN_DIR $::env(HDK_SHELL_DESIGN_DIR)
+#         puts "Using Shell design directory $HDK_SHELL_DESIGN_DIR";
+# } else {
+#         puts "Error: HDK_SHELL_DESIGN_DIR environment variable not defined ! ";
+#         puts "Run the hdk_setup.sh script from the root directory of aws-fpga";
+#         exit 2
+# }
+Using Shell design directory /tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design
+# set implDir   $CL_DIR/build/checkpoints
+# set rptDir    $CL_DIR/build/reports
+# set cacheDir  $HDK_SHELL_DESIGN_DIR/cache/ddr4_phy
+# puts "All reports and intermediate results will be time stamped with $timestamp";
+All reports and intermediate results will be time stamped with 19_02_16-155539
+# set_msg_config -id {Chipscope 16-3} -suppress
+# set_msg_config -string {AXI_QUAD_SPI} -suppress
+# set_msg_config -string {PIPE_CL_SH_AURORA_STAT} -suppress
+# set_msg_config -string {PIPE_CL_SH_HMC_STAT} -suppress
+# set_msg_config -string {PIPE_AURORA_CHANNEL_UP} -suppress
+# set_msg_config -string {PIPE_HMC_IIC} -suppress
+# set_msg_config -string {PIPE_SH_CL_AURORA_STAT} -suppress
+# set_msg_config -id {Common 17-55}        -suppress
+# set_msg_config -id {Designutils 20-1567} -suppress
+# set_msg_config -id {IP_Flow 19-2162}     -suppress
+# set_msg_config -id {Project 1-498}       -suppress
+# set_msg_config -id {Route 35-328}        -suppress
+# set_msg_config -id {Vivado 12-508}       -suppress
+# set_msg_config -id {Constraints 18-4866} -suppress
+# set_msg_config -id {filemgmt 56-12}      -suppress
+# set_msg_config -id {Constraints 18-4644} -suppress
+# set_msg_config -id {Coretcl 2-64}        -suppress
+# set_msg_config -id {Vivado 12-4739}      -suppress
+# set_msg_config -id {Vivado 12-5201}      -suppress
+# set_msg_config -id {DRC CKLD-1}          -suppress
+# set_msg_config -id {IP_Flow 19-2248}     -suppress
+# set_msg_config -id {Synth 8-115}         -suppress
+# set_msg_config -id {Synth 8-3936}        -suppress
+# set_msg_config -id {Vivado 12-1023}      -suppress
+# set_msg_config -id {Constraints 18-550}  -suppress
+# set_msg_config -id {Synth 8-3295}        -suppress
+# set_msg_config -id {Synth 8-3321}        -suppress
+# set_msg_config -id {Synth 8-3331}        -suppress
+# set_msg_config -id {Synth 8-3332}        -suppress
+# set_msg_config -id {Synth 8-350}         -suppress
+# set_msg_config -id {Synth 8-3848}        -suppress
+# set_msg_config -id {Synth 8-3917}        -suppress
+# set_msg_config -id {Synth 8-6014}        -suppress
+# set_msg_config -id {Vivado 12-1580}      -suppress
+# set_msg_config -id {Constraints 18-619}  -suppress
+# set_msg_config -id {DRC CKLD-2}          -suppress
+# set_msg_config -id {DRC REQP-1853}       -suppress
+# set_msg_config -id {Timing 38-436}       -suppress
+# if {[string compare $notify_via_sns "1"] == 0} {
+#   if {![info exists env(EMAIL)]} {
+#     puts "AWS FPGA: ([clock format [clock seconds] -format %T]) EMAIL variable empty!  Completition notification will *not* be sent!";
+#     set notify_via_sns 0;
+#   } else {
+#     puts "AWS FPGA: ([clock format [clock seconds] -format %T]) EMAIL address for completion notification set to $env(EMAIL).";
+#   }
+# }
+# switch $strategy {
+#     "BASIC" {
+#         puts "BASIC strategy."
+#         source $HDK_SHELL_DIR/build/scripts/strategy_BASIC.tcl
+#     }
+#     "EXPLORE" {
+#         puts "EXPLORE strategy."
+#         source $HDK_SHELL_DIR/build/scripts/strategy_EXPLORE.tcl
+#     }
+#     "TIMING" {
+#         puts "TIMING strategy."
+#         source $HDK_SHELL_DIR/build/scripts/strategy_TIMING.tcl
+#     }
+#     "CONGESTION" {
+#         puts "CONGESTION strategy."
+#         source $HDK_SHELL_DIR/build/scripts/strategy_CONGESTION.tcl
+#     }
+#     "DEFAULT" {
+#         puts "DEFAULT strategy."
+#         source $HDK_SHELL_DIR/build/scripts/strategy_DEFAULT.tcl
+#     }
+#     default {
+#         puts "$strategy is NOT a valid strategy. Defaulting to strategy DEFAULT."
+#         source $HDK_SHELL_DIR/build/scripts/strategy_DEFAULT.tcl
+#     }
+# }
+DEFAULT strategy.
+## source $HDK_SHELL_DIR/build/scripts/params.tcl
+### if {$uram_option != 2} {
+###   set_param synth.elaboration.rodinMoreOptions {rt::set_parameter disableOregPackingUram true}
+###   set_param physynth.ultraRAMOptOutput false
+### }
+### set_param hd.supportClockNetCrossDiffReconfigurablePartitions 1 
+## source $HDK_SHELL_DIR/build/scripts/uram_options.tcl
+### switch $uram_option {
+###     "2" {
+###         set synth_uram_option "-max_uram_cascade_height 2"
+###         set uramHeight 2
+###     }
+###     "3" {
+###         set synth_uram_option "-max_uram_cascade_height 3"
+###         set uramHeight 3
+###     }
+###     "4" {
+###         set synth_uram_option "-max_uram_cascade_height 1"
+###         set uramHeight 4
+###     }
+###     default {
+###         set synth_uram_option "-max_uram_cascade_height 1"
+###         set uramHeight 4
+###     }
+### }
+## set synth_options "-keep_equivalent_registers -flatten_hierarchy rebuilt $synth_uram_option"
+## set synth_directive "default"
+## set psip 0
+## set link 1
+## set opt 1
+## set opt_options    ""
+## set opt_directive  ""
+## set opt_preHookTcl  "$HDK_SHELL_DIR/build/scripts/check_uram.tcl"
+## set opt_postHookTcl "$HDK_SHELL_DIR/build/scripts/apply_debug_constraints.tcl"
+## set place 1
+## set place_options    ""
+## set place_directive  ""
+## set place_preHookTcl ""
+## set place_postHookTcl ""
+## set phys_opt 0
+## set phys_options    ""
+## set phys_directive  ""
+## set phys_preHookTcl ""
+## set phys_postHookTcl ""
+## set route 1
+## set route_options    ""
+## set route_directive  ""
+## set route_preHookTcl ""
+## set route_postHookTcl ""
+## set route_phys_opt 0
+## set post_phys_options    ""
+## set post_phys_directive  ""
+## set post_phys_preHookTcl ""
+## set post_phys_postHookTcl ""
+# puts "AWS FPGA: ([clock format [clock seconds] -format %T]) Calling the encrypt.tcl.";
+AWS FPGA: (15:55:52) Calling the encrypt.tcl.
+# source encrypt.tcl
+## set HDK_SHELL_DIR $::env(HDK_SHELL_DIR)
+## set HDK_SHELL_DESIGN_DIR $::env(HDK_SHELL_DESIGN_DIR)
+## set CL_DIR $::env(CL_DIR)
+## set TARGET_DIR $CL_DIR/build/src_post_encryption
+## set UNUSED_TEMPLATES_DIR $HDK_SHELL_DESIGN_DIR/interfaces
+## if {[llength [glob -nocomplain -dir $TARGET_DIR *]] != 0} {
+##   eval file delete -force [glob $TARGET_DIR/*]
+## }
+## file copy -force $CL_DIR/../common/design/cl_common_defines.vh     $TARGET_DIR
+## file copy -force $CL_DIR/design/cl_dram_dma_defines.vh             $TARGET_DIR
+## file copy -force $CL_DIR/design/cl_id_defines.vh                   $TARGET_DIR
+## file copy -force $CL_DIR/design/cl_dram_dma_pkg.sv                 $TARGET_DIR
+## file copy -force $CL_DIR/design/cl_dram_dma.sv                     $TARGET_DIR
+## file copy -force $CL_DIR/design/cl_tst.sv                          $TARGET_DIR
+## file copy -force $CL_DIR/design/cl_int_tst.sv                      $TARGET_DIR
+error copying "/home/gchirkov/tank/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/design/cl_int_tst.sv": no such file or directory
+    while executing
+"file copy -force $CL_DIR/design/cl_int_tst.sv                      $TARGET_DIR"
+    (file "encrypt.tcl" line 43)
+
+    while executing
+"source encrypt.tcl"
+    (file "create_dcp_from_cl.tcl" line 194)
+INFO: [Common 17-206] Exiting Vivado at Sat Feb 16 15:55:52 2019...

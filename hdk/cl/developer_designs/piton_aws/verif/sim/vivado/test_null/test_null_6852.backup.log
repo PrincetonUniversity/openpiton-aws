@@ -1,0 +1,24 @@
+#-----------------------------------------------------------
+# xsim v2018.2 (64-bit)
+# SW Build 2258646 on Thu Jun 14 20:02:38 MDT 2018
+# IP Build 2256618 on Thu Jun 14 22:10:49 MDT 2018
+# Start of session at: Fri Mar 29 18:32:19 2019
+# Process ID: 6852
+# Current directory: /tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/verif/sim/vivado/test_null
+# Command line: xsim -log test_null.log -source {xsim.dir/tb/xsim_script.tcl}
+# Log file: /tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/verif/sim/vivado/test_null/test_null.log
+# Journal file: /tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/verif/sim/vivado/test_null/xsim.jou
+#-----------------------------------------------------------
+start_gui
+xterm: Xt error: Can't open display: 
+xterm: DISPLAY is not set
+ERROR: [Common 17-1374] Display test failed. Please check DISPLAY environment variable and X server permissions for remote display.
+source xsim.dir/tb/xsim_script.tcl
+# set_param project.enableReportConfiguration 0
+# load_feature core
+# current_fileset
+# xsim {tb} -autoloadwcfg
+Vivado Simulator 2018.2
+Time resolution is 1 ps
+open_wave_config /tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/verif/sim/vivado/test_null/tb.wcfg
+INFO: [Common 17-206] Exiting xsim at Fri Mar 29 18:32:52 2019...

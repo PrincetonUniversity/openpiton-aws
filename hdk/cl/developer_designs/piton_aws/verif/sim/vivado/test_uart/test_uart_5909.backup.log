@@ -1,0 +1,49 @@
+#-----------------------------------------------------------
+# xsim v2018.2 (64-bit)
+# SW Build 2258646 on Thu Jun 14 20:02:38 MDT 2018
+# IP Build 2256618 on Thu Jun 14 22:10:49 MDT 2018
+# Start of session at: Sat Feb 23 19:42:36 2019
+# Process ID: 5909
+# Current directory: /tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/verif/sim/vivado/test_uart
+# Command line: xsim -log test_uart.log -source {xsim.dir/tb/xsim_script.tcl}
+# Log file: /tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/verif/sim/vivado/test_uart/test_uart.log
+# Journal file: /tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/verif/sim/vivado/test_uart/xsim.jou
+#-----------------------------------------------------------
+start_gui
+source xsim.dir/tb/xsim_script.tcl
+# set_param project.enableReportConfiguration 0
+# load_feature core
+# current_fileset
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/usr/licensed/xilinx/Vivado/2018.2/data/ip'.
+current_fileset: Time (s): cpu = 00:00:09 ; elapsed = 00:00:06 . Memory (MB): peak = 9529.586 ; gain = 150.070 ; free physical = 78535 ; free virtual = 96446
+# xsim {tb} -autoloadwcfg
+Vivado Simulator 2018.2
+Time resolution is 1 ps
+open_wave_config /tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/verif/sim/vivado/test_uart/tb.wcfg
+run all
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+===== Starting with peek_poke_example =====
+Writing 0x12345678 to THR register (0x0000000000001000)
+Reading from RBR register (0x0000000000001000)
+WARNING: [Simulator 45-29] Cannot open source file /wrk/2018.2/continuous/2018_06_14_2258646/packages/customer/vivado/data/ip/xilinx/axi_uart16550_v2_0/hdl/axi_uart16550_v2_0_vh_rfs.vhd: file does not exist.
+run: Time (s): cpu = 00:00:01 ; elapsed = 00:00:07 . Memory (MB): peak = 10075.422 ; gain = 130.000 ; free physical = 78320 ; free virtual = 96236
+close_sim
+INFO: [Simtcl 6-16] Simulation closed
+exit
+INFO: [Common 17-206] Exiting xsim at Sat Feb 23 20:07:52 2019...

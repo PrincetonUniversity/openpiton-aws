@@ -1,0 +1,85 @@
+#-----------------------------------------------------------
+# xsim v2018.2 (64-bit)
+# SW Build 2258646 on Thu Jun 14 20:02:38 MDT 2018
+# IP Build 2256618 on Thu Jun 14 22:10:49 MDT 2018
+# Start of session at: Sat Feb 16 14:37:57 2019
+# Process ID: 30560
+# Current directory: /tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/verif/sim/vivado/test_dram_dma_axi_mstr
+# Command line: xsim -log test_dram_dma_axi_mstr.log -mode tcl -source {xsim.dir/tb/xsim_script.tcl}
+# Log file: /tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/verif/sim/vivado/test_dram_dma_axi_mstr/test_dram_dma_axi_mstr.log
+# Journal file: /tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/verif/sim/vivado/test_dram_dma_axi_mstr/xsim.jou
+#-----------------------------------------------------------
+source xsim.dir/tb/xsim_script.tcl
+# xsim {tb} -autoloadwcfg -tclbatch {/home/gchirkov/tank/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/verif/scripts/waves.tcl} -runall
+Vivado Simulator 2018.2
+Time resolution is 1 ps
+WARNING: [Simtcl 6-25] Warning: Both '-runall' and '-tclbatch' were specified. The '-runall' was ignored
+source /home/gchirkov/tank/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/verif/scripts/waves.tcl
+## set curr_wave [current_wave_config]
+## if { [string length $curr_wave] == 0 } {
+##   if { [llength [get_objects]] > 0} {
+##     add_wave /
+##     set_property needs_save false [current_wave_config]
+##   } else {
+##      send_msg_id Add_Wave-1 WARNING "No top level signals found. Simulator will start without a wave window. If you want to open a wave window go to 'File->New Waveform Configuration' or type 'create_wave_config' in the TCL console."
+##   }
+## }
+## run 200 us 
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
+Info: [XPM_MEMORY 20-1] MEMORY_PRIMITIVE (0) instructs Vivado Synthesis to choose the memory primitive type. Depending on their values, other XPM_MEMORY parameters may preclude the choice of certain memory primitive types. Review XPM_MEMORY documentation and parameter values to understand any limitations, or set MEMORY_PRIMITIVE to a different value. tb.card.fpga.CL.CL_PCIM_MSTR.CL_TST_PCI.WRITE_INST_RAM.xpm_memory_tdpram_inst.xpm_memory_base_inst.config_drc
+Time: 1 ps  Iteration: 0  Process: /tb/card/fpga/CL/CL_PCIM_MSTR/CL_TST_PCI/WRITE_INST_RAM/xpm_memory_tdpram_inst/xpm_memory_base_inst/Initial270_7042  File: /wrk/2018.2/continuous/2018_06_14_2258646/packages/customer/vivado/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv
+Info: [XPM_MEMORY 20-2] MEMORY_INIT_FILE (none), MEMORY_INIT_PARAM together specify no memory initialization. Initial memory contents will be all 0's. tb.card.fpga.CL.CL_PCIM_MSTR.CL_TST_PCI.WRITE_INST_RAM.xpm_memory_tdpram_inst.xpm_memory_base_inst.config_drc  0
+Time: 1 ps  Iteration: 0  Process: /tb/card/fpga/CL/CL_PCIM_MSTR/CL_TST_PCI/WRITE_INST_RAM/xpm_memory_tdpram_inst/xpm_memory_base_inst/Initial270_7042  File: /wrk/2018.2/continuous/2018_06_14_2258646/packages/customer/vivado/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv
+Info: [XPM_MEMORY 20-1] MEMORY_PRIMITIVE (0) instructs Vivado Synthesis to choose the memory primitive type. Depending on their values, other XPM_MEMORY parameters may preclude the choice of certain memory primitive types. Review XPM_MEMORY documentation and parameter values to understand any limitations, or set MEMORY_PRIMITIVE to a different value. tb.card.fpga.CL.CL_PCIM_MSTR.CL_TST_PCI.READ_INST_RAM.xpm_memory_tdpram_inst.xpm_memory_base_inst.config_drc
+Time: 1 ps  Iteration: 0  Process: /tb/card/fpga/CL/CL_PCIM_MSTR/CL_TST_PCI/READ_INST_RAM/xpm_memory_tdpram_inst/xpm_memory_base_inst/Initial270_7042  File: /wrk/2018.2/continuous/2018_06_14_2258646/packages/customer/vivado/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv
+Info: [XPM_MEMORY 20-2] MEMORY_INIT_FILE (none), MEMORY_INIT_PARAM together specify no memory initialization. Initial memory contents will be all 0's. tb.card.fpga.CL.CL_PCIM_MSTR.CL_TST_PCI.READ_INST_RAM.xpm_memory_tdpram_inst.xpm_memory_base_inst.config_drc  0
+Time: 1 ps  Iteration: 0  Process: /tb/card/fpga/CL/CL_PCIM_MSTR/CL_TST_PCI/READ_INST_RAM/xpm_memory_tdpram_inst/xpm_memory_base_inst/Initial270_7042  File: /wrk/2018.2/continuous/2018_06_14_2258646/packages/customer/vivado/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv
+Info: [XPM_MEMORY 20-1] MEMORY_PRIMITIVE (0) instructs Vivado Synthesis to choose the memory primitive type. Depending on their values, other XPM_MEMORY parameters may preclude the choice of certain memory primitive types. Review XPM_MEMORY documentation and parameter values to understand any limitations, or set MEMORY_PRIMITIVE to a different value. tb.card.fpga.CL.CL_PCIM_MSTR.CL_TST_PCI.RD_TRK_RAM.xpm_memory_tdpram_inst.xpm_memory_base_inst.config_drc
+Time: 1 ps  Iteration: 0  Process: /tb/card/fpga/CL/CL_PCIM_MSTR/CL_TST_PCI/RD_TRK_RAM/xpm_memory_tdpram_inst/xpm_memory_base_inst/Initial270_7112  File: /wrk/2018.2/continuous/2018_06_14_2258646/packages/customer/vivado/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv
+Info: [XPM_MEMORY 20-2] MEMORY_INIT_FILE (none), MEMORY_INIT_PARAM together specify no memory initialization. Initial memory contents will be all 0's. tb.card.fpga.CL.CL_PCIM_MSTR.CL_TST_PCI.RD_TRK_RAM.xpm_memory_tdpram_inst.xpm_memory_base_inst.config_drc  0
+Time: 1 ps  Iteration: 0  Process: /tb/card/fpga/CL/CL_PCIM_MSTR/CL_TST_PCI/RD_TRK_RAM/xpm_memory_tdpram_inst/xpm_memory_base_inst/Initial270_7112  File: /wrk/2018.2/continuous/2018_06_14_2258646/packages/customer/vivado/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv
+Info: [XPM_MEMORY 20-1] MEMORY_PRIMITIVE (0) instructs Vivado Synthesis to choose the memory primitive type. Depending on their values, other XPM_MEMORY parameters may preclude the choice of certain memory primitive types. Review XPM_MEMORY documentation and parameter values to understand any limitations, or set MEMORY_PRIMITIVE to a different value. tb.card.fpga.CL.CL_PCIM_MSTR.CL_TST_PCI.RD_TRK_MD_RAM.xpm_memory_tdpram_inst.xpm_memory_base_inst.config_drc
+Time: 1 ps  Iteration: 0  Process: /tb/card/fpga/CL/CL_PCIM_MSTR/CL_TST_PCI/RD_TRK_MD_RAM/xpm_memory_tdpram_inst/xpm_memory_base_inst/Initial270_7121  File: /wrk/2018.2/continuous/2018_06_14_2258646/packages/customer/vivado/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv
+Info: [XPM_MEMORY 20-2] MEMORY_INIT_FILE (none), MEMORY_INIT_PARAM together specify no memory initialization. Initial memory contents will be all 0's. tb.card.fpga.CL.CL_PCIM_MSTR.CL_TST_PCI.RD_TRK_MD_RAM.xpm_memory_tdpram_inst.xpm_memory_base_inst.config_drc  0
+Time: 1 ps  Iteration: 0  Process: /tb/card/fpga/CL/CL_PCIM_MSTR/CL_TST_PCI/RD_TRK_MD_RAM/xpm_memory_tdpram_inst/xpm_memory_base_inst/Initial270_7121  File: /wrk/2018.2/continuous/2018_06_14_2258646/packages/customer/vivado/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv
+Info: [XPM_MEMORY 20-1] MEMORY_PRIMITIVE (0) instructs Vivado Synthesis to choose the memory primitive type. Depending on their values, other XPM_MEMORY parameters may preclude the choice of certain memory primitive types. Review XPM_MEMORY documentation and parameter values to understand any limitations, or set MEMORY_PRIMITIVE to a different value. tb.card.fpga.CL.CL_PCIM_MSTR.CL_TST_PCI.RD_ADDR_RAM.xpm_memory_tdpram_inst.xpm_memory_base_inst.config_drc
+Time: 1 ps  Iteration: 0  Process: /tb/card/fpga/CL/CL_PCIM_MSTR/CL_TST_PCI/RD_ADDR_RAM/xpm_memory_tdpram_inst/xpm_memory_base_inst/Initial270_7133  File: /wrk/2018.2/continuous/2018_06_14_2258646/packages/customer/vivado/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv
+Info: [XPM_MEMORY 20-2] MEMORY_INIT_FILE (none), MEMORY_INIT_PARAM together specify no memory initialization. Initial memory contents will be all 0's. tb.card.fpga.CL.CL_PCIM_MSTR.CL_TST_PCI.RD_ADDR_RAM.xpm_memory_tdpram_inst.xpm_memory_base_inst.config_drc  0
+Time: 1 ps  Iteration: 0  Process: /tb/card/fpga/CL/CL_PCIM_MSTR/CL_TST_PCI/RD_ADDR_RAM/xpm_memory_tdpram_inst/xpm_memory_base_inst/Initial270_7133  File: /wrk/2018.2/continuous/2018_06_14_2258646/packages/customer/vivado/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv
+Info: [XPM_MEMORY 20-1] MEMORY_PRIMITIVE (0) instructs Vivado Synthesis to choose the memory primitive type. Depending on their values, other XPM_MEMORY parameters may preclude the choice of certain memory primitive types. Review XPM_MEMORY documentation and parameter values to understand any limitations, or set MEMORY_PRIMITIVE to a different value. tb.card.fpga.CL.CL_PCIM_MSTR.CL_TST_PCI.RD_DAT_RAM.xpm_memory_tdpram_inst.xpm_memory_base_inst.config_drc
+Time: 1 ps  Iteration: 0  Process: /tb/card/fpga/CL/CL_PCIM_MSTR/CL_TST_PCI/RD_DAT_RAM/xpm_memory_tdpram_inst/xpm_memory_base_inst/Initial270_7142  File: /wrk/2018.2/continuous/2018_06_14_2258646/packages/customer/vivado/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv
+Info: [XPM_MEMORY 20-2] MEMORY_INIT_FILE (none), MEMORY_INIT_PARAM together specify no memory initialization. Initial memory contents will be all 0's. tb.card.fpga.CL.CL_PCIM_MSTR.CL_TST_PCI.RD_DAT_RAM.xpm_memory_tdpram_inst.xpm_memory_base_inst.config_drc  0
+Time: 1 ps  Iteration: 0  Process: /tb/card/fpga/CL/CL_PCIM_MSTR/CL_TST_PCI/RD_DAT_RAM/xpm_memory_tdpram_inst/xpm_memory_base_inst/Initial270_7142  File: /wrk/2018.2/continuous/2018_06_14_2258646/packages/customer/vivado/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv
+Info: [XPM_MEMORY 20-1] MEMORY_PRIMITIVE (0) instructs Vivado Synthesis to choose the memory primitive type. Depending on their values, other XPM_MEMORY parameters may preclude the choice of certain memory primitive types. Review XPM_MEMORY documentation and parameter values to understand any limitations, or set MEMORY_PRIMITIVE to a different value. tb.card.fpga.CL.CL_PCIM_MSTR.CL_TST_PCI.RD_EXP_RAM.xpm_memory_tdpram_inst.xpm_memory_base_inst.config_drc
+Time: 1 ps  Iteration: 0  Process: /tb/card/fpga/CL/CL_PCIM_MSTR/CL_TST_PCI/RD_EXP_RAM/xpm_memory_tdpram_inst/xpm_memory_base_inst/Initial270_7142  File: /wrk/2018.2/continuous/2018_06_14_2258646/packages/customer/vivado/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv
+Info: [XPM_MEMORY 20-2] MEMORY_INIT_FILE (none), MEMORY_INIT_PARAM together specify no memory initialization. Initial memory contents will be all 0's. tb.card.fpga.CL.CL_PCIM_MSTR.CL_TST_PCI.RD_EXP_RAM.xpm_memory_tdpram_inst.xpm_memory_base_inst.config_drc  0
+Time: 1 ps  Iteration: 0  Process: /tb/card/fpga/CL/CL_PCIM_MSTR/CL_TST_PCI/RD_EXP_RAM/xpm_memory_tdpram_inst/xpm_memory_base_inst/Initial270_7142  File: /wrk/2018.2/continuous/2018_06_14_2258646/packages/customer/vivado/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv
+Info: [XPM_MEMORY 20-1] MEMORY_PRIMITIVE (0) instructs Vivado Synthesis to choose the memory primitive type. Depending on their values, other XPM_MEMORY parameters may preclude the choice of certain memory primitive types. Review XPM_MEMORY documentation and parameter values to understand any limitations, or set MEMORY_PRIMITIVE to a different value. tb.card.fpga.CL.CL_SDA_SLV.AXIL_SLAVE.AXIL_RAM.xpm_memory_tdpram_inst.xpm_memory_base_inst.config_drc
+Time: 1 ps  Iteration: 0  Process: /tb/card/fpga/CL/CL_SDA_SLV/AXIL_SLAVE/AXIL_RAM/xpm_memory_tdpram_inst/xpm_memory_base_inst/Initial270_8711  File: /wrk/2018.2/continuous/2018_06_14_2258646/packages/customer/vivado/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv
+Info: [XPM_MEMORY 20-2] MEMORY_INIT_FILE (none), MEMORY_INIT_PARAM together specify no memory initialization. Initial memory contents will be all 0's. tb.card.fpga.CL.CL_SDA_SLV.AXIL_SLAVE.AXIL_RAM.xpm_memory_tdpram_inst.xpm_memory_base_inst.config_drc  0
+Time: 1 ps  Iteration: 0  Process: /tb/card/fpga/CL/CL_SDA_SLV/AXIL_SLAVE/AXIL_RAM/xpm_memory_tdpram_inst/xpm_memory_base_inst/Initial270_8711  File: /wrk/2018.2/continuous/2018_06_14_2258646/packages/customer/vivado/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv
+ocl
+[            33228000] : starting H2C DMA channels 
+[            33228000] : ******* DDR A *******
+[            33228000] : Setting DDRA Command Registers 
+[            33408000] : Waiting for DDRA write command to complete.  
+[            33418000] : DDRA write command completed.  
+[            33418000] : Issuing DDRA read command.  
+[            33458000] : Waiting for DDRA read command to complete.  
+run: Time (s): cpu = 00:00:00.08 ; elapsed = 00:00:50 . Memory (MB): peak = 1238.363 ; gain = 2.000 ; free physical = 85485 ; free virtual = 98507
+## quit
+INFO: [Common 17-206] Exiting xsim at Sat Feb 16 14:38:57 2019...

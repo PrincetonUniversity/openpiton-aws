@@ -1,0 +1,14 @@
+#-----------------------------------------------------------
+# Webtalk v2018.2 (64-bit)
+# SW Build 2258646 on Thu Jun 14 20:02:38 MDT 2018
+# IP Build 2256618 on Thu Jun 14 22:10:49 MDT 2018
+# Start of session at: Fri Feb 22 18:29:23 2019
+# Process ID: 3722
+# Current directory: /tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/verif/sim/vivado/test_dram_dma
+# Command line: wbtcv -mode batch -source /tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/verif/sim/vivado/test_dram_dma/xsim.dir/tb/webtalk/xsim_webtalk.tcl -notrace
+# Log file: /tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/verif/sim/vivado/test_dram_dma/webtalk.log
+# Journal file: /tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/verif/sim/vivado/test_dram_dma/webtalk.jou
+#-----------------------------------------------------------
+source /tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/verif/sim/vivado/test_dram_dma/xsim.dir/tb/webtalk/xsim_webtalk.tcl -notrace
+webtalk_transmit: Time (s): cpu = 00:00:00.89 ; elapsed = 00:00:06 . Memory (MB): peak = 292.184 ; gain = 0.000 ; free physical = 77493 ; free virtual = 95366
+INFO: [Common 17-206] Exiting Webtalk at Fri Feb 22 18:29:29 2019...

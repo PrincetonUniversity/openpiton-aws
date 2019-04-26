@@ -1,0 +1,357 @@
+INFO: [XSIM 43-3496] Using init file passed via -initfile option "/usr/licensed/xilinx/Vivado/2018.2/data/xsim/ip/xsim_ip.ini".
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/usr/licensed/xilinx/Vivado/2018.2/data/verilog/src/glbl.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module glbl
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/ip_1/rtl/phy/ddr4_phy_v2_2_xiphy_behav.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_phy_v2_2_0_xiphy_behav
+INFO: [VRFC 10-311] analyzing module ddr4_phy_v2_2_0_bitslice_behav
+INFO: [VRFC 10-311] analyzing module ddr4_phy_v2_2_0_fifo_sv
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/ip_1/rtl/phy/ddr4_phy_v2_2_xiphy.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_phy_v2_2_0_xiphy
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/ip_1/rtl/iob/ddr4_phy_v2_2_iob_byte.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_phy_v2_2_0_iob_byte
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/ip_1/rtl/iob/ddr4_phy_v2_2_iob.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_phy_v2_2_0_iob
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/ip_1/rtl/clocking/ddr4_phy_v2_2_pll.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_phy_v2_2_0_pll
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/ip_1/rtl/xiphy_files/ddr4_phy_v2_2_xiphy_tristate_wrapper.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_phy_v2_2_0_xiphy_tristate_wrapper
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/ip_1/rtl/xiphy_files/ddr4_phy_v2_2_xiphy_riuor_wrapper.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_phy_v2_2_0_xiphy_riuor_wrapper
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/ip_1/rtl/xiphy_files/ddr4_phy_v2_2_xiphy_control_wrapper.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_phy_v2_2_0_xiphy_control_wrapper
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/ip_1/rtl/xiphy_files/ddr4_phy_v2_2_xiphy_byte_wrapper.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_phy_v2_2_0_xiphy_byte_wrapper
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/ip_1/rtl/xiphy_files/ddr4_phy_v2_2_xiphy_bitslice_wrapper.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_phy_v2_2_0_xiphy_bitslice_wrapper
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/ip_1/rtl/phy/ddr4_core_phy_ddr4.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_core_phy_ddr4
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/ip_1/rtl/ip_top/ddr4_core_phy.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_core_phy
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/controller/ddr4_v2_2_mc_wtr.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_mc_wtr
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/controller/ddr4_v2_2_mc_ref.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_mc_ref
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/controller/ddr4_v2_2_mc_rd_wr.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_mc_rd_wr
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/controller/ddr4_v2_2_mc_periodic.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_mc_periodic
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/controller/ddr4_v2_2_mc_group.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_mc_group
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/controller/ddr4_v2_2_mc_ecc_merge_enc.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_mc_ecc_merge_enc
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/controller/ddr4_v2_2_mc_ecc_gen.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_mc_ecc_gen
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/controller/ddr4_v2_2_mc_ecc_fi_xor.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_mc_ecc_fi_xor
+WARNING: [VRFC 10-2821] generate block is allowed only inside loop and conditional generate in SystemVerilog mode [/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/controller/ddr4_v2_2_mc_ecc_fi_xor.sv:125]
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/controller/ddr4_v2_2_mc_ecc_dec_fix.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_mc_ecc_dec_fix
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/controller/ddr4_v2_2_mc_ecc_buf.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_mc_ecc_buf
+WARNING: [VRFC 10-2821] generate block is allowed only inside loop and conditional generate in SystemVerilog mode [/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/controller/ddr4_v2_2_mc_ecc_buf.sv:135]
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/controller/ddr4_v2_2_mc_ecc.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_mc_ecc
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/controller/ddr4_v2_2_mc_ctl.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_mc_ctl
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/controller/ddr4_v2_2_mc_cmd_mux_c.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_mc_cmd_mux_c
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/controller/ddr4_v2_2_mc_cmd_mux_ap.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_mc_cmd_mux_ap
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/controller/ddr4_v2_2_mc_arb_p.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_mc_arb_p
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/controller/ddr4_v2_2_mc_arb_mux_p.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_mc_arb_mux_p
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/controller/ddr4_v2_2_mc_arb_c.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_mc_arb_c
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/controller/ddr4_v2_2_mc_arb_a.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_mc_arb_a
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/controller/ddr4_v2_2_mc_act_timer.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_mc_act_timer
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/controller/ddr4_v2_2_mc_act_rank.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_mc_act_rank
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/controller/ddr4_v2_2_mc.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_mc
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/ui/ddr4_v2_2_ui_wr_data.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_ui_wr_data
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/ui/ddr4_v2_2_ui_rd_data.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_ui_rd_data
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/ui/ddr4_v2_2_ui_cmd.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_ui_cmd
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/ui/ddr4_v2_2_ui.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_ui
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi/ddr4_v2_2_axi_ar_channel.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_axi_ar_channel
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi/ddr4_v2_2_axi_aw_channel.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_axi_aw_channel
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi/ddr4_v2_2_axi_b_channel.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_axi_b_channel
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi/ddr4_v2_2_axi_cmd_arbiter.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_axi_cmd_arbiter
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi/ddr4_v2_2_axi_cmd_fsm.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_axi_cmd_fsm
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi/ddr4_v2_2_axi_cmd_translator.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_axi_cmd_translator
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi/ddr4_v2_2_axi_fifo.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_axi_fifo
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi/ddr4_v2_2_axi_incr_cmd.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_axi_incr_cmd
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi/ddr4_v2_2_axi_r_channel.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_axi_r_channel
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi/ddr4_v2_2_axi_w_channel.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_axi_w_channel
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi/ddr4_v2_2_axi_wr_cmd_fsm.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_axi_wr_cmd_fsm
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi/ddr4_v2_2_axi_wrap_cmd.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_axi_wrap_cmd
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi/ddr4_v2_2_a_upsizer.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_a_upsizer
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi/ddr4_v2_2_axi.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_axi
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi/ddr4_v2_2_axi_register_slice.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_axi_register_slice
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi/ddr4_v2_2_axi_upsizer.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_axi_upsizer
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi/ddr4_v2_2_axic_register_slice.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_axic_register_slice
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi/ddr4_v2_2_carry_and.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_carry_and
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi/ddr4_v2_2_carry_latch_and.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_carry_latch_and
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi/ddr4_v2_2_carry_latch_or.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_carry_latch_or
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi/ddr4_v2_2_carry_or.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_carry_or
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi/ddr4_v2_2_command_fifo.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_command_fifo
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi/ddr4_v2_2_comparator.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_comparator
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi/ddr4_v2_2_comparator_sel.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_comparator_sel
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi/ddr4_v2_2_comparator_sel_static.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_comparator_sel_static
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi/ddr4_v2_2_r_upsizer.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_r_upsizer
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi/ddr4_v2_2_w_upsizer.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_w_upsizer
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi_ctrl/ddr4_v2_2_axi_ctrl_addr_decode.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_axi_ctrl_addr_decode
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi_ctrl/ddr4_v2_2_axi_ctrl_read.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_axi_ctrl_read
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi_ctrl/ddr4_v2_2_axi_ctrl_reg_bank.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_axi_ctrl_reg_bank
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi_ctrl/ddr4_v2_2_axi_ctrl_reg.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_axi_ctrl_reg
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi_ctrl/ddr4_v2_2_axi_ctrl_top.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_axi_ctrl_top
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/axi_ctrl/ddr4_v2_2_axi_ctrl_write.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_axi_ctrl_write
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/clocking/ddr4_v2_2_infrastructure.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_infrastructure
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/cal/ddr4_v2_2_cal_xsdb_bram.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_cal_xsdb_bram
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/cal/ddr4_v2_2_cal_write.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_cal_write
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/cal/ddr4_v2_2_cal_wr_byte.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_cal_wr_byte
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/cal/ddr4_v2_2_cal_wr_bit.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_cal_wr_bit
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/cal/ddr4_v2_2_cal_sync.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_cal_sync
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/cal/ddr4_core_ddr4_cal_riu.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_core_ddr4_cal_riu
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/cal/ddr4_v2_2_cal_read.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_cal_read
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/cal/ddr4_v2_2_cal_rd_en.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_cal_rd_en
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/cal/ddr4_v2_2_cal_pi.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_cal_pi
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/cal/ddr4_v2_2_cal_mc_odt.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_cal_mc_odt
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/cal/ddr4_v2_2_cal_debug_microblaze.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_cal_debug_microblaze
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/cal/ddr4_v2_2_cal_cplx_data.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_cal_cplx_data
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/cal/ddr4_v2_2_cal_cplx.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_cal_cplx
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/cal/ddr4_v2_2_cal_config_rom.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_cal_config_rom
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/cal/ddr4_v2_2_cal_addr_decode.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_cal_addr_decode
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/cal/ddr4_v2_2_cal_top.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_cal_top
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/cal/ddr4_v2_2_cal_xsdb_arbiter.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_cal_xsdb_arbiter
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/cal/ddr4_v2_2_cal.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_cal
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/cal/ddr4_v2_2_chipscope_xsdb_slave.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_chipscope_xsdb_slave
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/cal/ddr4_v2_2_dp_AB9.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_cfg_mem_mod
+INFO: [VRFC 10-311] analyzing module ddr4_v2_2_3_bram_tdp
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/ip_top/ddr4_core.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_core
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/ip_top/ddr4_core_ddr4.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_core_ddr4
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/ip_top/ddr4_core_ddr4_mem_intfc.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_core_ddr4_mem_intfc
+WARNING: [VRFC 10-2155] parameter declared inside generate block shall be treated as localparam [/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/ip_top/ddr4_v2_2_3_ddr4_assert.vh:938]
+WARNING: [VRFC 10-2155] parameter declared inside generate block shall be treated as localparam [/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/ip_top/ddr4_v2_2_3_ddr4_assert.vh:939]
+WARNING: [VRFC 10-2155] parameter declared inside generate block shall be treated as localparam [/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/rtl/ip_top/ddr4_v2_2_3_ddr4_assert.vh:940]
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/ddr4_core/tb/microblaze_mcs_0.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_core_microblaze_mcs
+INFO: [VRFC 10-311] analyzing module microblaze_mcs
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/verif/models/ddr4_model/ddr4_sdram_model_wrapper.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module StateTable
+INFO: [VRFC 10-311] analyzing module ddr4_model
+WARNING: [VRFC 10-2821] generate block is allowed only inside loop and conditional generate in SystemVerilog mode [/tigress/gchirkov/aws-fpga/hdk/common/verif/models/ddr4_model/ddr4_model.sv:342]
+WARNING: [VRFC 10-2821] generate block is allowed only inside loop and conditional generate in SystemVerilog mode [/tigress/gchirkov/aws-fpga/hdk/common/verif/models/ddr4_model/ddr4_model.sv:1537]
+WARNING: [VRFC 10-2821] generate block is allowed only inside loop and conditional generate in SystemVerilog mode [/tigress/gchirkov/aws-fpga/hdk/common/verif/models/ddr4_model/ddr4_model.sv:1584]
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/verif/models/xilinx_axi_pc/axi_protocol_checker_v1_1_vl_rfs.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module axi_protocol_checker_v1_1_12_axi4litepc_asr_inline
+INFO: [VRFC 10-311] analyzing module axi_protocol_checker_v1_1_12_axi4pc_asr_inline
+INFO: [VRFC 10-311] analyzing module axi_protocol_checker_v1_1_12_core
+INFO: [VRFC 10-311] analyzing module axi_protocol_checker_v1_1_12_syn_fifo
+INFO: [VRFC 10-311] analyzing module axi_protocol_checker_v1_1_12_reporter
+INFO: [VRFC 10-311] analyzing module axi_protocol_checker_v1_1_12_top
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/verif/models/sh_bfm/axi_bfm_defines.svh" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/verif/tb/sv/tb_type_defines_pkg.sv" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/verif/models/sh_bfm/sh_bfm.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module sh_bfm
+WARNING: [VRFC 10-2167] variable awready_cnt must explicitly be declared as automatic or static [/tigress/gchirkov/aws-fpga/hdk/common/verif/models/sh_bfm/sh_bfm.sv:1079]
+WARNING: [VRFC 10-2167] variable wready_cnt must explicitly be declared as automatic or static [/tigress/gchirkov/aws-fpga/hdk/common/verif/models/sh_bfm/sh_bfm.sv:1118]
+WARNING: [VRFC 10-2167] variable wready_nonzero_wait must explicitly be declared as automatic or static [/tigress/gchirkov/aws-fpga/hdk/common/verif/models/sh_bfm/sh_bfm.sv:1119]
+WARNING: [VRFC 10-2167] variable arready_cnt must explicitly be declared as automatic or static [/tigress/gchirkov/aws-fpga/hdk/common/verif/models/sh_bfm/sh_bfm.sv:1182]
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/verif/models/sh_bfm/axil_bfm.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module axil_bfm
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/verif/models/fpga/fpga.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module fpga
+INFO: [VRFC 10-2458] undeclared symbol ocl_sh_bvalid, assumed default net type wire [/tigress/gchirkov/aws-fpga/hdk/common/verif/models/fpga/fpga.sv:619]
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/verif/models/fpga/card.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module card
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/verif/tb/sv/tb.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module tb
+INFO: [VRFC 10-311] analyzing module short
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/verif/tests/test_null.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module test_null
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/axi_clock_converter_0/sim/axi_clock_converter_0.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module axi_clock_converter_0
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/dest_register_slice/sim/dest_register_slice.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module dest_register_slice
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/src_register_slice/sim/src_register_slice.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module src_register_slice
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/axi_register_slice/sim/axi_register_slice.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module axi_register_slice
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/axi_register_slice_light/sim/axi_register_slice_light.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module axi_register_slice_light
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/cl_axi_interconnect/ipshared/9909/hdl/axi_data_fifo_v2_1_vl_rfs.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module axi_data_fifo_v2_1_14_axic_fifo
+INFO: [VRFC 10-311] analyzing module axi_data_fifo_v2_1_14_fifo_gen
+INFO: [VRFC 10-311] analyzing module axi_data_fifo_v2_1_14_axic_srl_fifo
+INFO: [VRFC 10-311] analyzing module axi_data_fifo_v2_1_14_axic_reg_srl_fifo
+INFO: [VRFC 10-311] analyzing module axi_data_fifo_v2_1_14_ndeep_srl
+INFO: [VRFC 10-311] analyzing module axi_data_fifo_v2_1_14_axi_data_fifo
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/cl_axi_interconnect/ipshared/c631/hdl/axi_crossbar_v2_1_vl_rfs.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module axi_crossbar_v2_1_16_addr_arbiter_sasd
+INFO: [VRFC 10-311] analyzing module axi_crossbar_v2_1_16_addr_arbiter
+INFO: [VRFC 10-311] analyzing module axi_crossbar_v2_1_16_addr_decoder
+INFO: [VRFC 10-311] analyzing module axi_crossbar_v2_1_16_arbiter_resp
+INFO: [VRFC 10-311] analyzing module axi_crossbar_v2_1_16_crossbar_sasd
+INFO: [VRFC 10-311] analyzing module axi_crossbar_v2_1_16_crossbar
+INFO: [VRFC 10-311] analyzing module axi_crossbar_v2_1_16_decerr_slave
+INFO: [VRFC 10-311] analyzing module axi_crossbar_v2_1_16_si_transactor
+INFO: [VRFC 10-311] analyzing module axi_crossbar_v2_1_16_splitter
+INFO: [VRFC 10-311] analyzing module axi_crossbar_v2_1_16_wdata_mux
+INFO: [VRFC 10-311] analyzing module axi_crossbar_v2_1_16_wdata_router
+INFO: [VRFC 10-311] analyzing module axi_crossbar_v2_1_16_axi_crossbar
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/cl_axi_interconnect/ip/cl_axi_interconnect_xbar_0/sim/cl_axi_interconnect_xbar_0.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module cl_axi_interconnect_xbar_0
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/cl_axi_interconnect/ip/cl_axi_interconnect_s00_regslice_0/sim/cl_axi_interconnect_s00_regslice_0.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module cl_axi_interconnect_s00_regslice_0
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/cl_axi_interconnect/ip/cl_axi_interconnect_s01_regslice_0/sim/cl_axi_interconnect_s01_regslice_0.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module cl_axi_interconnect_s01_regslice_0
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/cl_axi_interconnect/ip/cl_axi_interconnect_m00_regslice_0/sim/cl_axi_interconnect_m00_regslice_0.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module cl_axi_interconnect_m00_regslice_0
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/cl_axi_interconnect/ip/cl_axi_interconnect_m01_regslice_0/sim/cl_axi_interconnect_m01_regslice_0.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module cl_axi_interconnect_m01_regslice_0
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/cl_axi_interconnect/ip/cl_axi_interconnect_m02_regslice_0/sim/cl_axi_interconnect_m02_regslice_0.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module cl_axi_interconnect_m02_regslice_0
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/cl_axi_interconnect/ip/cl_axi_interconnect_m03_regslice_0/sim/cl_axi_interconnect_m03_regslice_0.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module cl_axi_interconnect_m03_regslice_0
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/cl_axi_interconnect/sim/cl_axi_interconnect.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module cl_axi_interconnect
+INFO: [VRFC 10-311] analyzing module cl_axi_interconnect_axi_interconnect_0_0
+INFO: [VRFC 10-311] analyzing module m00_couplers_imp_1QBJ6U2
+INFO: [VRFC 10-311] analyzing module m01_couplers_imp_10IMR9A
+INFO: [VRFC 10-311] analyzing module m02_couplers_imp_APDUS2
+INFO: [VRFC 10-311] analyzing module m03_couplers_imp_JAYOMU
+INFO: [VRFC 10-311] analyzing module s00_couplers_imp_QICM5G
+INFO: [VRFC 10-311] analyzing module s01_couplers_imp_GSTXQ8
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/dest_register_slice/hdl/axi_register_slice_v2_1_vl_rfs.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module axi_register_slice_v2_1_15_tdm_sample
+INFO: [VRFC 10-311] analyzing module axi_register_slice_v2_1_15_srl_rtl
+INFO: [VRFC 10-311] analyzing module axi_register_slice_v2_1_15_axic_register_slice
+INFO: [VRFC 10-311] analyzing module axi_register_slice_v2_1_15_multi_slr
+INFO: [VRFC 10-311] analyzing module axi_register_slice_v2_1_15_middle_region_slr
+INFO: [VRFC 10-311] analyzing module axi_register_slice_v2_1_15_source_region_slr
+INFO: [VRFC 10-311] analyzing module axi_register_slice_v2_1_15_dest_region_slr
+INFO: [VRFC 10-311] analyzing module axi_register_slice_v2_1_15_single_slr
+INFO: [VRFC 10-311] analyzing module axi_register_slice_v2_1_15_axic_reg_srl_fifo
+INFO: [VRFC 10-311] analyzing module axi_register_slice_v2_1_15_axi_register_slice
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/axi_clock_converter_0/hdl/axi_clock_converter_v2_1_vl_rfs.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module axi_clock_converter_v2_1_14_axic_sync_clock_converter
+INFO: [VRFC 10-311] analyzing module axi_clock_converter_v2_1_14_axic_sample_cycle_ratio
+INFO: [VRFC 10-311] analyzing module axi_clock_converter_v2_1_14_lite_async
+INFO: [VRFC 10-311] analyzing module axi_clock_converter_v2_1_14_axi_clock_converter
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/axi_clock_converter_0/hdl/fifo_generator_v13_2_rfs.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module fifo_generator_v13_2_1
+INFO: [VRFC 10-2458] undeclared symbol sleep_i, assumed default net type wire [/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/ip/axi_clock_converter_0/hdl/fifo_generator_v13_2_rfs.v:519]
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/verif/models/ddr4_rdimm_wrapper/ddr4_bi_delay.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module bi_delay_ddr4
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/verif/models/ddr4_rdimm_wrapper/ddr4_db_delay_model.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_db_delay_model
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/verif/models/ddr4_rdimm_wrapper/ddr4_db_dly_dir.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr_dly_dir_detect
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/verif/models/ddr4_rdimm_wrapper/ddr4_dir_detect.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module dir_detect
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/verif/models/ddr4_rdimm_wrapper/ddr4_rcd_model.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_rcd_model
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/verif/models/ddr4_rdimm_wrapper/ddr4_rank.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_rank
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/verif/models/ddr4_rdimm_wrapper/ddr4_dimm.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_dimm
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/verif/models/ddr4_rdimm_wrapper/ddr4_rdimm_wrapper.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ddr4_rdimm_wrapper
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/lib/bram_2rw.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module bram_2rw
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/lib/flop_fifo.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module flop_fifo
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/lib/lib_pipe.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module lib_pipe
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/sh_ddr/sim/mgt_gen_axl.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module mgt_gen_axl
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/sh_ddr/sim/ccf_ctl.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ccf_ctl
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/sh_ddr/sim/mgt_acc_axl.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module mgt_acc_axl
+INFO: [VRFC 10-2458] undeclared symbol axl_rql_wr, assumed default net type wire [/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/sh_ddr/sim/mgt_acc_axl.sv:137]
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/sh_ddr/sim/sync.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module sync
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/sh_ddr/sim/flop_ccf.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module flop_ccf
+INFO: [VRFC 10-2458] undeclared symbol vld, assumed default net type wire [/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/sh_ddr/sim/flop_ccf.sv:96]
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/common/shell_v04261818/design/sh_ddr/sim/sh_ddr.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module sh_ddr
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/design/cl_dram_dma_defines.vh" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/design/cl_tst_scrb.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module cl_tst_scrb
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/design/cl_dram_dma_pkg.sv" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/design/cl_dma_pcis_slv.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module cl_dma_pcis_slv
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/design/cl_uart.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module cl_uart
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/design/cl_dram_dma.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module cl_dram_dma
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/design/noc_axi4_bridge.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module noc_axi4_bridge
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/tigress/gchirkov/aws-fpga/hdk/cl/developer_designs/cl_dram_dma/design/cpu_stub.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module cpu_stub
