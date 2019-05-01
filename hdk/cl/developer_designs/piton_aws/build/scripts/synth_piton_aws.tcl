@@ -18,7 +18,7 @@ set_param sta.enableAutoGenClkNamePersistence 0
 set CL_MODULE $CL_MODULE
 set VDEFINES $VDEFINES
 
-create_project -in_memory -part [DEVICE_TYPE] -force
+create_project -in_memory -part [DEVICE_TYPE] -force ${PROJECT_NAME}
 
 ########################################
 ## Generate clocks based on Recipe 
@@ -42,7 +42,27 @@ puts "AWS FPGA: ([clock format [clock seconds] -format %T]) Reading developer's 
 # Reading the .sv and .v files, as proper designs would not require
 # reading .v, .vh, nor .inc files
 
-read_verilog -sv [glob $ENC_SRC_DIR/*.?v]
+start_gui
+read_verilog -sv [glob $ENC_SRC_DIR/*.sv]
+read_verilog [glob $ENC_SRC_DIR/*.v]
+
+read_verilog [glob $ENC_SRC_DIR/*.vh]
+read_verilog [glob $ENC_SRC_DIR/*.h]
+foreach file $ALL_INCLUDE_FILES {
+  set_property is_global_include true [get_files [file join $ENC_SRC_DIR [file tail $file]]]
+}
+set_property is_global_include true [get_files [glob $ENC_SRC_DIR/*.?h]]
+
+foreach file [glob -directory $ENC_SRC_DIR **/*.xci] {
+    set FILENAME [file tail $file]
+    set IPNAME [file rootname $FILENAME]
+    set DIRNAME [file join $ENC_SRC_DIR $IPNAME]
+    read_ip [glob $file]
+    upgrade_ip [get_ips $IPNAME]
+    generate_target all [get_ips $IPNAME]
+    synth_ip [get_ips $IPNAME]
+}
+
 
 #---- End of section replaced by User ----
 
@@ -116,7 +136,15 @@ puts "AWS FPGA: ([clock format [clock seconds] -format %T]) Start design synthes
 
 update_compile_order -fileset sources_1
 puts "\nRunning synth_design for $CL_MODULE $CL_DIR/build/scripts \[[clock format [clock seconds] -format {%a %b %d %H:%M:%S %Y}]\]"
-eval [concat synth_design -top $CL_MODULE -verilog_define XSDB_SLV_DIS $VDEFINES -part [DEVICE_TYPE] -mode out_of_context $synth_options -directive $synth_directive]
+
+
+set fileset_obj [get_filesets sources_1]
+source additional_defines.tcl
+set ALL_VERILOG_MACROS [concat "XSDB_SLV_DIS" $ALL_DEFAULT_VERILOG_MACROS $PROTOSYN_RUNTIME_DEFINES]
+set_property "verilog_define" "${ALL_VERILOG_MACROS}" $fileset_obj
+#project set "Verilog Macros" "[join ${ALL_VERILOG_MACROS} " | " ]" -process "Synthesize - XST"
+set VDEFINES [concat $VDEFINES $ALL_VERILOG_MACROS]
+eval [concat synth_design -top $CL_MODULE -part [DEVICE_TYPE] -mode out_of_context $synth_options -directive $synth_directive -include_dirs [list ${ALL_INCLUDE_DIRS}]]
 
 set failval [catch {exec grep "FAIL" failfast.csv}]
 if { $failval==0 } {

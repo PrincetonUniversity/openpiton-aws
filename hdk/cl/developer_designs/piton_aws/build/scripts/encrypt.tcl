@@ -37,15 +37,40 @@ if {[llength [glob -nocomplain -dir $TARGET_DIR *]] != 0} {
 set DV_ROOT $::env(DV_ROOT)
 source $DV_ROOT/tools/src/proto/vivado/setup.tcl
 
-file copy -force $ALL_FILES											  $TARGET_DIR
+foreach dir $ALL_INCLUDE_DIRS {
+	foreach file [glob -directory $dir *.?h]	{
+		if { [file exists $file] == 1} {
+			file copy -force $file $TARGET_DIR
+		}
+	}
+}
+
+foreach file $ALL_RTL_IMPL_FILES {
+	if { [file exists $file] == 1} {
+		file copy -force $file $TARGET_DIR
+	}
+}
+
+foreach file $ALL_INCLUDE_FILES {
+	if { [file exists $file] == 1} {
+		file copy -force $file $TARGET_DIR
+	}
+}
+
+foreach file $ALL_IP_FILE_PREFIXES {
+	if { [file exists [file dirname $file]] == 1} {
+		file copy -force [file dirname $file] $TARGET_DIR
+	}
+}
+
 file copy -force $CL_DIR/design/axi_bus.sv             				  $TARGET_DIR
 file copy -force $CL_DIR/design/piton_aws.sv                  		  $TARGET_DIR
-file copy -force $CL_DIR/design/piton_aws_defines.sv                  $TARGET_DIR
-file copy -force $CL_DIR/design/piton_aws_id_defines.sv               $TARGET_DIR
+file copy -force $CL_DIR/design/piton_aws_defines.vh                  $TARGET_DIR
+file copy -force $CL_DIR/design/cl_id_defines.vh  		              $TARGET_DIR
 file copy -force $CL_DIR/design/piton_aws_mc.sv                       $TARGET_DIR
 file copy -force $CL_DIR/design/piton_aws_uart.v                	  $TARGET_DIR
 file copy -force $CL_DIR/design/piton_aws_xbar.sv                     $TARGET_DIR
-file copy -force $UNUSED_TEMPLATES_DIR/unused_sh_bar1_template.inc $TARGET_DIR
+file copy -force $UNUSED_TEMPLATES_DIR/unused_sh_bar1_template.inc    $TARGET_DIR
 file copy -force $UNUSED_TEMPLATES_DIR/unused_apppf_irq_template.inc  $TARGET_DIR
 file copy -force $UNUSED_TEMPLATES_DIR/unused_cl_sda_template.inc     $TARGET_DIR
 file copy -force $UNUSED_TEMPLATES_DIR/unused_pcim_template.inc       $TARGET_DIR
@@ -64,6 +89,6 @@ puts "AWS FPGA: VIVADO_TOOL_VERSION $TOOL_VERSION"
 puts "vivado_version $vivado_version"
 
 # encrypt .v/.sv/.vh/inc as verilog files
-encrypt -k $HDK_SHELL_DIR/build/scripts/vivado_keyfile_2017_4.txt -lang verilog  [glob -nocomplain -- $TARGET_DIR/*.{v,sv}] [glob -nocomplain -- $TARGET_DIR/*.vh] [glob -nocomplain -- $TARGET_DIR/*.inc]
+#encrypt -k $HDK_SHELL_DIR/build/scripts/vivado_keyfile_2017_4.txt -lang verilog  [glob -nocomplain -- $TARGET_DIR/*.{v,sv}] [glob -nocomplain -- $TARGET_DIR/*.vh] [glob -nocomplain -- $TARGET_DIR/*.inc]
 # encrypt *vhdl files
-encrypt -k $HDK_SHELL_DIR/build/scripts/vivado_vhdl_keyfile_2017_4.txt -lang vhdl -quiet [ glob -nocomplain -- $TARGET_DIR/*.vhd? ]
+#encrypt -k $HDK_SHELL_DIR/build/scripts/vivado_vhdl_keyfile_2017_4.txt -lang vhdl -quiet [ glob -nocomplain -- $TARGET_DIR/*.vhd? ]

@@ -69,7 +69,7 @@ module piton_aws_mc (
         output logic[1:0] cl_sh_dma_pcis_rresp,
         output logic cl_sh_dma_pcis_rlast,
         output logic cl_sh_dma_pcis_rvalid,
-        input sh_cl_dma_pcis_rready
+        input sh_cl_dma_pcis_rready,
 
     //-----------------------------------------
     // cl_sh_ddr interface to shell for access to DDR C
@@ -198,7 +198,9 @@ module piton_aws_mc (
         input [31:0] sh_ddr_stat_wdata2,
         output logic ddr_sh_stat_ack2,
         output logic[31:0] ddr_sh_stat_rdata2,
-        output logic[7:0] ddr_sh_stat_int2
+        output logic[7:0] ddr_sh_stat_int2, 
+
+        output logic ddr_ready
 
 );
 
@@ -272,8 +274,8 @@ localparam NUM_CFG_STGS_CL_DDR_ATG = 8;
     assign cl_sh_ddr_bus.rlast = sh_cl_ddr_rlast;
     assign cl_sh_ddr_rready = cl_sh_ddr_bus.rready;
 
-    (* dont_touch = "true" *) logic dma_pcis_slv_sync_rst_n;
-    lib_pipe #(.WIDTH(1), .STAGES(4)) piton_aws_xbar_sync_rst_n (.clk(clk), .rst_n(1'b1), .in_bus(rst_n), .out_bus(piton_aws_xbar_sync_rst_n));
+    (* dont_touch = "true" *) logic piton_aws_xbar_sync_rst_n;
+    lib_pipe #(.WIDTH(1), .STAGES(4)) piton_aws_xbar_slc_sync_rst_n (.clk(clk), .rst_n(1'b1), .in_bus(rst_n), .out_bus(piton_aws_xbar_sync_rst_n));
 
     piton_aws_xbar piton_aws_xbar (
         .aclk(clk),
@@ -514,7 +516,7 @@ localparam NUM_CFG_STGS_CL_DDR_ATG = 8;
        .sh_cl_ddr_rvalid(sh_cl_ddr_rvalid_2d),
        .cl_sh_ddr_rready(cl_sh_ddr_rready_2d),
 
-       .sh_cl_ddr_is_ready(),
+       .sh_cl_ddr_is_ready(ddr_ready),
 
        .sh_ddr_stat_addr0  (sh_ddr_stat_addr_q[0]) ,
        .sh_ddr_stat_wr0    (sh_ddr_stat_wr_q[0]     ) ,

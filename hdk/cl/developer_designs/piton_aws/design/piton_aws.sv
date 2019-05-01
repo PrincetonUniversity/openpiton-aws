@@ -64,7 +64,7 @@ module piton_aws
 	`include "cl_ports.vh"
 );
 
-`include "piton_aws_id_defines.vh"          // Defines for ID0 and ID1 (PCI ID's)
+`include "cl_id_defines.vh"          // Defines for ID0 and ID1 (PCI ID's)
 `include "piton_aws_defines.vh"
 
 // TIE OFF ALL UNUSED INTERFACES
@@ -101,7 +101,7 @@ logic pre_sync_rst_n;
 
 assign clk = clk_main_a0;
 
-lib_pipe #(.WIDTH(1), .STAGES(4)) pipe_rst_n (.clk(clk), .rst_n(1'b1), .in_bus(rst_main_n), .out_bus(pipe_rst_n));
+lib_pipe #(.WIDTH(1), .STAGES(4)) PIPE_RST_N (.clk(clk), .rst_n(1'b1), .in_bus(rst_main_n), .out_bus(pipe_rst_n));
 
 always_ff @(negedge pipe_rst_n or posedge clk)
    if (!pipe_rst_n)
@@ -130,14 +130,15 @@ always_ff @(negedge pipe_rst_n or posedge clk)
     logic piton_rx;
 
     // for ddr
-    axi_bus_t piton_mem_bus;
+    axi_bus_t piton_mem_bus();
+    logic ddr_ready;
 
     (* dont_touch = "true" *) logic sys_sync_rst_n;
     lib_pipe #(.WIDTH(1), .STAGES(4)) sys_slc_rst_n (.clk(clk), .rst_n(1'b1), .in_bus(sync_rst_n), .out_bus(sys_sync_rst_n));
 
     system system(
         // Clocks and resets
-        .chipset_clk(clk),
+        .clk(clk),
         .sys_rst_n(sys_sync_rst_n),
 
     `ifdef PITON_ARIANE
@@ -200,13 +201,15 @@ always_ff @(negedge pipe_rst_n or posedge clk)
         .m_axi_bresp(piton_mem_bus.bresp),
         .m_axi_buser(piton_mem_bus.buser),
         .m_axi_bvalid(piton_mem_bus.bvalid),
-        .m_axi_bready(piton_mem_bus.bready)
+        .m_axi_bready(piton_mem_bus.bready),
+
+        .ddr_ready(ddr_ready),
 
         .uart_tx(piton_tx),
         .uart_rx(piton_rx),
 
-        .sw(),
-        .leds()
+        .sw({8'b0, sh_cl_status_vdip[7:0]}), 
+        .leds(cl_sh_status_vled[7:0]) 
 
     );
 
@@ -222,7 +225,7 @@ always_ff @(negedge pipe_rst_n or posedge clk)
     lib_pipe #(.WIDTH(1), .STAGES(4)) piton_aws_mc_slc_rst_n (.clk(clk), .rst_n(1'b1), .in_bus(sync_rst_n), .out_bus(piton_aws_mc_sync_rst_n));
     piton_aws_mc piton_aws_mc(
         .clk                   (clk),
-        .rst_n                 (rst_n),
+        .rst_n                 (piton_aws_mc_sync_rst_n),
 
         .piton_mem_bus         (piton_mem_bus),
 
@@ -360,7 +363,9 @@ always_ff @(negedge pipe_rst_n or posedge clk)
         .sh_ddr_stat_wdata2    (sh_ddr_stat_wdata2),
         .ddr_sh_stat_ack2      (ddr_sh_stat_ack2),
         .ddr_sh_stat_rdata2    (ddr_sh_stat_rdata2),
-        .ddr_sh_stat_int2      (ddr_sh_stat_int2)
+        .ddr_sh_stat_int2      (ddr_sh_stat_int2), 
+
+        .ddr_ready(ddr_ready)
 
     );
 
@@ -384,7 +389,7 @@ always_ff @(negedge pipe_rst_n or posedge clk)
     piton_aws_uart piton_aws_uart (
 
         .clk(clk),
-        .sync_rst_n(uart_sync_rst_n),
+        .sync_rst_n(aws_uart_sync_rst_n),
 
         // AXILite slave interface
 
