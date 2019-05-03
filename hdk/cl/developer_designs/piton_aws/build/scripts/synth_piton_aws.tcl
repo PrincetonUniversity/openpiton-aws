@@ -42,7 +42,6 @@ puts "AWS FPGA: ([clock format [clock seconds] -format %T]) Reading developer's 
 # Reading the .sv and .v files, as proper designs would not require
 # reading .v, .vh, nor .inc files
 
-start_gui
 read_verilog -sv [glob $ENC_SRC_DIR/*.sv]
 read_verilog [glob $ENC_SRC_DIR/*.v]
 

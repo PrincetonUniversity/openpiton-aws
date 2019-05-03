@@ -266,6 +266,7 @@ if {$implement} {
    ########################
    # CL Optimize
    ########################
+   start_gui
    if {$opt} {
       puts "\nAWS FPGA: ([clock format [clock seconds] -format %T]) - Running optimization";
       impl_step opt_design $TOP $opt_options $opt_directive $opt_preHookTcl $opt_postHookTcl

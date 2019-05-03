@@ -35,7 +35,6 @@
 // define PITON_FPGA_SYNTH
 // define PITON_NO_JTAG
 // define PITON_FPGA_MC_DDR3
-// undef PITONSYS_NO_MC
 // undef VC707_BOARD GENESYS2_BOARD WHATEVER_BOARD
 // define F1_BOARD
 // undef PITONSYS_SPI
@@ -76,6 +75,12 @@ module piton_aws
 `include "unused_pcim_template.inc"
 `include "unused_flr_template.inc"
 
+`ifdef PITONSYS_NO_MC
+`include "unused_ddr_a_b_d_template.inc"
+`include "unused_ddr_c_template.inc"
+`include "unused_dma_pcis_template.inc"
+`endif
+
 // Unused 'full' signals
 assign cl_sh_dma_rd_full  = 1'b0;
 assign cl_sh_dma_wr_full  = 1'b0;
@@ -99,7 +104,7 @@ logic clk;
 logic pre_sync_rst_n;
 (* dont_touch = "true" *) logic sync_rst_n;
 
-assign clk = clk_main_a0;
+assign clk = clk_extra_a1;
 
 lib_pipe #(.WIDTH(1), .STAGES(4)) PIPE_RST_N (.clk(clk), .rst_n(1'b1), .in_bus(rst_main_n), .out_bus(pipe_rst_n));
 
@@ -129,9 +134,11 @@ always_ff @(negedge pipe_rst_n or posedge clk)
     logic piton_tx;
     logic piton_rx;
 
+    `ifndef PITONSYS_NO_MC
     // for ddr
     axi_bus_t piton_mem_bus();
     logic ddr_ready;
+    `endif
 
     (* dont_touch = "true" *) logic sys_sync_rst_n;
     lib_pipe #(.WIDTH(1), .STAGES(4)) sys_slc_rst_n (.clk(clk), .rst_n(1'b1), .in_bus(sync_rst_n), .out_bus(sys_sync_rst_n));
@@ -148,7 +155,7 @@ always_ff @(negedge pipe_rst_n or posedge clk)
     	.td_i(1'b0),
     	.td_o(),
     `endif
-
+    `ifndef PITONSYS_NO_MC
         .m_axi_awid(piton_mem_bus.awid),
         .m_axi_awaddr(piton_mem_bus.awaddr),
         .m_axi_awlen(piton_mem_bus.awlen),
@@ -204,11 +211,11 @@ always_ff @(negedge pipe_rst_n or posedge clk)
         .m_axi_bready(piton_mem_bus.bready),
 
         .ddr_ready(ddr_ready),
-
+    `endif
         .uart_tx(piton_tx),
         .uart_rx(piton_rx),
 
-        .sw({8'b0, sh_cl_status_vdip[7:0]}), 
+        .sw(sh_cl_status_vdip[7:0]), 
         .leds(cl_sh_status_vled[7:0]) 
 
     );
@@ -220,7 +227,7 @@ always_ff @(negedge pipe_rst_n or posedge clk)
 ///////////////////////////////////////////////////////////////////////
 /////////////////////////// mem subsystem /////////////////////////////
 ///////////////////////////////////////////////////////////////////////
-
+    `ifndef PITONSYS_NO_MC
     (* dont_touch = "true" *) logic piton_aws_mc_sync_rst_n;
     lib_pipe #(.WIDTH(1), .STAGES(4)) piton_aws_mc_slc_rst_n (.clk(clk), .rst_n(1'b1), .in_bus(sync_rst_n), .out_bus(piton_aws_mc_sync_rst_n));
     piton_aws_mc piton_aws_mc(
@@ -368,6 +375,7 @@ always_ff @(negedge pipe_rst_n or posedge clk)
         .ddr_ready(ddr_ready)
 
     );
+    `endif
 
 
 ///////////////////////////////////////////////////////////////////////

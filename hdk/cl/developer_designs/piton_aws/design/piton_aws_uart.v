@@ -138,7 +138,7 @@ module piton_aws_uart
   );
 
 
-axi_uart16550 axi_uart16550 (
+uart_16550 aws_uart_16550 (
   .s_axi_aclk       (clk              ),  // input wire s_axi_aclk
   .s_axi_aresetn    (sync_rst_n       ),  // input wire s_axi_aresetn
   .ip2intc_irpt     (                 ),  // output wire ip2intc_irpt

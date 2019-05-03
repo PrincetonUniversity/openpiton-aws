@@ -215,7 +215,12 @@ localparam NUM_CFG_STGS_CL_DDR_ATG = 8;
 ///////////////////////// aws_mem_logic ///////////////////////////////
 ///////////////////////////////////////////////////////////////////////
 
-    axi_bus_t sh_cl_dma_pcis_bus;
+    axi_bus_t sh_cl_dma_pcis_bus();
+    axi_bus_t cl_sh_ddr_bus();
+    axi_bus_t lcl_cl_sh_ddra();
+    axi_bus_t lcl_cl_sh_ddrb();
+    axi_bus_t lcl_cl_sh_ddrd();
+
 
     assign sh_cl_dma_pcis_bus.awvalid = sh_cl_dma_pcis_awvalid;
     assign sh_cl_dma_pcis_bus.awaddr = sh_cl_dma_pcis_awaddr;
@@ -279,7 +284,7 @@ localparam NUM_CFG_STGS_CL_DDR_ATG = 8;
 
     piton_aws_xbar piton_aws_xbar (
         .aclk(clk),
-        .aresetn(dma_pcis_slv_sync_rst_n),
+        .aresetn(piton_aws_xbar_sync_rst_n),
 
         .sh_cl_dma_pcis_bus(sh_cl_dma_pcis_bus),
         .cl_axi_mstr_bus(piton_mem_bus),
@@ -307,32 +312,32 @@ localparam NUM_CFG_STGS_CL_DDR_ATG = 8;
     logic[7:0] ddr_sh_stat_int_q[2:0];
 
 
-    lib_pipe #(.WIDTH(1+1+8+32), .STAGES(NUM_CFG_STGS_CL_DDR_ATG)) pipe_ddr_stat0 (.clk(clk), .rst_n(sync_rst_n),
+    lib_pipe #(.WIDTH(1+1+8+32), .STAGES(NUM_CFG_STGS_CL_DDR_ATG)) pipe_ddr_stat0 (.clk(clk), .rst_n(rst_n),
                                                    .in_bus({sh_ddr_stat_wr0, sh_ddr_stat_rd0, sh_ddr_stat_addr0, sh_ddr_stat_wdata0}),
                                                    .out_bus({sh_ddr_stat_wr_q[0], sh_ddr_stat_rd_q[0], sh_ddr_stat_addr_q[0], sh_ddr_stat_wdata_q[0]})
                                                    );
 
-    lib_pipe #(.WIDTH(1+8+32), .STAGES(NUM_CFG_STGS_CL_DDR_ATG)) pipe_ddr_stat_ack0 (.clk(clk), .rst_n(sync_rst_n),
+    lib_pipe #(.WIDTH(1+8+32), .STAGES(NUM_CFG_STGS_CL_DDR_ATG)) pipe_ddr_stat_ack0 (.clk(clk), .rst_n(rst_n),
                                                    .in_bus({ddr_sh_stat_ack_q[0], ddr_sh_stat_int_q[0], ddr_sh_stat_rdata_q[0]}),
                                                    .out_bus({ddr_sh_stat_ack0, ddr_sh_stat_int0, ddr_sh_stat_rdata0})
                                                    );
 
-    lib_pipe #(.WIDTH(1+1+8+32), .STAGES(NUM_CFG_STGS_CL_DDR_ATG)) pipe_ddr_stat1 (.clk(clk), .rst_n(sync_rst_n),
+    lib_pipe #(.WIDTH(1+1+8+32), .STAGES(NUM_CFG_STGS_CL_DDR_ATG)) pipe_ddr_stat1 (.clk(clk), .rst_n(rst_n),
                                                    .in_bus({sh_ddr_stat_wr1, sh_ddr_stat_rd1, sh_ddr_stat_addr1, sh_ddr_stat_wdata1}),
                                                    .out_bus({sh_ddr_stat_wr_q[1], sh_ddr_stat_rd_q[1], sh_ddr_stat_addr_q[1], sh_ddr_stat_wdata_q[1]})
                                                    );
 
-    lib_pipe #(.WIDTH(1+8+32), .STAGES(NUM_CFG_STGS_CL_DDR_ATG)) pipe_ddr_stat_ack1 (.clk(clk), .rst_n(sync_rst_n),
+    lib_pipe #(.WIDTH(1+8+32), .STAGES(NUM_CFG_STGS_CL_DDR_ATG)) pipe_ddr_stat_ack1 (.clk(clk), .rst_n(rst_n),
                                                    .in_bus({ddr_sh_stat_ack_q[1], ddr_sh_stat_int_q[1], ddr_sh_stat_rdata_q[1]}),
                                                    .out_bus({ddr_sh_stat_ack1, ddr_sh_stat_int1, ddr_sh_stat_rdata1})
                                                    );
 
-    lib_pipe #(.WIDTH(1+1+8+32), .STAGES(NUM_CFG_STGS_CL_DDR_ATG)) pipe_ddr_stat2 (.clk(clk), .rst_n(sync_rst_n),
+    lib_pipe #(.WIDTH(1+1+8+32), .STAGES(NUM_CFG_STGS_CL_DDR_ATG)) pipe_ddr_stat2 (.clk(clk), .rst_n(rst_n),
                                                    .in_bus({sh_ddr_stat_wr2, sh_ddr_stat_rd2, sh_ddr_stat_addr2, sh_ddr_stat_wdata2}),
                                                    .out_bus({sh_ddr_stat_wr_q[2], sh_ddr_stat_rd_q[2], sh_ddr_stat_addr_q[2], sh_ddr_stat_wdata_q[2]})
                                                    );
 
-    lib_pipe #(.WIDTH(1+8+32), .STAGES(NUM_CFG_STGS_CL_DDR_ATG)) pipe_ddr_stat_ack2 (.clk(clk), .rst_n(sync_rst_n),
+    lib_pipe #(.WIDTH(1+8+32), .STAGES(NUM_CFG_STGS_CL_DDR_ATG)) pipe_ddr_stat_ack2 (.clk(clk), .rst_n(rst_n),
                                                    .in_bus({ddr_sh_stat_ack_q[2], ddr_sh_stat_int_q[2], ddr_sh_stat_rdata_q[2]}),
                                                    .out_bus({ddr_sh_stat_ack2, ddr_sh_stat_int2, ddr_sh_stat_rdata2})
                                                    );

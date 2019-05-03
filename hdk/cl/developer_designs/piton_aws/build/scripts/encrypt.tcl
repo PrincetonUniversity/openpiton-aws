@@ -27,9 +27,9 @@ set UNUSED_TEMPLATES_DIR $HDK_SHELL_DESIGN_DIR/interfaces
 
 
 # Remove any previously encrypted files, that may no longer be used
-if {[llength [glob -nocomplain -dir $TARGET_DIR *]] != 0} {
-  eval file delete -force [glob $TARGET_DIR/*]
-}
+#if {[llength [glob -nocomplain -dir $TARGET_DIR *]] != 0} {
+#  eval file delete -force [glob $TARGET_DIR/*]
+#}
 
 #---- Developr would replace this section with design files ----
 
@@ -59,7 +59,7 @@ foreach file $ALL_INCLUDE_FILES {
 
 foreach file $ALL_IP_FILE_PREFIXES {
 	if { [file exists [file dirname $file]] == 1} {
-		file copy -force [file dirname $file] $TARGET_DIR
+		file copy [file dirname $file] $TARGET_DIR
 	}
 }
 
@@ -70,10 +70,14 @@ file copy -force $CL_DIR/design/cl_id_defines.vh  		              $TARGET_DIR
 file copy -force $CL_DIR/design/piton_aws_mc.sv                       $TARGET_DIR
 file copy -force $CL_DIR/design/piton_aws_uart.v                	  $TARGET_DIR
 file copy -force $CL_DIR/design/piton_aws_xbar.sv                     $TARGET_DIR
-file copy -force $UNUSED_TEMPLATES_DIR/unused_sh_bar1_template.inc    $TARGET_DIR
 file copy -force $UNUSED_TEMPLATES_DIR/unused_apppf_irq_template.inc  $TARGET_DIR
 file copy -force $UNUSED_TEMPLATES_DIR/unused_cl_sda_template.inc     $TARGET_DIR
+file copy -force $UNUSED_TEMPLATES_DIR/unused_ddr_a_b_d_template.inc  $TARGET_DIR
+file copy -force $UNUSED_TEMPLATES_DIR/unused_ddr_c_template.inc      $TARGET_DIR
+file copy -force $UNUSED_TEMPLATES_DIR/unused_dma_pcis_template.inc   $TARGET_DIR
 file copy -force $UNUSED_TEMPLATES_DIR/unused_pcim_template.inc       $TARGET_DIR
+file copy -force $UNUSED_TEMPLATES_DIR/unused_sh_bar1_template.inc    $TARGET_DIR
+file copy -force $UNUSED_TEMPLATES_DIR/unused_flr_template.inc        $TARGET_DIR
 
 #---- End of section replaced by Developr ---
 

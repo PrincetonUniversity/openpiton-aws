@@ -69,17 +69,17 @@
       logic                             rvalid;
       logic                             rready;
 
-      modport master (input awid, awaddr, awlen, awsize, awlock, awcache, awprot, awqos, awregion, awuser, awvalid, output awready,
+      modport master (input awid, awaddr, awlen, awsize, awburst, awlock, awcache, awprot, awqos, awregion, awuser, awvalid, output awready,
                       input wid, wdata, wstrb, wlast, wuser, wvalid, output wready,
                       output bid, bresp, buser, bvalid, input bready,
                       input arid, araddr, arlen, arsize, arburst, arlock, arcache, arprot, arqos, arregion, aruser, arvalid, output arready,
                       output rid, rdata, rresp, rlast, ruser, rvalid, input rready);
 
-      modport slave (output awid, awaddr, awlen, awsize, awlock, awcache, awprot, awqos, awregion, awuser, awvalid, output awready,
-                output wid, wdata, wstrb, wlast, wuser, wvalid, output wready,
-                input bid, bresp, buser, bvalid, input bready,
-                output arid, araddr, arlen, arsize, arburst, arlock, arcache, arprot, arqos, arregion, aruser, arvalid, output arready,
-                input rid, rdata, rresp, rlast, ruser, rvalid, input rready);
+      modport slave (output awid, awaddr, awlen, awsize, awburst, awlock, awcache, awprot, awqos, awregion, awuser, awvalid, input awready,
+                output wid, wdata, wstrb, wlast, wuser, wvalid, input wready,
+                input bid, bresp, buser, bvalid, output bready,
+                output arid, araddr, arlen, arsize, arburst, arlock, arcache, arprot, arqos, arregion, aruser, arvalid, input arready,
+                input rid, rdata, rresp, rlast, ruser, rvalid, output rready);
 
    endinterface
 
