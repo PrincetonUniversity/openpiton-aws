@@ -20,24 +20,19 @@
 #include <string.h>
 
 #include <utils/sh_dpi_tasks.h>
-#ifdef SV_TEST
-   #include "fpga_pci_sv.h"
-#else
-   #include <fpga_pci.h>
-   #include <fpga_mgmt.h>
-   #include <utils/lcd.h>
-#endif
+#include <fpga_pci.h>
+#include <fpga_mgmt.h>
+#include <utils/lcd.h>
 #include "test_uart.h"
 
 /* use the stdout logger for printing debug information  */
-#ifndef SV_TEST
 const struct logger *logger = &logger_stdout;
 /*
  * pci_vendor_id and pci_device_id values below are Amazon's and avaliable to use for a given FPGA slot. 
  * Users may replace these with their own if allocated to them by PCI SIG
  */
 static uint16_t pci_vendor_id = 0x1D0F; /* Amazon PCI Vendor ID */
-static uint16_t pci_device_id = 0xF000; /* PCI Device ID preassigned by Amazon for F1 applications */
+static uint16_t pci_device_id = 0xF001; /* PCI Device ID preassigned by Amazon for F1 applications */
 
 /*
  * check if the corresponding AFI for hello_world is loaded
@@ -52,30 +47,12 @@ void usage(char* program_name) {
     printf("usage: %s [--slot <slot-id>][<poke-value>]\n", program_name);
 }
 
-#endif
 
-#ifdef SV_TEST
-//For cadence and questa simulators the main has to return some value
-   #ifdef INT_MAIN
-   int test_main(uint32_t *exit_code) {
-   #else 
-   void test_main(uint32_t *exit_code) {
-   #endif 
-#else 
-    int main(int argc, char **argv) {
-#endif
-    //The statements within SCOPE ifdef below are needed for HW/SW co-simulation with VCS
-    #ifdef SCOPE
-      svScope scope;
-      scope = svGetScopeFromName("tb");
-      svSetScope(scope);
-    #endif
-
-    uint32_t value = 0x12345678;
+int main(int argc, char **argv) {
+    uint32_t value = 0x78;
     int slot_id = 0;
     int rc;
     
-#ifndef SV_TEST
     // Process command line args
     {
         int i;
@@ -99,16 +76,13 @@ void usage(char* program_name) {
             }
         }
     }
-#endif
 
     /* initialize the fpga_pci library so we could have access to FPGA PCIe from this applications */
     rc = fpga_pci_init();
     fail_on(rc, out, "Unable to initialize the fpga_pci library");
 
-#ifndef SV_TEST
     rc = check_afi_ready(slot_id);
     fail_on(rc, out, "AFI not ready");
-#endif
 
     
     /* Accessing the CL registers via AppPF BAR0, which maps to sh_cl_ocl_ AXI-Lite bus between AWS FPGA Shell and the CL*/
@@ -117,25 +91,11 @@ void usage(char* program_name) {
     rc = peek_poke_example(value, slot_id, FPGA_APP_PF, APP_PF_BAR0);
     fail_on(rc, out, "peek-poke example failed");
 
-#ifndef SV_TEST
     return rc;
     
 out:
     return 1;
-#else
-
-out:
-   #ifdef INT_MAIN
-   *exit_code = 0;
-   return 0;
-   #else 
-   *exit_code = 0;
-   #endif
-#endif
 }
-
-/* As HW simulation test is not run on a AFI, the below function is not valid */
-#ifndef SV_TEST
 
  int check_afi_ready(int slot_id) {
    struct fpga_mgmt_image_info info = {0}; 
@@ -185,8 +145,6 @@ out:
    return 1;
  }
 
-#endif
-
 /*
  * An example to attach to an arbitrary slot, pf, and bar with register access.
  */
@@ -196,23 +154,16 @@ int peek_poke_example(uint32_t value, int slot_id, int pf_id, int bar_id) {
 
     pci_bar_handle_t pci_bar_handle = PCI_BAR_HANDLE_INIT;
 
-    
     /* attach to the fpga, with a pci_bar_handle out param
      * To attach to multiple slots or BARs, call this function multiple times,
      * saving the pci_bar_handle to specify which address space to interact with in
      * other API calls.
      * This function accepts the slot_id, physical function, and bar number
      */
-#ifndef SV_TEST
     rc = fpga_pci_attach(slot_id, pf_id, bar_id, 0, &pci_bar_handle);
     fail_on(rc, out, "Unable to attach to the AFI on slot id %d", slot_id);
-#endif
     
     /* init uart regs */
-
-    uint32_t lsr_reg;
-    rc = fpga_pci_peek(pci_bar_handle, LSR_ADDR, &lsr_reg);
-    fail_on(rc, out, "Unable to read read from the fpga !");
 
     rc = fpga_pci_poke(pci_bar_handle, IER_ADDR, UINT32_C(0));
     fail_on(rc, out, "Unable to write to the fpga !");
@@ -237,10 +188,11 @@ int peek_poke_example(uint32_t value, int slot_id, int pf_id, int bar_id) {
     
     rc = fpga_pci_poke(pci_bar_handle, LCR_ADDR, LCR_8N1);
     fail_on(rc, out, "Unable to write to the fpga !");
+   
+    uint32_t expected = value & 0xff;  
 
     /* Send a value */
-    uint32_t expected = value;
-    printf("Writing 0x%08x to THR register (0x%016lx)\n", value, THR_ADDR);
+    printf("Writing to THR register (0x%016x)\n", THR_ADDR);
     uint32_t temt = 0;
     do {
         uint32_t tmp = 0;
@@ -253,7 +205,7 @@ int peek_poke_example(uint32_t value, int slot_id, int pf_id, int bar_id) {
     fail_on(rc, out, "Unable to write to the fpga !");
 
     /* Read a value */
-    printf("Reading from RBR register (0x%016lx)\n", RBR_ADDR);
+    printf("Reading from RBR register (0x%016x)\n", RBR_ADDR);
     uint32_t drdy = 0;
     do {
         uint32_t tmp = 0;
