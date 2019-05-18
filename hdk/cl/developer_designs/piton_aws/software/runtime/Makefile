@@ -18,7 +18,7 @@ INCLUDES = -I$(SDK_DIR)/userspace/include
 CC = gcc
 CFLAGS = -DCONFIG_LOGLEVEL=4 -std=gnu11 -g -Wall -Werror $(INCLUDES)
 
-LDLIBS = -lfpga_mgmt
+LDLIBS = -lfpga_mgmt -lpthread
 
 SRC = test_dram_dma_common.c test_dram_dma_retention.c test_dram_dma.c test_dram_dma_hwsw_cosim.c
 OBJ = $(SRC:.c=.o)
