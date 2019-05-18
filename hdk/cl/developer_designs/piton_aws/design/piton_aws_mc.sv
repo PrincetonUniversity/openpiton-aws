@@ -33,7 +33,7 @@ module piton_aws_mc (
     // interface from piton
     //-----------------------------------------
 
-        axi_bus_t.master piton_mem_bus,
+        axi_bus_t.master mem_bus,
 
     //-----------------------------------------
     // sh_cl_dma_pcis interface from shell for dma accesses
@@ -200,7 +200,7 @@ module piton_aws_mc (
         output logic[31:0] ddr_sh_stat_rdata2,
         output logic[7:0] ddr_sh_stat_int2, 
 
-        output logic ddr_ready
+        output logic [2:0] ddr_ready_2d
 
 );
 
@@ -287,7 +287,7 @@ localparam NUM_CFG_STGS_CL_DDR_ATG = 8;
         .aresetn(piton_aws_xbar_sync_rst_n),
 
         .sh_cl_dma_pcis_bus(sh_cl_dma_pcis_bus),
-        .cl_axi_mstr_bus(piton_mem_bus),
+        .cl_axi_mstr_bus(mem_bus),
 
         .lcl_cl_sh_ddra(lcl_cl_sh_ddra),
         .lcl_cl_sh_ddrb(lcl_cl_sh_ddrb),
@@ -521,7 +521,7 @@ localparam NUM_CFG_STGS_CL_DDR_ATG = 8;
        .sh_cl_ddr_rvalid(sh_cl_ddr_rvalid_2d),
        .cl_sh_ddr_rready(cl_sh_ddr_rready_2d),
 
-       .sh_cl_ddr_is_ready(ddr_ready),
+       .sh_cl_ddr_is_ready(ddr_ready_2d),
 
        .sh_ddr_stat_addr0  (sh_ddr_stat_addr_q[0]) ,
        .sh_ddr_stat_wr0    (sh_ddr_stat_wr_q[0]     ) ,
@@ -551,9 +551,5 @@ localparam NUM_CFG_STGS_CL_DDR_ATG = 8;
 //-----------------------------------------
 // DDR controller instantiation
 //-----------------------------------------
-
-
-
-
 
 endmodule 
