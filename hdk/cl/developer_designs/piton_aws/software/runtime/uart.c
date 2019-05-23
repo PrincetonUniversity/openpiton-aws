@@ -19,16 +19,21 @@
 #include <assert.h>
 #include <string.h>
 #include <pthread.h>
+#include <errno.h>
+#include <unistd.h>
+#include <signal.h>
+#include <pty.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <time.h>
 
 #include <utils/sh_dpi_tasks.h>
 #include <fpga_pci.h>
 #include <fpga_mgmt.h>
 #include <utils/lcd.h>
 
-#include "test_uart.h"
+#include "uart.h"
 
-/* use the stdout logger for printing debug information  */
-const struct logger *logger = &logger_stdout;
 /*
  * pci_vendor_id and pci_device_id values below are Amazon's and avaliable to use for a given FPGA slot. 
  * Users may replace these with their own if allocated to them by PCI SIG
@@ -36,22 +41,30 @@ const struct logger *logger = &logger_stdout;
 static uint16_t pci_vendor_id = 0x1D0F; /* Amazon PCI Vendor ID */
 static uint16_t pci_device_id = 0xF001; /* PCI Device ID preassigned by Amazon for F1 applications */
 
+
+
 /*
  * check if the corresponding AFI for hello_world is loaded
  */
 int check_afi_ready(int slot_id);
-/*
- * An example to attach to an arbitrary slot, pf, and bar with register access.
- */
-int peek_poke_example(int slot_id, int pf_id, int bar_id);
 
 void usage(char* program_name) {
-    printf("usage: %s [--slot <slot-id>][<poke-value>]\n", program_name);
+    fprintf(stderr, "usage: %s [--slot <slot-id>][<poke-value>]\n", program_name);
 }
 
+static pthread_t thread1, thread2;
+int pty_fd;
+
+int start_transmission(int slot_id, int pf_id, int bar_id);
 void fail_thread(int rc, const char* err_msg);
 void* inbound_handler(void* pci_bar_handle_ptr);
 void* outbound_handler(void* pci_bar_handle_ptr);
+
+static void term_handler(int sig) {
+    pthread_cancel(thread1);     
+    pthread_cancel(thread2);     
+    close(pty_fd);
+}
 
 
 int main(int argc, char **argv) {
@@ -69,9 +82,8 @@ int main(int argc, char **argv) {
     rc = check_afi_ready(slot_id);
     fail_on(rc, out, "AFI not ready");
     
-    /* Accessing the CL registers via AppPF BAR0, which maps to sh_cl_ocl_ AXI-Lite bus between AWS FPGA Shell and the CL*/
-    rc = peek_poke_example(slot_id, FPGA_APP_PF, APP_PF_BAR0);
-    fail_on(rc, out, "peek-poke example failed");
+    rc = start_transmission(slot_id, FPGA_APP_PF, APP_PF_BAR0);
+    fail_on(rc, out, "transmission couldn't start");
 
     return rc;
 out:
@@ -95,7 +107,7 @@ out:
     /* confirm that the AFI that we expect is in fact loaded */
     if (info.spec.map[FPGA_APP_PF].vendor_id != pci_vendor_id ||
        info.spec.map[FPGA_APP_PF].device_id != pci_device_id) {
-     printf("AFI does not show expected PCI vendor id and device ID. If the AFI "
+     fprintf(stderr, "AFI does not show expected PCI vendor id and device ID. If the AFI "
             "was just loaded, it might need a rescan. Rescanning now.\n");
 
      rc = fpga_pci_rescan_slot_app_pfs(slot_id);
@@ -119,25 +131,10 @@ out:
     return 1;
  }
 
-/*
- * An example to attach to an arbitrary slot, pf, and bar with register access.
- */
-int peek_poke_example(int slot_id, int pf_id, int bar_id) {
-    int rc;
-    /* pci_bar_handle_t is a handler for an address space exposed by one PCI BAR on one of the PCI PFs of the FPGA */
-
-    pci_bar_handle_t pci_bar_handle = PCI_BAR_HANDLE_INIT;
-
-    /* attach to the fpga, with a pci_bar_handle out param
-     * To attach to multiple slots or BARs, call this function multiple times,
-     * saving the pci_bar_handle to specify which address space to interact with in
-     * other API calls.
-     * This function accepts the slot_id, physical function, and bar number
-     */
-    rc = fpga_pci_attach(slot_id, pf_id, bar_id, 0, &pci_bar_handle);
-    fail_on(rc, out, "Unable to attach to the AFI on slot id %d", slot_id);
-    
+int init_uart(pci_bar_handle_t pci_bar_handle) {
     /* init uart regs */
+    int rc;
+
     rc = fpga_pci_poke(pci_bar_handle, IER_ADDR, UINT32_C(0));
     fail_on(rc, out, "Unable to write to the fpga !");
 
@@ -162,22 +159,69 @@ int peek_poke_example(int slot_id, int pf_id, int bar_id) {
     rc = fpga_pci_poke(pci_bar_handle, LCR_ADDR, LCR_8N1);
     fail_on(rc, out, "Unable to write to the fpga !");
 
-    pthread_t thread1, thread2;
+    /* if there is an error code, exit with status 1 */
+out:
+    return (rc != 0 ? 1 : 0);
+}
+
+int open_pty_pair (int *amaster, char** slave_name)
+{
+    int master;
+    char *name;
+
+    master = getpt ();
+    if (master < 0)
+        return errno;
+
+    if (grantpt (master) < 0 || unlockpt (master) < 0)
+        goto close_master;
+    
+    name = ptsname (master);
+    if (name == NULL)
+        goto close_master;
+
+    *amaster = master;
+    *slave_name = name;
+    return 0;
+
+close_master:
+    close (master);
+    return errno;
+}
+
+/*
+ * An example to attach to an arbitrary slot, pf, and bar with register access.
+ */
+int start_transmission(int slot_id, int pf_id, int bar_id) {
+    int rc;
+    pci_bar_handle_t pci_bar_handle = PCI_BAR_HANDLE_INIT;
+
+    /* attach to the fpga, with a pci_bar_handle out param */
+    rc = fpga_pci_attach(slot_id, pf_id, bar_id, 0, &pci_bar_handle);
+    fail_on(rc, out, "Unable to attach to the AFI on slot id %d", slot_id);
+
+    rc = init_uart(pci_bar_handle);
+    fail_on(rc, out, "Unable to init uart regs");
+    
+    signal(SIGTERM, term_handler);
+
+    char* slave_name = NULL;
+    rc = open_pty_pair(&pty_fd, &slave_name);
+    fail_on(rc, out, "Unable to get pty pair !");
+    fprintf(stdout, "terminal is open at %s\n", slave_name);
+    
     pthread_create( &thread1, NULL, &inbound_handler,  (void*) &pci_bar_handle);
     pthread_create( &thread2, NULL, &outbound_handler, (void*) &pci_bar_handle);
 
     pthread_join(thread1, NULL);
     pthread_join(thread2, NULL);
 
-
-
-
 out:
     /* clean up */
     if (pci_bar_handle >= 0) {
         rc = fpga_pci_detach(pci_bar_handle);
         if (rc) {
-            printf("Failure while detaching from the fpga.\n");
+            fprintf(stderr, "Failure while detaching from the fpga.\n");
         }
     }
 
@@ -201,8 +245,10 @@ void* inbound_handler(void* pci_bar_handle_ptr)  {
 
         rc = fpga_pci_peek(pci_bar_handle, RBR_ADDR, &value);
         fail_thread(rc, "Unable to read read from the fpga !");
-        printf("%c", (char)(value & 0xff)); 
-	fflush(stdout);
+	if (!write(pty_fd, &value, 1)) {
+            rc = 1;
+            fail_thread(rc, "Unable to write to stream!");
+        }
     }
     return NULL;
 }
@@ -211,7 +257,11 @@ void* outbound_handler(void* pci_bar_handle_ptr) {
     int rc;
     pci_bar_handle_t pci_bar_handle = * ((pci_bar_handle_t*) pci_bar_handle_ptr);
     while (1) {
-        char c = fgetc(stdin);
+        char c;
+	if (!read(pty_fd, &c, 1)) {
+            rc = 1;
+            fail_thread(rc, "Unable to write to stream!");
+        }
         /* Send a value */
         uint32_t temt = 0;
         do {
@@ -229,7 +279,7 @@ void* outbound_handler(void* pci_bar_handle_ptr) {
 
 void fail_thread(int rc, const char* err_msg) {
     if (rc != 0) {
-        fprintf(stderr, "%s\n", err_msg);
+        fprintf(stderr, "%s, error %d\n", err_msg, rc);
         pthread_exit(NULL);
     }
 }

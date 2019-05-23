@@ -1,5 +1,5 @@
-#ifndef _TEST_UART_H
-#define _TEST_UART_H
+#ifndef _UART_H
+#define _UART_H
 
 /*
  * Hypervisor UART console definitions
@@ -52,4 +52,4 @@
 #define DLL_115200 UINT32_C(0x01)
 #define DLM_115200 UINT32_C(0x0)
 
-#endif /* _TEST_UART_H */               
+#endif /* _UART_H */               
