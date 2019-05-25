@@ -164,8 +164,7 @@ out:
     return (rc != 0 ? 1 : 0);
 }
 
-int open_pty_pair (int *amaster, char** slave_name)
-{
+int open_pty_pair (int *amaster, char** slave_name) {
     int master;
     char *name;
 

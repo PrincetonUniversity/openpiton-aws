@@ -16,30 +16,24 @@
 INCLUDES = -I$(SDK_DIR)/userspace/include
 
 CC = gcc
-CFLAGS = -DCONFIG_LOGLEVEL=4 -std=gnu11 -g -Wall -Werror $(INCLUDES)
+CFLAGS = -D_GNU_SOURCE -D_XOPEN_SOURCE -DCONFIG_LOGLEVEL=4 -std=gnu11 -g -Wall -Werror $(INCLUDES)
 
-LDLIBS = -lfpga_mgmt -lpthread
+LDLIBS = -lfpga_mgmt -lpthread -lbsd -lutil 
 
-SRC = test_dram_dma_common.c test_dram_dma_retention.c test_dram_dma.c test_dram_dma_hwsw_cosim.c
+SRC = common.c dma_os.c uart.c
 OBJ = $(SRC:.c=.o)
 
 
-all: test_uart test_dram_dma check_env retention cosim $(BIN)
+all: uart dma_os check_env $(BIN)
 
-test_dram_dma: $(OBJ)
-	$(CC) $(CFLAGS) -o test_dram_dma test_dram_dma.o test_dram_dma_common.o  $(LDFLAGS) $(LDLIBS)
+dma_os: $(OBJ)
+	$(CC) $(CFLAGS) -o dma_os dma_os.o common.o  $(LDFLAGS) $(LDLIBS)
 
-retention: $(OBJ)
-	$(CC) $(CFLAGS) -o test_dram_dma_retention test_dram_dma_retention.o test_dram_dma_common.o $(LDFLAGS) $(LDLIBS)
-
-cosim: $(OBJ)
-	$(CC) $(CFLAGS) -o test_dram_dma_hwsw_cosim test_dram_dma_hwsw_cosim.o test_dram_dma_common.o $(LDFLAGS) $(LDLIBS)
-
-test_uart: $(OBJ)
-	$(CC) $(CFLAGS) -o test_uart test_uart.c $(LDFLAGS) $(LDLIBS) 
+uart: $(OBJ)
+	$(CC) $(CFLAGS) -o uart uart.o $(LDFLAGS) $(LDLIBS) 
 
 clean:
-	rm -f *.o test_dram_dma_retention test_dram_dma test_dram_dma_hwsw_cosim
+	rm -f *.o dma_os uart
 
 check_env:
 ifndef SDK_DIR
