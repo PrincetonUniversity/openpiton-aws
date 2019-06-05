@@ -220,6 +220,16 @@ localparam NUM_CFG_STGS_CL_DDR_ATG = 8;
     axi_bus_t lcl_cl_sh_ddra();
     axi_bus_t lcl_cl_sh_ddrb();
     axi_bus_t lcl_cl_sh_ddrd();
+    axi_bus_t mem_bus_translated();
+
+    piton_aws_addr_translator piton_aws_addr_translator (
+    .in(mem_bus), 
+    .out(mem_bus_translated)
+);
+
+    // Unused 'full' signals
+    assign cl_sh_dma_rd_full  = 1'b0;
+    assign cl_sh_dma_wr_full  = 1'b0;
 
 
     assign sh_cl_dma_pcis_bus.awvalid = sh_cl_dma_pcis_awvalid;
@@ -287,7 +297,7 @@ localparam NUM_CFG_STGS_CL_DDR_ATG = 8;
         .aresetn(piton_aws_xbar_sync_rst_n),
 
         .sh_cl_dma_pcis_bus(sh_cl_dma_pcis_bus),
-        .cl_axi_mstr_bus(mem_bus),
+        .cl_axi_mstr_bus(mem_bus_translated),
 
         .lcl_cl_sh_ddra(lcl_cl_sh_ddra),
         .lcl_cl_sh_ddrb(lcl_cl_sh_ddrb),

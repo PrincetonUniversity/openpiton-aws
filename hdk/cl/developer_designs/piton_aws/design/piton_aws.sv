@@ -302,9 +302,12 @@ assign cl_sh_id1 = `CL_SH_ID1;
     (* dont_touch = "true" *) logic piton_aws_mc_sync_rst_n;
     lib_pipe #(.WIDTH(1), .STAGES(4)) piton_aws_mc_slc_rst_n (.clk(shell_clk), .rst_n(1'b1), .in_bus(shell_rst_n), .out_bus(piton_aws_mc_sync_rst_n));
 
+    (* dont_touch = "true" *) logic piton_mem_bus_sync_rst_n;
+    lib_pipe #(.WIDTH(1), .STAGES(4)) piton_mem_bus_slc_rst_n (.clk(piton_clk), .rst_n(1'b1), .in_bus(piton_rst_n), .out_bus(piton_mem_bus_sync_rst_n));
+
     axi_clock_converter_0 piton_mem_bus_cdc (
         .s_axi_aclk(piton_clk),          // input wire s_axi_aclk
-        .s_axi_aresetn(sys_sync_rst_n),    // input wire s_axi_aresetn
+        .s_axi_aresetn(piton_mem_bus_sync_rst_n),    // input wire s_axi_aresetn
         .s_axi_awid(piton_mem_bus.awid),          // input wire [15 : 0] s_axi_awid
         .s_axi_awaddr(piton_mem_bus.awaddr),      // input wire [63 : 0] s_axi_awaddr
         .s_axi_awlen(piton_mem_bus.awlen),        // input wire [7 : 0] s_axi_awlen
@@ -440,6 +443,7 @@ assign cl_sh_id1 = `CL_SH_ID1;
         .cl_sh_dma_pcis_rresp  (cl_sh_dma_pcis_rresp),
         .cl_sh_dma_pcis_rlast  (cl_sh_dma_pcis_rlast),
         .cl_sh_dma_pcis_rvalid (cl_sh_dma_pcis_rvalid),
+        .sh_cl_dma_pcis_rready (sh_cl_dma_pcis_rready),
 
         .cl_sh_ddr_awid        (cl_sh_ddr_awid),
         .cl_sh_ddr_awaddr      (cl_sh_ddr_awaddr),
@@ -615,5 +619,24 @@ assign cl_sh_id1 = `CL_SH_ID1;
 ///////////////////////////////////////////////////////////////////////
 ///////////////// aws uart module /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
+
+//---------------------------- 
+// Debug bridge
+//---------------------------- 
+ cl_debug_bridge CL_DEBUG_BRIDGE (
+      .clk(shell_clk),
+      .S_BSCAN_drck(drck),
+      .S_BSCAN_shift(shift),
+      .S_BSCAN_tdi(tdi),
+      .S_BSCAN_update(update),
+      .S_BSCAN_sel(sel),
+      .S_BSCAN_tdo(tdo),
+      .S_BSCAN_tms(tms),
+      .S_BSCAN_tck(tck),
+      .S_BSCAN_runtest(runtest),
+      .S_BSCAN_reset(reset),
+      .S_BSCAN_capture(capture),
+      .S_BSCAN_bscanid_en(bscanid_en)
+   );
 
 endmodule // aws_shell

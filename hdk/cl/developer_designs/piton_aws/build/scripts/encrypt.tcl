@@ -37,32 +37,6 @@ if {[llength [glob -nocomplain -dir $TARGET_DIR *]] != 0} {
 set DV_ROOT $::env(DV_ROOT)
 source $DV_ROOT/tools/src/proto/vivado/setup.tcl
 
-foreach dir $ALL_INCLUDE_DIRS {
-	foreach file [glob -directory $dir *.?h]	{
-		if { [file exists $file] == 1} {
-			file copy -force $file $TARGET_DIR
-		}
-	}
-}
-
-foreach file $ALL_RTL_IMPL_FILES {
-	if { [file exists $file] == 1} {
-		file copy -force $file $TARGET_DIR
-	}
-}
-
-foreach file $ALL_INCLUDE_FILES {
-	if { [file exists $file] == 1} {
-		file copy -force $file $TARGET_DIR
-	}
-}
-
-foreach file $ALL_IP_FILE_PREFIXES {
-	if { [file exists [file dirname $file]] == 1} {
-		file copy [file dirname $file] $TARGET_DIR
-	}
-}
-
 file copy -force $CL_DIR/design/axi_bus.sv             				  $TARGET_DIR
 file copy -force $CL_DIR/design/piton_aws.sv                  		  $TARGET_DIR
 file copy -force $CL_DIR/design/piton_aws_defines.vh                  $TARGET_DIR
@@ -70,6 +44,7 @@ file copy -force $CL_DIR/design/cl_id_defines.vh  		              $TARGET_DIR
 file copy -force $CL_DIR/design/piton_aws_mc.sv                       $TARGET_DIR
 file copy -force $CL_DIR/design/piton_aws_uart.v                	  $TARGET_DIR
 file copy -force $CL_DIR/design/piton_aws_xbar.sv                     $TARGET_DIR
+file copy -force $CL_DIR/design/piton_aws_addr_translator.sv          $TARGET_DIR
 file copy -force $UNUSED_TEMPLATES_DIR/unused_apppf_irq_template.inc  $TARGET_DIR
 file copy -force $UNUSED_TEMPLATES_DIR/unused_cl_sda_template.inc     $TARGET_DIR
 file copy -force $UNUSED_TEMPLATES_DIR/unused_ddr_a_b_d_template.inc  $TARGET_DIR

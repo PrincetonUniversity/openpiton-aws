@@ -33,8 +33,15 @@
     <port>
         <name>mem</name>
         <base>0x0</base>
-        <!-- 1 GB -->
-        <length>0x40000000</length>
+        <!-- 48GB -->
+        <length>0xc00000000</length>
+    </port>
+    <port>
+        <name>sd</name>
+        <base>0xf000000000</base>
+        <!-- Give it up to reset PC + 1 MB-->
+        <length>0xff0300000</length>
+        <virtual/>
     </port>
     <port>
         <name>iob</name>
@@ -57,4 +64,3 @@
     </port>
     -->
 </devices>
-

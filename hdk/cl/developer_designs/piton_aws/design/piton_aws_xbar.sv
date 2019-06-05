@@ -63,7 +63,7 @@ module piton_aws_xbar
   // AXI4 Register Slice for dma_pcis interface
   axi_register_slice dma_axi4_reg_slice (
     .aclk          (aclk),
-    .aresetn       (slr0_sync_aresetn),
+    .aresetn       (slr1_sync_aresetn),
     .s_axi_awid    (sh_cl_dma_pcis_bus.awid),
     .s_axi_awaddr  (sh_cl_dma_pcis_bus.awaddr),
     .s_axi_awlen   (sh_cl_dma_pcis_bus.awlen),
@@ -124,7 +124,7 @@ module piton_aws_xbar
   // AXI4 Register Slice for axi_mstr interface
   axi_register_slice master_axi4_reg_slice (
     .aclk          (aclk),
-    .aresetn       (slr0_sync_aresetn),
+    .aresetn       (slr1_sync_aresetn),
     .s_axi_awid    (cl_axi_mstr_bus.awid),
     .s_axi_awaddr  (cl_axi_mstr_bus.awaddr),
     .s_axi_awlen   (cl_axi_mstr_bus.awlen),

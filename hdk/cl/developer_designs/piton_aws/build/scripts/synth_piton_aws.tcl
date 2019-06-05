@@ -19,6 +19,7 @@ set CL_MODULE $CL_MODULE
 set VDEFINES $VDEFINES
 
 create_project -in_memory -part [DEVICE_TYPE] -force ${PROJECT_NAME}
+#
 
 ########################################
 ## Generate clocks based on Recipe 
@@ -39,29 +40,30 @@ puts "AWS FPGA: ([clock format [clock seconds] -format %T]) Reading developer's 
 
 #---- User would replace this section -----
 
-# Reading the .sv and .v files, as proper designs would not require
-# reading .v, .vh, nor .inc files
+foreach DIR $ALL_INCLUDE_DIRS {
+  foreach FILE [glob -dir $DIR *.?h] {
+    lappend -ifmissing ALL_INCLUDE_FILES $FILE
+  }
+}
+
+read_verilog $ALL_INCLUDE_FILES
+foreach FILE $ALL_INCLUDE_FILES {
+  set_property is_global_include true [get_files $FILE]
+}
 
 read_verilog -sv [glob $ENC_SRC_DIR/*.sv]
 read_verilog [glob $ENC_SRC_DIR/*.v]
+read_verilog $ALL_RTL_IMPL_FILES
 
-read_verilog [glob $ENC_SRC_DIR/*.vh]
-read_verilog [glob $ENC_SRC_DIR/*.h]
-foreach file $ALL_INCLUDE_FILES {
-  set_property is_global_include true [get_files [file join $ENC_SRC_DIR [file tail $file]]]
-}
-set_property is_global_include true [get_files [glob $ENC_SRC_DIR/*.?h]]
-
-foreach file [glob -directory $ENC_SRC_DIR **/*.xci] {
-    set FILENAME [file tail $file]
-    set IPNAME [file rootname $FILENAME]
-    set DIRNAME [file join $ENC_SRC_DIR $IPNAME]
-    read_ip [glob $file]
+foreach FILE $ALL_XCI_IP_FILES {
+  if { [file exists $FILE] == 1 } {
+    set IPNAME [file tail [file rootname $FILE]]
+    read_ip $FILE
     upgrade_ip [get_ips $IPNAME]
     generate_target all [get_ips $IPNAME]
     synth_ip [get_ips $IPNAME]
+  }
 }
-
 
 #---- End of section replaced by User ----
 
@@ -101,8 +103,7 @@ read_ip [ list \
 read_ip [ list \
   $HDK_SHELL_DESIGN_DIR/ip/cl_debug_bridge/cl_debug_bridge.xci \
   $HDK_SHELL_DESIGN_DIR/ip/ila_1/ila_1.xci \
-  $HDK_SHELL_DESIGN_DIR/ip/ila_vio_counter/ila_vio_counter.xci \
-  $HDK_SHELL_DESIGN_DIR/ip/vio_0/vio_0.xci
+  $HDK_SHELL_DESIGN_DIR/ip/ila_0/ila_0.xci 
 ]
 
 # Additional IP's that might be needed if using the DDR
@@ -120,7 +121,7 @@ puts "AWS FPGA: Reading AWS constraints";
 read_xdc [ list \
    $CL_DIR/build/constraints/cl_clocks_aws.xdc \
    $HDK_SHELL_DIR/build/constraints/cl_ddr.xdc \
-   $HDK_SHELL_DIR/build/constraints/cl_synth_aws.xdc \
+   $CL_DIR/build/constraints/cl_synth_aws.xdc \
    $CL_DIR/build/constraints/cl_synth_user.xdc
 ]
 
@@ -143,7 +144,7 @@ set ALL_VERILOG_MACROS [concat "XSDB_SLV_DIS" $ALL_DEFAULT_VERILOG_MACROS $PROTO
 set_property "verilog_define" "${ALL_VERILOG_MACROS}" $fileset_obj
 #project set "Verilog Macros" "[join ${ALL_VERILOG_MACROS} " | " ]" -process "Synthesize - XST"
 set VDEFINES [concat $VDEFINES $ALL_VERILOG_MACROS]
-eval [concat synth_design -top $CL_MODULE -part [DEVICE_TYPE] -mode out_of_context $synth_options -directive $synth_directive -include_dirs [list ${ALL_INCLUDE_DIRS}]]
+eval [concat synth_design -top $CL_MODULE -part [DEVICE_TYPE] -mode out_of_context $synth_options -directive $synth_directive ]
 
 set failval [catch {exec grep "FAIL" failfast.csv}]
 if { $failval==0 } {
