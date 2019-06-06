@@ -15,7 +15,7 @@ set_property PARENT pblock_CL [get_pblocks pblock_CL_top]
 
 create_pblock pblock_CL_mid
 
-add_cells_to_pblock [get_pblocks pblock_CL_mid] [get_cells -quiet -hierarchical -filter {NAME =~ WRAPPER_INST/CL/system}]
+add_cells_to_pblock [get_pblocks pblock_CL_mid] [get_cells -quiet -hierarchical -filter {NAME =~ WRAPPER_INST/CL/system/chipset}]
 add_cells_to_pblock [get_pblocks pblock_CL_mid] [get_cells -quiet -hierarchical -filter {NAME =~ WRAPPER_INST/CL/piton_mem_bus_cdc}]
 
 add_cells_to_pblock [get_pblocks pblock_CL_mid] [get_cells -quiet -hierarchical -filter {NAME =~ WRAPPER_INST/CL/piton_aws_mc/piton_aws_xbar/axi_xbar}]
