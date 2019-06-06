@@ -53,7 +53,7 @@ foreach FILE $ALL_INCLUDE_FILES {
 
 read_verilog -sv [glob $ENC_SRC_DIR/*.sv]
 read_verilog [glob $ENC_SRC_DIR/*.v]
-read_verilog $ALL_RTL_IMPL_FILES
+read_verilog -quiet $ALL_RTL_IMPL_FILES
 
 foreach FILE $ALL_XCI_IP_FILES {
   if { [file exists $FILE] == 1 } {
