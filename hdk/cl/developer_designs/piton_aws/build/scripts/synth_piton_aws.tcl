@@ -40,8 +40,6 @@ puts "AWS FPGA: ([clock format [clock seconds] -format %T]) Reading developer's 
 
 #---- User would replace this section -----
 
-start_gui
-
 foreach DIR $ALL_INCLUDE_DIRS {
   foreach FILE [glob -nocomplain -dir $DIR *.*h] {
     lappend -ifmissing ALL_INCLUDE_FILES $FILE
