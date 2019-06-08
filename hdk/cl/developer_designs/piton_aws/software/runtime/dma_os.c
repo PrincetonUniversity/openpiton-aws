@@ -32,7 +32,7 @@
 
 #define MEM_1MB              (1ULL << 20)
 #define	MEM_16G              (1ULL << 34)
-#define OS_OFFSET            (3 * MEM_16G)
+#define OS_OFFSET            (2 * MEM_16G)
 #define HV_OFFSET            (OS_OFFSET + 0xff0000000ULL)
 #define BUFFER_SIZE          (MEM_1MB)
 
@@ -144,31 +144,7 @@ int dma_os(int slot_id, const char* os_img_filename) {
     } else { 
         log_info("OS image write failed!");
     }
-   /* 
-    // Write hypervisor
-    if (passed) {
-        rewind(os_img_file);
-        fread(write_buffer, 1, MEM_1MB, os_img_file);
-        
-        rc = fpga_dma_burst_write(write_fd, write_buffer, MEM_1MB , HV_OFFSET);
-        fail_on(rc, out, "DMA write failed");
 
-        rc = fpga_dma_burst_read(read_fd, read_buffer, MEM_1MB, HV_OFFSET);
-        fail_on(rc, out, "DMA read failed");
-
-        uint64_t differ = buffer_compare(read_buffer, write_buffer, MEM_1MB);
-    
-        if (differ != 0) {
-            log_error("HV write failed with %lu bytes which differ", differ);
-            passed = false;
-        }
-    	if (passed) {
-            log_info("HV written!");
-        } else { 
-            log_info("HV write failed!");
-        }
-    }
-*/
     // Clear first MB of memory
     if (passed) {
         uint8_t zeroes[MEM_1MB] = {0};
