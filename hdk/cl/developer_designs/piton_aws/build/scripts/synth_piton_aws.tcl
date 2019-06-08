@@ -40,20 +40,30 @@ puts "AWS FPGA: ([clock format [clock seconds] -format %T]) Reading developer's 
 
 #---- User would replace this section -----
 
+start_gui
+
 foreach DIR $ALL_INCLUDE_DIRS {
-  foreach FILE [glob -dir $DIR *.?h] {
+  foreach FILE [glob -nocomplain -dir $DIR *.*h] {
     lappend -ifmissing ALL_INCLUDE_FILES $FILE
   }
 }
 
-read_verilog $ALL_INCLUDE_FILES
 foreach FILE $ALL_INCLUDE_FILES {
+  read_verilog $FILE
   set_property is_global_include true [get_files $FILE]
 }
 
-read_verilog -sv [glob $ENC_SRC_DIR/*.sv]
-read_verilog [glob $ENC_SRC_DIR/*.v]
-read_verilog -quiet $ALL_RTL_IMPL_FILES
+foreach FILE $ALL_RTL_IMPL_FILES {
+  read_verilog -quiet $FILE
+}
+
+foreach FILE [glob $ENC_SRC_DIR/*.v] {
+  read_verilog $FILE
+}
+
+foreach FILE [glob $ENC_SRC_DIR/*.sv] {
+  read_verilog -sv $FILE
+}
 
 foreach FILE $ALL_XCI_IP_FILES {
   if { [file exists $FILE] == 1 } {
@@ -144,7 +154,7 @@ set ALL_VERILOG_MACROS [concat "XSDB_SLV_DIS" $ALL_DEFAULT_VERILOG_MACROS $PROTO
 set_property "verilog_define" "${ALL_VERILOG_MACROS}" $fileset_obj
 #project set "Verilog Macros" "[join ${ALL_VERILOG_MACROS} " | " ]" -process "Synthesize - XST"
 set VDEFINES [concat $VDEFINES $ALL_VERILOG_MACROS]
-eval [concat synth_design -top $CL_MODULE -part [DEVICE_TYPE] -mode out_of_context $synth_options -directive $synth_directive ]
+eval [concat synth_design -top $CL_MODULE -part [DEVICE_TYPE] -mode out_of_context $synth_options -directive $synth_directive -include_dirs {$ALL_INCLUDE_DIRS}]
 
 set failval [catch {exec grep "FAIL" failfast.csv}]
 if { $failval==0 } {
