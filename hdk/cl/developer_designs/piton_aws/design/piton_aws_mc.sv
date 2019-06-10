@@ -427,8 +427,8 @@ localparam NUM_CFG_STGS_CL_DDR_ATG = 8;
     lib_pipe #(.WIDTH(1), .STAGES(4)) sh_ddr_slc_rst_n (.clk(clk), .rst_n(1'b1), .in_bus(rst_n), .out_bus(sh_ddr_sync_rst_n));
     sh_ddr #(
              .DDR_A_PRESENT(1),
-             .DDR_B_PRESENT(1),
-             .DDR_D_PRESENT(1)
+             .DDR_B_PRESENT(0),
+             .DDR_D_PRESENT(0)
        ) sh_ddr
        (
        .clk(clk),
