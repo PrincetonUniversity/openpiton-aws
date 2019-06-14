@@ -409,7 +409,8 @@ assign cl_sh_id1 = `CL_SH_ID1;
           ddr_ready_q_q <= ddr_ready_q;
         end
     assign ddr_ready_piton = ddr_ready_q_q;
-    assign ddr_ready_shell = ddr_ready_2d[0] & ddr_ready_2d[1] & ddr_ready_2d[2] & sh_cl_ddr_is_ready;
+    //assign ddr_ready_shell = ddr_ready_2d[0] & ddr_ready_2d[1] & ddr_ready_2d[2] & sh_cl_ddr_is_ready;
+    assign ddr_ready_shell = ddr_ready_2d[0] & sh_cl_ddr_is_ready;
 
     piton_aws_mc piton_aws_mc(
         .clk                   (shell_clk),
