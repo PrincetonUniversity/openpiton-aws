@@ -142,7 +142,7 @@ set_property PROCESSING_ORDER EARLY  [get_files cl_clocks_aws.xdc]
 ########################
 puts "AWS FPGA: ([clock format [clock seconds] -format %T]) Start design synthesis.";
 
-update_compile_order -fileset sources_1
+#update_compile_order -fileset sources_1
 puts "\nRunning synth_design for $CL_MODULE $CL_DIR/build/scripts \[[clock format [clock seconds] -format {%a %b %d %H:%M:%S %Y}]\]"
 
 
@@ -150,8 +150,8 @@ set fileset_obj [get_filesets sources_1]
 source additional_defines.tcl
 set ALL_VERILOG_MACROS [concat "XSDB_SLV_DIS" $ALL_DEFAULT_VERILOG_MACROS $PROTOSYN_RUNTIME_DEFINES]
 set_property "verilog_define" "${ALL_VERILOG_MACROS}" $fileset_obj
-#project set "Verilog Macros" "[join ${ALL_VERILOG_MACROS} " | " ]" -process "Synthesize - XST"
 set VDEFINES [concat $VDEFINES $ALL_VERILOG_MACROS]
+reorder_files -auto -disable_unused
 eval [concat synth_design -top $CL_MODULE -part [DEVICE_TYPE] -mode out_of_context $synth_options -directive $synth_directive -include_dirs {$ALL_INCLUDE_DIRS}]
 
 set failval [catch {exec grep "FAIL" failfast.csv}]

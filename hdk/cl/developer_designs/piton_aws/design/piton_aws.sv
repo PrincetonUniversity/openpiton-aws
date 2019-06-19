@@ -111,7 +111,8 @@ assign cl_sh_id1 = `CL_SH_ID1;
     logic shell_rst_n;
 
     assign shell_clk = clk_main_a0;
-    assign piton_clk = clk_extra_a1;
+    //assign piton_clk = clk_extra_a1;
+    assign piton_clk = clk_main_a0;
 
     lib_pipe #(.WIDTH(1), .STAGES(4)) PIPE_shell_rst_n (.clk(shell_clk), .rst_n(1'b1), .in_bus(rst_main_n), .out_bus(pipe_shell_rst_n));
 
@@ -213,13 +214,6 @@ assign cl_sh_id1 = `CL_SH_ID1;
         .clk(piton_clk),
         .sys_rst_n(sys_sync_rst_n),
 
-    `ifdef PITON_ARIANE
-    	.tck_i(1'b0),
-    	.tms_i(1'b0),
-    	.trst_ni(1'b0),
-    	.td_i(1'b0),
-    	.td_o(),
-    `endif
     `ifndef PITONSYS_NO_MC
         .m_axi_awid(piton_mem_bus.awid),
         .m_axi_awaddr(piton_mem_bus.awaddr),
