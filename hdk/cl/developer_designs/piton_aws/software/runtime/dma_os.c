@@ -31,16 +31,17 @@
 #include "common.h"
 
 #define MEM_1MB              (1ULL << 20)
-#define	MEM_16G              (1ULL << 34)
-#define OS_OFFSET            (2 * MEM_16G)
-#define HV_OFFSET            (OS_OFFSET + 0xff0000000ULL)
-#define BUFFER_SIZE          (MEM_1MB)
+#define MEM_1GB              (1ULL << 30)
+#define	MEM_16GB              (1ULL << 34)
+#define OS_OFFSET            (2 * MEM_16GB)
 
 /* use the standard out logger */
 static const struct logger *logger = &logger_stdout;
 
 void usage(const char* program_name);
-int dma_os(int slot_id, const char* os_img_filename);
+int get_fds(int slot_id, int* read_fd, int* write_fd);
+int dma_os(int read_df, int write_fd, const char* os_img_filename, size_t begin);
+int clear_mem(int read_fd, int write_fd, size_t begin, size_t end);
 
 int main(int argc, char **argv) {
     int rc;
@@ -71,12 +72,29 @@ int main(int argc, char **argv) {
     rc = check_slot_config(slot_id);
     fail_on(rc, out, "slot config is not correct");
 
+    /* get fds */
+    int read_fd = -1;
+    int write_fd = -1;
+    rc = get_fds(slot_id, &read_fd, &write_fd);
+    fail_on(rc, out, "Couldn't get file descriptors for DMA");
+
+    /* clear first MB of memory */
+    rc = clear_mem(read_fd, write_fd, (uint64_t) 0, 4 * MEM_1GB); 
+    fail_on(rc, out, "Clearing memory failed!");
+
     /* load os */
-    rc = dma_os(slot_id, os_img_filename);
-    fail_on(rc, out, "DMA example failed");
+    rc = dma_os(read_fd, write_fd, os_img_filename, OS_OFFSET);
+    fail_on(rc, out, "OS DMA failed!");
 
 out:
-    log_info("TEST %s", (rc == 0) ? "PASSED" : "FAILED");
+    if (write_fd >= 0) {
+        close(write_fd);
+    }
+    if (read_fd >= 0) {
+        close(read_fd);
+    }
+    
+    log_info("Memory initialization %s", (rc == 0) ? "PASSED" : "FAILED");
     return rc;
 }
 
@@ -84,10 +102,25 @@ void usage(const char* program_name) {
     printf("usage: %s <os_img_file>\n", program_name);
 }
 
+int get_fds(int slot_id, int* read_fd, int* write_fd) {
+    int rc;
+    
+    *read_fd = fpga_dma_open_queue(FPGA_DMA_XDMA, slot_id, /*channel*/ 0, /*is_read*/ true);
+    fail_on((rc = (read_fd < 0) ? -1 : 0), out, "unable to open read dma queue");
+
+    *write_fd = fpga_dma_open_queue(FPGA_DMA_XDMA, slot_id, /*channel*/ 0, /*is_read*/ false);
+    fail_on((rc = (write_fd < 0) ? -1 : 0), out, "unable to open write dma queue");
+
+out:
+    /* if there is an error code, exit with status 1 */
+    return (rc != 0 ? 1 : 0);
+}
+
+
 /**
- * Write OS into dimm3, zero first MB of dimm0
+ * Write OS into dimm3
  */
-int dma_os(int slot_id, const char* os_img_filename) {
+int dma_os(int read_fd, int write_fd, const char* os_img_filename, size_t begin) {
     int rc;
     
     FILE* os_img_file = fopen(os_img_filename, "r");
@@ -96,25 +129,16 @@ int dma_os(int slot_id, const char* os_img_filename) {
         goto out;
     }
 
-    size_t buffer_size = BUFFER_SIZE;
+    size_t buffer_size = MEM_1MB;
 
-    int write_fd = -1;
-    int read_fd = -1;
-
-    uint8_t *write_buffer = malloc(buffer_size);
-    uint8_t *read_buffer = malloc(buffer_size);
+    uint8_t *write_buffer = calloc(buffer_size, sizeof(uint8_t));
+    uint8_t *read_buffer = calloc(buffer_size, sizeof(uint8_t));
     if (write_buffer == NULL || read_buffer == NULL) {
         rc = -ENOMEM;
         goto out;
     }
 
-    read_fd = fpga_dma_open_queue(FPGA_DMA_XDMA, slot_id, /*channel*/ 0, /*is_read*/ true);
-    fail_on((rc = (read_fd < 0) ? -1 : 0), out, "unable to open read dma queue");
-
-    write_fd = fpga_dma_open_queue(FPGA_DMA_XDMA, slot_id, /*channel*/ 0, /*is_read*/ false);
-    fail_on((rc = (write_fd < 0) ? -1 : 0), out, "unable to open write dma queue");
-
-    size_t pos = OS_OFFSET;
+    size_t pos = begin;
     bool passed = true;
     while(1) {
         size_t bytes_read = fread(write_buffer, 1, buffer_size, os_img_file);
@@ -145,29 +169,6 @@ int dma_os(int slot_id, const char* os_img_filename) {
         log_info("OS image write failed!");
     }
 
-    // Clear first MB of memory
-    if (passed) {
-        uint8_t zeroes[MEM_1MB] = {0};
-        rc = fpga_dma_burst_write(write_fd, zeroes, MEM_1MB , 0);
-        fail_on(rc, out, "DMA write failed");
-
-        rc = fpga_dma_burst_read(read_fd, read_buffer, MEM_1MB, 0);
-        fail_on(rc, out, "DMA read failed");
-
-        uint64_t differ = buffer_compare(read_buffer, zeroes, MEM_1MB);
-    
-        if (differ != 0) {
-            log_error("Zeroing failed with %lu bytes which differ", differ);
-            passed = false;
-        }
-    	if (passed) {
-            log_info("First MB zeroed!");
-        } else { 
-            log_info("Zeroing failed!");
-        }
-    }
-
-
     
     rc = (passed) ? 0 : 1;
 
@@ -178,12 +179,6 @@ out:
     if (read_buffer != NULL) {
         free(read_buffer);
     }
-    if (write_fd >= 0) {
-        close(write_fd);
-    }
-    if (read_fd >= 0) {
-        close(read_fd);
-    }
     if (os_img_file != NULL) {
         fclose(os_img_file);
     }
@@ -191,3 +186,62 @@ out:
     return (rc != 0 ? 1 : 0);
 }
 
+
+int clear_mem(int read_fd, int write_fd, size_t begin, size_t end) {
+    int rc = 0;;
+    size_t buffer_size = MEM_1GB;
+    
+    if ( (end <= begin) || ((end - begin) % buffer_size != 0) ) {
+        rc = -1;
+    }
+    fail_on(rc, out, "Wrong mem clearing params");
+
+    uint8_t *write_buffer = calloc(buffer_size, sizeof(uint8_t));
+    uint8_t *read_buffer = calloc(buffer_size, sizeof(uint8_t));
+    if (write_buffer == NULL || read_buffer == NULL) {
+        rc = -ENOMEM;
+        goto out;
+    }
+
+    size_t pos = begin;
+    bool passed = true;
+    while(1) {
+        rc = fpga_dma_burst_write(write_fd, write_buffer, buffer_size, pos);
+        fail_on(rc, out, "DMA write failed");
+
+        rc = fpga_dma_burst_read(read_fd, read_buffer, buffer_size, pos);
+        fail_on(rc, out, "DMA read failed");
+
+        uint64_t differ = buffer_compare(read_buffer, write_buffer, buffer_size);
+    
+        if (differ != 0) {
+            log_error("Clearing memory failed with %lu bytes which differ", differ);
+            passed = false;
+            break;
+        }
+
+        pos += buffer_size;
+        if (pos >= end) {
+            break;
+        } 
+    }
+
+    if (passed) {
+        log_info("Clearing memory: success!");
+    } else { 
+        log_info("Clearing memory: failure!");
+    }
+
+    rc = (passed) ? 0 : 1;
+
+out:
+    if (write_buffer != NULL) {
+        free(write_buffer);
+    }
+    if (read_buffer != NULL) {
+        free(read_buffer);
+    }
+    
+    /* if there is an error code, exit with status 1 */
+    return (rc != 0 ? 1 : 0);
+}
