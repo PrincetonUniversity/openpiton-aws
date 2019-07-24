@@ -31,33 +31,6 @@
 `include "define.tmp.h"
 `include "piton_system.vh"
 
-// The way Macros should be defined: 
-// define PITON_FPGA_SYNTH
-// define PITON_NO_JTAG
-// define PITON_FPGA_MC_DDR3
-// undef VC707_BOARD GENESYS2_BOARD WHATEVER_BOARD
-// define F1_BOARD
-// undef PITONSYS_SPI
-// define PITONSYS_UART
-// undef PITON_CHIPSET_DIFF_CLK
-// undef PITON_CLKS_SIM
-// undef PITON_CHIPSET_CLKS_GEN
-// undef PITON_PASSTHRU_CLKS_GEN
-// define PITON_CLKS_CHIPSET
-// undef PITONSYS_INC_PASSTHRU
-// undef PITON_CLKS_PASSTHRU
-
-
-
-//  PITON_NO_CHIP_BRIDGE        This indicates no chip bridge should be used on
-//                              off chip link.  The 3 NoCs are exposed as credit
-//                              based interfaces directly.  This is mainly used for FPGA
-//                              where there are no pin constraints. Cannot be used with
-//                              PITONSYS_INC_PASSTHRU. Note that if PITON_NO_CHIP_BRIDGE
-//                              is set, io_clk is not really used.
-
-
-
 module piton_aws
 (
 	`include "cl_ports.vh"
