@@ -41,7 +41,8 @@ static const struct logger *logger = &logger_stdout;
 void usage(const char* program_name);
 int get_fds(int slot_id, int* read_fd, int* write_fd);
 int dma_os(int read_df, int write_fd, const char* os_img_filename, size_t begin);
-int clear_mem(int read_fd, int write_fd, size_t begin, size_t end);
+int fill_mem(int read_fd, int write_fd, size_t begin, size_t end, uint8_t byte, size_t buffer_size);
+int fill_ariane_mem_region(int read_fd, int write_fd);
 
 int main(int argc, char **argv) {
     int rc;
@@ -78,8 +79,12 @@ int main(int argc, char **argv) {
     rc = get_fds(slot_id, &read_fd, &write_fd);
     fail_on(rc, out, "Couldn't get file descriptors for DMA");
 
-    /* clear first MB of memory */
-    rc = clear_mem(read_fd, write_fd, (uint64_t) 0, 4 * MEM_1GB); 
+    /* fill memory with garbage */
+    //rc = fill_mem(read_fd, write_fd, 2 * MEM_1GB, 3 * MEM_1GB, 0xab, MEM_1GB); 
+    //fail_on(rc, out, "Filling memory failed!");
+
+    /* clear memory */
+    rc = fill_mem(read_fd, write_fd, 2 * MEM_1GB, 2 * MEM_1GB + 128 * MEM_1MB, 0, MEM_1MB); 
     fail_on(rc, out, "Clearing memory failed!");
 
     /* load os */
@@ -187,14 +192,13 @@ out:
 }
 
 
-int clear_mem(int read_fd, int write_fd, size_t begin, size_t end) {
-    int rc = 0;;
-    size_t buffer_size = MEM_1GB;
+int fill_mem(int read_fd, int write_fd, size_t begin, size_t end, uint8_t byte, size_t buffer_size) {
+    int rc = 0;
     
     if ( (end <= begin) || ((end - begin) % buffer_size != 0) ) {
         rc = -1;
     }
-    fail_on(rc, out, "Wrong mem clearing params");
+    fail_on(rc, out, "Wrong mem filling params");
 
     uint8_t *write_buffer = calloc(buffer_size, sizeof(uint8_t));
     uint8_t *read_buffer = calloc(buffer_size, sizeof(uint8_t));
@@ -202,6 +206,9 @@ int clear_mem(int read_fd, int write_fd, size_t begin, size_t end) {
         rc = -ENOMEM;
         goto out;
     }
+
+    memset(read_buffer, byte, buffer_size);
+    memset(write_buffer, byte, buffer_size);
 
     size_t pos = begin;
     bool passed = true;
@@ -215,7 +222,7 @@ int clear_mem(int read_fd, int write_fd, size_t begin, size_t end) {
         uint64_t differ = buffer_compare(read_buffer, write_buffer, buffer_size);
     
         if (differ != 0) {
-            log_error("Clearing memory failed with %lu bytes which differ", differ);
+            log_error("Filling memory failed with %lu bytes which differ", differ);
             passed = false;
             break;
         }
@@ -227,9 +234,9 @@ int clear_mem(int read_fd, int write_fd, size_t begin, size_t end) {
     }
 
     if (passed) {
-        log_info("Clearing memory: success!");
+        log_info("Filling memory: success!");
     } else { 
-        log_info("Clearing memory: failure!");
+        log_info("Filling memory: failure!");
     }
 
     rc = (passed) ? 0 : 1;
@@ -245,3 +252,4 @@ out:
     /* if there is an error code, exit with status 1 */
     return (rc != 0 ? 1 : 0);
 }
+
