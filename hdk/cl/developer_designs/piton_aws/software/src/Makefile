@@ -13,7 +13,7 @@
 # implied. See the License for the specific language governing permissions and
 # limitations under the License.
 
-INCLUDES = -I$(SDK_DIR)/userspace/include
+INCLUDES = -I$(SDK_DIR)/userspace/include -I$(CL_DIR)/software/include
 
 CC = gcc
 CFLAGS = -D_GNU_SOURCE -D_XOPEN_SOURCE -DCONFIG_LOGLEVEL=4 -std=gnu11 -g -Wall -Werror $(INCLUDES)
