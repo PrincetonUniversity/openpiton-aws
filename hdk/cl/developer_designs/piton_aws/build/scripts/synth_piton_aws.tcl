@@ -33,9 +33,6 @@ source $HDK_SHELL_DIR/build/scripts/aws_gen_clk_constraints.tcl
 ## Read design files
 #############################
 
-#Convenience to set the root of the RTL directory
-set ENC_SRC_DIR $CL_DIR/build/src_post_encryption
-
 puts "AWS FPGA: ([clock format [clock seconds] -format %T]) Reading developer's Custom Logic files post encryption.";
 
 #---- User would replace this section -----
@@ -51,16 +48,15 @@ foreach FILE $ALL_INCLUDE_FILES {
   set_property is_global_include true [get_files $FILE]
 }
 
+# concat include dirs here because we don't want files from piton_aws 
+# include dirs to be global include
+
+set ALL_INCLUDE_DIRS [concat $ALL_INCLUDE_DIRS $PITON_AWS_INCLUDE_DIRS]
+set ALL_RTL_IMPL_FILES [concat $ALL_RTL_IMPL_FILES $PITON_AWS_RTL_IMPL_FILES]
+set ALL_XCI_IP_FILES [concat $ALL_XCI_IP_FILES $PITON_AWS_XCI_IP_FILES]
+
 foreach FILE $ALL_RTL_IMPL_FILES {
   read_verilog -quiet $FILE
-}
-
-foreach FILE [glob $ENC_SRC_DIR/*.v] {
-  read_verilog $FILE
-}
-
-foreach FILE [glob $ENC_SRC_DIR/*.sv] {
-  read_verilog -sv $FILE
 }
 
 foreach FILE $ALL_XCI_IP_FILES {
@@ -72,6 +68,7 @@ foreach FILE $ALL_XCI_IP_FILES {
     synth_ip [get_ips $IPNAME]
   }
 }
+
 
 #---- End of section replaced by User ----
 
@@ -129,7 +126,7 @@ puts "AWS FPGA: Reading AWS constraints";
 read_xdc [ list \
    $CL_DIR/build/constraints/cl_clocks_aws.xdc \
    $HDK_SHELL_DIR/build/constraints/cl_ddr.xdc \
-   $CL_DIR/build/constraints/cl_synth_aws.xdc \
+   $HDK_SHELL_DIR/build/constraints/cl_synth_aws.xdc \
    $CL_DIR/build/constraints/cl_synth_user.xdc
 ]
 

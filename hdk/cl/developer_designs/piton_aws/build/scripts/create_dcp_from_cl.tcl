@@ -188,10 +188,9 @@ switch $strategy {
     }
 }
 
-puts "AWS FPGA: ([clock format [clock seconds] -format %T]) Calling the encrypt.tcl.";
+puts "AWS FPGA: ([clock format [clock seconds] -format %T]) Calling the filelists.tcl.";
 
-#Encrypt source code
-source encrypt.tcl
+source filelists.tcl
 
 #Set the Device Type
 source $HDK_SHELL_DIR/build/scripts/device_type.tcl

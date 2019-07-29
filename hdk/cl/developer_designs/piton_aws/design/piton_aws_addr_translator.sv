@@ -32,12 +32,12 @@ module piton_aws_addr_translator (
 	axi_bus_t.slave out
 );
 
-	logic [`C_M_AXI4_ADDR_WIDTH-1:0] translated_awaddr = (in.awaddr >= 64'hfff0000000) ? in.awaddr - 64'hfff0000000 + 64'h800000000 
-													   : (in.awaddr >= 64'hf000000000) ? in.awaddr - 64'hf000000000 + 64'h800000000 
+	logic [`C_M_AXI4_ADDR_WIDTH-1:0] translated_awaddr = (in.awaddr >= 64'hfff0000000) ? in.awaddr - 64'hfff0000000 + 64'h200000000 
+													   : (in.awaddr >= 64'hf000000000) ? in.awaddr - 64'hf000000000 + 64'h200000000 
 													   : in.awaddr;
 													   
-	logic [`C_M_AXI4_ADDR_WIDTH-1:0] translated_araddr = (in.araddr >= 64'hfff0000000) ? in.araddr - 64'hfff0000000 + 64'h800000000 
-													   : (in.araddr >= 64'hf000000000) ? in.araddr - 64'hf000000000 + 64'h800000000 
+	logic [`C_M_AXI4_ADDR_WIDTH-1:0] translated_araddr = (in.araddr >= 64'hfff0000000) ? in.araddr - 64'hfff0000000 + 64'h200000000 
+													   : (in.araddr >= 64'hf000000000) ? in.araddr - 64'hf000000000 + 64'h200000000 
 													   : in.araddr;
 
 	assign out.awid = in.awid;

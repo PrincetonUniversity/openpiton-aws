@@ -42,17 +42,11 @@ module piton_aws
 // TIE OFF ALL UNUSED INTERFACES
 // Including all the unused interface to tie off
 
-`include "unused_sh_bar1_template.inc"
 `include "unused_apppf_irq_template.inc"
 `include "unused_cl_sda_template.inc"
 `include "unused_pcim_template.inc"
 `include "unused_flr_template.inc"
-
-`ifdef PITONSYS_NO_MC
 `include "unused_ddr_a_b_d_template.inc"
-`include "unused_ddr_c_template.inc"
-`include "unused_dma_pcis_template.inc"
-`endif
 
 // Unused 'full' signals
 assign cl_sh_dma_rd_full  = 1'b0;
@@ -69,37 +63,29 @@ assign cl_sh_id1 = `CL_SH_ID1;
 
 
 ///////////////////////////////////////////////////////////////////////
-////////////////////// clocks and resets //////////////////////////////
+//////////////////////////// clocks ///////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
 
+    logic shell_clk;
     logic piton_clk;
+    logic eth_clk;
+
+    assign shell_clk = clk_main_a0; //250 mhz, recipe a1
+    assign piton_clk = clk_extra_c0; //75 mhz, recipe c2
+    assign eth_clk = clk_extra_b1; //62.5 mhz, recipe b1
+
+///////////////////////////////////////////////////////////////////////
+//////////////////////////// clocks ///////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////
+//////////////////////////// resets ///////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+
+
     (* dont_touch = "true" *) logic pipe_piton_rst_n;
     logic pre_piton_rst_n;
     logic piton_rst_n;
-
-
-    logic shell_clk;
-    (* dont_touch = "true" *) logic pipe_shell_rst_n;
-    logic pre_shell_rst_n;
-    logic shell_rst_n;
-
-    assign shell_clk = clk_main_a0;
-    assign piton_clk = clk_extra_a1;
-    //assign piton_clk = clk_main_a0;
-
-    lib_pipe #(.WIDTH(1), .STAGES(4)) PIPE_shell_rst_n (.clk(shell_clk), .rst_n(1'b1), .in_bus(rst_main_n), .out_bus(pipe_shell_rst_n));
-
-    always_ff @(negedge pipe_shell_rst_n or posedge shell_clk)
-       if (!pipe_shell_rst_n)
-       begin
-          pre_shell_rst_n <= 0;
-          shell_rst_n <= 0;
-       end
-       else
-       begin
-          pre_shell_rst_n <= 1;
-          shell_rst_n <= pre_shell_rst_n;
-       end
 
     lib_pipe #(.WIDTH(1), .STAGES(4)) PIPE_piton_rst_n (.clk(shell_clk), .rst_n(1'b1), .in_bus(sh_cl_status_vdip[15]), .out_bus(pipe_piton_rst_n));
 
@@ -115,8 +101,28 @@ assign cl_sh_id1 = `CL_SH_ID1;
           piton_rst_n <= pre_piton_rst_n;
        end
 
+
+    (* dont_touch = "true" *) logic pipe_shell_rst_n;
+    logic pre_shell_rst_n;
+    logic shell_rst_n;
+
+    lib_pipe #(.WIDTH(1), .STAGES(4)) PIPE_shell_rst_n (.clk(shell_clk), .rst_n(1'b1), .in_bus(rst_main_n), .out_bus(pipe_shell_rst_n));
+
+    always_ff @(negedge pipe_shell_rst_n or posedge shell_clk)
+       if (!pipe_shell_rst_n)
+       begin
+          pre_shell_rst_n <= 0;
+          shell_rst_n <= 0;
+       end
+       else
+       begin
+          pre_shell_rst_n <= 1;
+          shell_rst_n <= pre_shell_rst_n;
+       end
+
+
 ///////////////////////////////////////////////////////////////////////
-////////////////////// clocks and resets //////////////////////////////
+//////////////////////////// resets ///////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////
@@ -170,8 +176,15 @@ assign cl_sh_id1 = `CL_SH_ID1;
 ///////////////////////////////////////////////////////////////////////
 
     // For uart
-    logic piton_tx;
-    logic piton_rx;
+    logic piton_uart_tx;
+    logic piton_uart_rx;
+
+    // For eth
+    logic [3:0] piton_eth_rx_data;
+    logic [3:0] piton_eth_tx_data;
+    logic piton_eth_rx_val;
+    logic piton_eth_tx_val;
+    logic tied_io_wire = 0;
 
     `ifndef PITONSYS_NO_MC
     // for ddr
@@ -184,8 +197,10 @@ assign cl_sh_id1 = `CL_SH_ID1;
 
     system system(
         // Clocks and resets
-        .clk(piton_clk),
+        .sys_clk(piton_clk),
         .sys_rst_n(sys_sync_rst_n),
+        .mc_clk(shell_clk),
+        .eth_clk(shell_clk),
 
     `ifndef PITONSYS_NO_MC
         .m_axi_awid(piton_mem_bus.awid),
@@ -244,8 +259,23 @@ assign cl_sh_id1 = `CL_SH_ID1;
 
         .ddr_ready(ddr_ready_piton),
     `endif
-        .uart_tx(piton_tx),
-        .uart_rx(piton_rx),
+
+    `ifdef PITON_FPGA_ETHERNETLITE
+        .net_phy_txc        (eth_clk),
+        .net_phy_txctl      (piton_eth_tx_val),
+        .net_phy_txd        (piton_eth_tx_data),
+        .net_phy_rxc        (eth_clk),
+        .net_phy_rxctl      (piton_eth_rx_val),
+        .net_phy_rxd        (piton_eth_rx_data),
+        .net_phy_rst_n      (),
+        .net_phy_mdio_io    (tied_io_wire),
+        .net_phy_mdc        (),
+    `endif
+
+    `ifdef PITONSYS_UART
+        .uart_tx(piton_uart_tx),
+        .uart_rx(piton_uart_rx),
+    `endif
 
         .sw(sw[7:0]), 
         .leds(leds[7:0]) 
@@ -262,269 +292,102 @@ assign cl_sh_id1 = `CL_SH_ID1;
 ///////////////////////////////////////////////////////////////////////
     `ifndef PITONSYS_NO_MC
 
-    axi_bus_t shell_mem_bus();
-    logic ddr_ready_shell;
-    logic [2:0] ddr_ready_2d;
+        logic ddr_ready_shell;
 
-    (* dont_touch = "true" *) logic piton_aws_mc_sync_rst_n;
-    lib_pipe #(.WIDTH(1), .STAGES(4)) piton_aws_mc_slc_rst_n (.clk(shell_clk), .rst_n(1'b1), .in_bus(shell_rst_n), .out_bus(piton_aws_mc_sync_rst_n));
+        (* dont_touch = "true" *) logic piton_aws_xbar_sync_rst_n;
+        lib_pipe #(.WIDTH(1), .STAGES(4)) piton_aws_xbar_slc_rst_n (.clk(shell_clk), .rst_n(1'b1), .in_bus(shell_rst_n), .out_bus(piton_aws_xbar_sync_rst_n));
 
-    (* dont_touch = "true" *) logic piton_mem_bus_sync_rst_n;
-    lib_pipe #(.WIDTH(1), .STAGES(4)) piton_mem_bus_slc_rst_n (.clk(piton_clk), .rst_n(1'b1), .in_bus(piton_rst_n), .out_bus(piton_mem_bus_sync_rst_n));
+        logic ddr_ready_q;
+        logic ddr_ready_q_q;
+        always_ff @(posedge piton_clk)
+            if (!piton_rst_n)
+            begin
+              ddr_ready_q <= 0;
+              ddr_ready_q_q <= 0;
+            end
+            else
+            begin
+              ddr_ready_q <= ddr_ready_shell;
+              ddr_ready_q_q <= ddr_ready_q;
+            end
+        assign ddr_ready_piton = ddr_ready_q_q;
+        assign ddr_ready_shell = sh_cl_ddr_is_ready;
 
-    axi_clock_converter_0 piton_mem_bus_cdc (
-        .s_axi_aclk(piton_clk),          // input wire s_axi_aclk
-        .s_axi_aresetn(piton_mem_bus_sync_rst_n),    // input wire s_axi_aresetn
-        .s_axi_awid(piton_mem_bus.awid),          // input wire [15 : 0] s_axi_awid
-        .s_axi_awaddr(piton_mem_bus.awaddr),      // input wire [63 : 0] s_axi_awaddr
-        .s_axi_awlen(piton_mem_bus.awlen),        // input wire [7 : 0] s_axi_awlen
-        .s_axi_awsize(piton_mem_bus.awsize),      // input wire [2 : 0] s_axi_awsize
-        .s_axi_awburst(piton_mem_bus.awburst),    // input wire [1 : 0] s_axi_awburst
-        .s_axi_awlock(piton_mem_bus.awlock),      // input wire [0 : 0] s_axi_awlock
-        .s_axi_awcache(piton_mem_bus.awcache),    // input wire [3 : 0] s_axi_awcache
-        .s_axi_awprot(piton_mem_bus.awprot),      // input wire [2 : 0] s_axi_awprot
-        .s_axi_awregion(piton_mem_bus.awregion),  // input wire [3 : 0] s_axi_awregion
-        .s_axi_awqos(piton_mem_bus.awqos),        // input wire [3 : 0] s_axi_awqos
-        .s_axi_awuser(piton_mem_bus.awuser),      // input wire [18 : 0] s_axi_awuser
-        .s_axi_awvalid(piton_mem_bus.awvalid),    // input wire s_axi_awvalid
-        .s_axi_awready(piton_mem_bus.awready),    // output wire s_axi_awready
-        .s_axi_wdata(piton_mem_bus.wdata),        // input wire [511 : 0] s_axi_wdata
-        .s_axi_wstrb(piton_mem_bus.wstrb),        // input wire [63 : 0] s_axi_wstrb
-        .s_axi_wlast(piton_mem_bus.wlast),        // input wire s_axi_wlast
-        .s_axi_wvalid(piton_mem_bus.wvalid),      // input wire s_axi_wvalid
-        .s_axi_wready(piton_mem_bus.wready),      // output wire s_axi_wready
-        .s_axi_bid(piton_mem_bus.bid),            // output wire [15 : 0] s_axi_bid
-        .s_axi_bresp(piton_mem_bus.bresp),        // output wire [1 : 0] s_axi_bresp
-        .s_axi_bvalid(piton_mem_bus.bvalid),      // output wire s_axi_bvalid
-        .s_axi_bready(piton_mem_bus.bready),      // input wire s_axi_bready
-        .s_axi_arid(piton_mem_bus.arid),          // input wire [15 : 0] s_axi_arid
-        .s_axi_araddr(piton_mem_bus.araddr),      // input wire [63 : 0] s_axi_araddr
-        .s_axi_arlen(piton_mem_bus.arlen),        // input wire [7 : 0] s_axi_arlen
-        .s_axi_arsize(piton_mem_bus.arsize),      // input wire [2 : 0] s_axi_arsize
-        .s_axi_arburst(piton_mem_bus.arburst),    // input wire [1 : 0] s_axi_arburst
-        .s_axi_arlock(piton_mem_bus.arlock),      // input wire [0 : 0] s_axi_arlock
-        .s_axi_arcache(piton_mem_bus.arcache),    // input wire [3 : 0] s_axi_arcache
-        .s_axi_arprot(piton_mem_bus.arprot),      // input wire [2 : 0] s_axi_arprot
-        .s_axi_arregion(piton_mem_bus.arregion),  // input wire [3 : 0] s_axi_arregion
-        .s_axi_arqos(piton_mem_bus.arqos),        // input wire [3 : 0] s_axi_arqos
-        .s_axi_aruser(piton_mem_bus.aruser),      // input wire [18 : 0] s_axi_aruser
-        .s_axi_arvalid(piton_mem_bus.arvalid),    // input wire s_axi_arvalid
-        .s_axi_arready(piton_mem_bus.arready),    // output wire s_axi_arready
-        .s_axi_rid(piton_mem_bus.rid),            // output wire [15 : 0] s_axi_rid
-        .s_axi_rdata(piton_mem_bus.rdata),        // output wire [511 : 0] s_axi_rdata
-        .s_axi_rresp(piton_mem_bus.rresp),        // output wire [1 : 0] s_axi_rresp
-        .s_axi_rlast(piton_mem_bus.rlast),        // output wire s_axi_rlast
-        .s_axi_rvalid(piton_mem_bus.rvalid),      // output wire s_axi_rvalid
-        .s_axi_rready(piton_mem_bus.rready),      // input wire s_axi_rready
+        axi_bus_t shell_mem_bus();
+        piton_aws_addr_translator piton_aws_addr_translator(
+            .in(piton_mem_bus),
+            .out(shell_mem_bus)
+        );
 
-        .m_axi_aclk(shell_clk),          // input wire m_axi_aclk
-        .m_axi_aresetn(piton_aws_mc_sync_rst_n),    // input wire m_axi_aresetn
-        .m_axi_awid(shell_mem_bus.awid),          // output wire [15 : 0] m_axi_awid
-        .m_axi_awaddr(shell_mem_bus.awaddr),      // output wire [63 : 0] m_axi_awaddr
-        .m_axi_awlen(shell_mem_bus.awlen),        // output wire [7 : 0] m_axi_awlen
-        .m_axi_awsize(shell_mem_bus.awsize),      // output wire [2 : 0] m_axi_awsize
-        .m_axi_awburst(shell_mem_bus.awburst),    // output wire [1 : 0] m_axi_awburst
-        .m_axi_awlock(shell_mem_bus.awlock),      // output wire [0 : 0] m_axi_awlock
-        .m_axi_awcache(shell_mem_bus.awcache),    // output wire [3 : 0] m_axi_awcache
-        .m_axi_awprot(shell_mem_bus.awprot),      // output wire [2 : 0] m_axi_awprot
-        .m_axi_awregion(shell_mem_bus.awregion),  // output wire [3 : 0] m_axi_awregion
-        .m_axi_awqos(shell_mem_bus.awqos),        // output wire [3 : 0] m_axi_awqos
-        .m_axi_awuser(shell_mem_bus.awuser),      // output wire [18 : 0] m_axi_awuser
-        .m_axi_awvalid(shell_mem_bus.awvalid),    // output wire m_axi_awvalid
-        .m_axi_awready(shell_mem_bus.awready),    // input wire m_axi_awready
-        .m_axi_wdata(shell_mem_bus.wdata),        // output wire [511 : 0] m_axi_wdata
-        .m_axi_wstrb(shell_mem_bus.wstrb),        // output wire [63 : 0] m_axi_wstrb
-        .m_axi_wlast(shell_mem_bus.wlast),        // output wire m_axi_wlast
-        .m_axi_wvalid(shell_mem_bus.wvalid),      // output wire m_axi_wvalid
-        .m_axi_wready(shell_mem_bus.wready),      // input wire m_axi_wready
-        .m_axi_bid(shell_mem_bus.bid),            // input wire [15 : 0] m_axi_bid
-        .m_axi_bresp(shell_mem_bus.bresp),        // input wire [1 : 0] m_axi_bresp
-        .m_axi_bvalid(shell_mem_bus.bvalid),      // input wire m_axi_bvalid
-        .m_axi_bready(shell_mem_bus.bready),      // output wire m_axi_bready
-        .m_axi_arid(shell_mem_bus.arid),          // output wire [15 : 0] m_axi_arid
-        .m_axi_araddr(shell_mem_bus.araddr),      // output wire [63 : 0] m_axi_araddr
-        .m_axi_arlen(shell_mem_bus.arlen),        // output wire [7 : 0] m_axi_arlen
-        .m_axi_arsize(shell_mem_bus.arsize),      // output wire [2 : 0] m_axi_arsize
-        .m_axi_arburst(shell_mem_bus.arburst),    // output wire [1 : 0] m_axi_arburst
-        .m_axi_arlock(shell_mem_bus.arlock),      // output wire [0 : 0] m_axi_arlock
-        .m_axi_arcache(shell_mem_bus.arcache),    // output wire [3 : 0] m_axi_arcache
-        .m_axi_arprot(shell_mem_bus.arprot),      // output wire [2 : 0] m_axi_arprot
-        .m_axi_arregion(shell_mem_bus.arregion),  // output wire [3 : 0] m_axi_arregion
-        .m_axi_arqos(shell_mem_bus.arqos),        // output wire [3 : 0] m_axi_arqos
-        .m_axi_aruser(shell_mem_bus.aruser),      // output wire [18 : 0] m_axi_aruser
-        .m_axi_arvalid(shell_mem_bus.arvalid),    // output wire m_axi_arvalid
-        .m_axi_arready(shell_mem_bus.arready),    // input wire m_axi_arready
-        .m_axi_rid(shell_mem_bus.rid),            // input wire [15 : 0] m_axi_rid
-        .m_axi_rdata(shell_mem_bus.rdata),        // input wire [511 : 0] m_axi_rdata
-        .m_axi_rresp(shell_mem_bus.rresp),        // input wire [1 : 0] m_axi_rresp
-        .m_axi_rlast(shell_mem_bus.rlast),        // input wire m_axi_rlast
-        .m_axi_rvalid(shell_mem_bus.rvalid),      // input wire m_axi_rvalid
-        .m_axi_rready(shell_mem_bus.rready)      // output wire m_axi_rready
-    );
+        piton_aws_xbar piton_aws_xbar(
+            .aclk                  (shell_clk),
+            .aresetn               (piton_aws_xbar_sync_rst_n),
 
-    logic ddr_ready_q;
-    logic ddr_ready_q_q;
-    always_ff @(posedge piton_clk)
-        if (!piton_rst_n)
-        begin
-          ddr_ready_q <= 0;
-          ddr_ready_q_q <= 0;
-        end
-        else
-        begin
-          ddr_ready_q <= ddr_ready_shell;
-          ddr_ready_q_q <= ddr_ready_q;
-        end
-    assign ddr_ready_piton = ddr_ready_q_q;
-    //assign ddr_ready_shell = ddr_ready_2d[0] & ddr_ready_2d[1] & ddr_ready_2d[2] & sh_cl_ddr_is_ready;
-    assign ddr_ready_shell = ddr_ready_2d[0] & sh_cl_ddr_is_ready;
+            .cl_axi_mstr_bus       (shell_mem_bus),
 
-    piton_aws_mc piton_aws_mc(
-        .clk                   (shell_clk),
-        .rst_n                 (piton_aws_mc_sync_rst_n),
+            .sh_cl_dma_pcis_awid   (sh_cl_dma_pcis_awid),
+            .sh_cl_dma_pcis_awaddr (sh_cl_dma_pcis_awaddr),
+            .sh_cl_dma_pcis_awlen  (sh_cl_dma_pcis_awlen),
+            .sh_cl_dma_pcis_awsize (sh_cl_dma_pcis_awsize),
+            .sh_cl_dma_pcis_awvalid(sh_cl_dma_pcis_awvalid),
+            .cl_sh_dma_pcis_awready(cl_sh_dma_pcis_awready),
+            .sh_cl_dma_pcis_wdata  (sh_cl_dma_pcis_wdata),
+            .sh_cl_dma_pcis_wstrb  (sh_cl_dma_pcis_wstrb),
+            .sh_cl_dma_pcis_wlast  (sh_cl_dma_pcis_wlast),
+            .sh_cl_dma_pcis_wvalid (sh_cl_dma_pcis_wvalid),
+            .cl_sh_dma_pcis_wready (cl_sh_dma_pcis_wready),
+            .cl_sh_dma_pcis_bid    (cl_sh_dma_pcis_bid),
+            .cl_sh_dma_pcis_bresp  (cl_sh_dma_pcis_bresp),
+            .cl_sh_dma_pcis_bvalid (cl_sh_dma_pcis_bvalid),
+            .sh_cl_dma_pcis_bready (sh_cl_dma_pcis_bready),
+            .sh_cl_dma_pcis_arid   (sh_cl_dma_pcis_arid),
+            .sh_cl_dma_pcis_araddr (sh_cl_dma_pcis_araddr),
+            .sh_cl_dma_pcis_arlen  (sh_cl_dma_pcis_arlen),
+            .sh_cl_dma_pcis_arsize (sh_cl_dma_pcis_arsize),
+            .sh_cl_dma_pcis_arvalid(sh_cl_dma_pcis_arvalid),
+            .cl_sh_dma_pcis_arready(cl_sh_dma_pcis_arready),
+            .cl_sh_dma_pcis_rid    (cl_sh_dma_pcis_rid),
+            .cl_sh_dma_pcis_rdata  (cl_sh_dma_pcis_rdata),
+            .cl_sh_dma_pcis_rresp  (cl_sh_dma_pcis_rresp),
+            .cl_sh_dma_pcis_rlast  (cl_sh_dma_pcis_rlast),
+            .cl_sh_dma_pcis_rvalid (cl_sh_dma_pcis_rvalid),
+            .sh_cl_dma_pcis_rready (sh_cl_dma_pcis_rready),
 
-        .mem_bus               (shell_mem_bus),
+            .cl_sh_ddr_awid        (cl_sh_ddr_awid),
+            .cl_sh_ddr_awaddr      (cl_sh_ddr_awaddr),
+            .cl_sh_ddr_awlen       (cl_sh_ddr_awlen),
+            .cl_sh_ddr_awsize      (cl_sh_ddr_awsize),
+            .cl_sh_ddr_awburst     (cl_sh_ddr_awburst),
+            .cl_sh_ddr_awvalid     (cl_sh_ddr_awvalid),
+            .sh_cl_ddr_awready     (sh_cl_ddr_awready),
+            .cl_sh_ddr_wid         (cl_sh_ddr_wid),
+            .cl_sh_ddr_wdata       (cl_sh_ddr_wdata),
+            .cl_sh_ddr_wstrb       (cl_sh_ddr_wstrb),
+            .cl_sh_ddr_wlast       (cl_sh_ddr_wlast),
+            .cl_sh_ddr_wvalid      (cl_sh_ddr_wvalid),
+            .sh_cl_ddr_wready      (sh_cl_ddr_wready),
+            .sh_cl_ddr_bid         (sh_cl_ddr_bid),
+            .sh_cl_ddr_bresp       (sh_cl_ddr_bresp),
+            .sh_cl_ddr_bvalid      (sh_cl_ddr_bvalid),
+            .cl_sh_ddr_bready      (cl_sh_ddr_bready),
+            .cl_sh_ddr_arid        (cl_sh_ddr_arid),
+            .cl_sh_ddr_araddr      (cl_sh_ddr_araddr),
+            .cl_sh_ddr_arlen       (cl_sh_ddr_arlen),
+            .cl_sh_ddr_arsize      (cl_sh_ddr_arsize),
+            .cl_sh_ddr_arburst     (cl_sh_ddr_arburst),
+            .cl_sh_ddr_arvalid     (cl_sh_ddr_arvalid),
+            .sh_cl_ddr_arready     (sh_cl_ddr_arready),
+            .sh_cl_ddr_rid         (sh_cl_ddr_rid),
+            .sh_cl_ddr_rdata       (sh_cl_ddr_rdata),
+            .sh_cl_ddr_rresp       (sh_cl_ddr_rresp),
+            .sh_cl_ddr_rlast       (sh_cl_ddr_rlast),
+            .sh_cl_ddr_rvalid      (sh_cl_ddr_rvalid),
+            .cl_sh_ddr_rready      (cl_sh_ddr_rready)
 
-        .sh_cl_dma_pcis_awid   (sh_cl_dma_pcis_awid),
-        .sh_cl_dma_pcis_awaddr (sh_cl_dma_pcis_awaddr),
-        .sh_cl_dma_pcis_awlen  (sh_cl_dma_pcis_awlen),
-        .sh_cl_dma_pcis_awsize (sh_cl_dma_pcis_awsize),
-        .sh_cl_dma_pcis_awvalid(sh_cl_dma_pcis_awvalid),
-        .cl_sh_dma_pcis_awready(cl_sh_dma_pcis_awready),
-        .sh_cl_dma_pcis_wdata  (sh_cl_dma_pcis_wdata),
-        .sh_cl_dma_pcis_wstrb  (sh_cl_dma_pcis_wstrb),
-        .sh_cl_dma_pcis_wlast  (sh_cl_dma_pcis_wlast),
-        .sh_cl_dma_pcis_wvalid (sh_cl_dma_pcis_wvalid),
-        .cl_sh_dma_pcis_wready (cl_sh_dma_pcis_wready),
-        .cl_sh_dma_pcis_bid    (cl_sh_dma_pcis_bid),
-        .cl_sh_dma_pcis_bresp  (cl_sh_dma_pcis_bresp),
-        .cl_sh_dma_pcis_bvalid (cl_sh_dma_pcis_bvalid),
-        .sh_cl_dma_pcis_bready (sh_cl_dma_pcis_bready),
-        .sh_cl_dma_pcis_arid   (sh_cl_dma_pcis_arid),
-        .sh_cl_dma_pcis_araddr (sh_cl_dma_pcis_araddr),
-        .sh_cl_dma_pcis_arlen  (sh_cl_dma_pcis_arlen),
-        .sh_cl_dma_pcis_arsize (sh_cl_dma_pcis_arsize),
-        .sh_cl_dma_pcis_arvalid(sh_cl_dma_pcis_arvalid),
-        .cl_sh_dma_pcis_arready(cl_sh_dma_pcis_arready),
-        .cl_sh_dma_pcis_rid    (cl_sh_dma_pcis_rid),
-        .cl_sh_dma_pcis_rdata  (cl_sh_dma_pcis_rdata),
-        .cl_sh_dma_pcis_rresp  (cl_sh_dma_pcis_rresp),
-        .cl_sh_dma_pcis_rlast  (cl_sh_dma_pcis_rlast),
-        .cl_sh_dma_pcis_rvalid (cl_sh_dma_pcis_rvalid),
-        .sh_cl_dma_pcis_rready (sh_cl_dma_pcis_rready),
-
-        .cl_sh_ddr_awid        (cl_sh_ddr_awid),
-        .cl_sh_ddr_awaddr      (cl_sh_ddr_awaddr),
-        .cl_sh_ddr_awlen       (cl_sh_ddr_awlen),
-        .cl_sh_ddr_awsize      (cl_sh_ddr_awsize),
-        .cl_sh_ddr_awburst     (cl_sh_ddr_awburst),
-        .cl_sh_ddr_awvalid     (cl_sh_ddr_awvalid),
-        .sh_cl_ddr_awready     (sh_cl_ddr_awready),
-        .cl_sh_ddr_wid         (cl_sh_ddr_wid),
-        .cl_sh_ddr_wdata       (cl_sh_ddr_wdata),
-        .cl_sh_ddr_wstrb       (cl_sh_ddr_wstrb),
-        .cl_sh_ddr_wlast       (cl_sh_ddr_wlast),
-        .cl_sh_ddr_wvalid      (cl_sh_ddr_wvalid),
-        .sh_cl_ddr_wready      (sh_cl_ddr_wready),
-        .sh_cl_ddr_bid         (sh_cl_ddr_bid),
-        .sh_cl_ddr_bresp       (sh_cl_ddr_bresp),
-        .sh_cl_ddr_bvalid      (sh_cl_ddr_bvalid),
-        .cl_sh_ddr_bready      (cl_sh_ddr_bready),
-        .cl_sh_ddr_arid        (cl_sh_ddr_arid),
-        .cl_sh_ddr_araddr      (cl_sh_ddr_araddr),
-        .cl_sh_ddr_arlen       (cl_sh_ddr_arlen),
-        .cl_sh_ddr_arsize      (cl_sh_ddr_arsize),
-        .cl_sh_ddr_arburst     (cl_sh_ddr_arburst),
-        .cl_sh_ddr_arvalid     (cl_sh_ddr_arvalid),
-        .sh_cl_ddr_arready     (sh_cl_ddr_arready),
-        .sh_cl_ddr_rid         (sh_cl_ddr_rid),
-        .sh_cl_ddr_rdata       (sh_cl_ddr_rdata),
-        .sh_cl_ddr_rresp       (sh_cl_ddr_rresp),
-        .sh_cl_ddr_rlast       (sh_cl_ddr_rlast),
-        .sh_cl_ddr_rvalid      (sh_cl_ddr_rvalid),
-        .cl_sh_ddr_rready      (cl_sh_ddr_rready),
-
-        .CLK_300M_DIMM0_DP     (CLK_300M_DIMM0_DP),
-        .CLK_300M_DIMM0_DN     (CLK_300M_DIMM0_DN),
-        .M_A_ACT_N             (M_A_ACT_N),
-        .M_A_MA                (M_A_MA),
-        .M_A_BA                (M_A_BA),
-        .M_A_BG                (M_A_BG),
-        .M_A_CKE               (M_A_CKE),
-        .M_A_ODT               (M_A_ODT),
-        .M_A_CS_N              (M_A_CS_N),
-        .M_A_CLK_DN            (M_A_CLK_DN),
-        .M_A_CLK_DP            (M_A_CLK_DP),
-        .M_A_PAR               (M_A_PAR),
-        .M_A_DQ                (M_A_DQ),
-        .M_A_ECC               (M_A_ECC),
-        .M_A_DQS_DP            (M_A_DQS_DP),
-        .M_A_DQS_DN            (M_A_DQS_DN),
-        .cl_RST_DIMM_A_N       (cl_RST_DIMM_A_N),
-
-        .CLK_300M_DIMM1_DP     (CLK_300M_DIMM1_DP),
-        .CLK_300M_DIMM1_DN     (CLK_300M_DIMM1_DN),
-        .M_B_ACT_N             (M_B_ACT_N),
-        .M_B_MA                (M_B_MA),
-        .M_B_BA                (M_B_BA),
-        .M_B_BG                (M_B_BG),
-        .M_B_CKE               (M_B_CKE),
-        .M_B_ODT               (M_B_ODT),
-        .M_B_CS_N              (M_B_CS_N),
-        .M_B_CLK_DN            (M_B_CLK_DN),
-        .M_B_CLK_DP            (M_B_CLK_DP),
-        .M_B_PAR               (M_B_PAR),
-        .M_B_DQ                (M_B_DQ),
-        .M_B_ECC               (M_B_ECC),
-        .M_B_DQS_DP            (M_B_DQS_DP),
-        .M_B_DQS_DN            (M_B_DQS_DN),
-        .cl_RST_DIMM_B_N       (cl_RST_DIMM_B_N),
-
-        .CLK_300M_DIMM3_DP     (CLK_300M_DIMM3_DP),
-        .CLK_300M_DIMM3_DN     (CLK_300M_DIMM3_DN),
-        .M_D_ACT_N             (M_D_ACT_N),
-        .M_D_MA                (M_D_MA),
-        .M_D_BA                (M_D_BA),
-        .M_D_BG                (M_D_BG),
-        .M_D_CKE               (M_D_CKE),
-        .M_D_ODT               (M_D_ODT),
-        .M_D_CS_N              (M_D_CS_N),
-        .M_D_CLK_DN            (M_D_CLK_DN),
-        .M_D_CLK_DP            (M_D_CLK_DP),
-        .M_D_PAR               (M_D_PAR),
-        .M_D_DQ                (M_D_DQ),
-        .M_D_ECC               (M_D_ECC),
-        .M_D_DQS_DP            (M_D_DQS_DP),
-        .M_D_DQS_DN            (M_D_DQS_DN),
-        .cl_RST_DIMM_D_N       (cl_RST_DIMM_D_N),
-
-        .sh_ddr_stat_addr0     (sh_ddr_stat_addr0),
-        .sh_ddr_stat_wr0       (sh_ddr_stat_wr0),
-        .sh_ddr_stat_rd0       (sh_ddr_stat_rd0),
-        .sh_ddr_stat_wdata0    (sh_ddr_stat_wdata0),
-        .ddr_sh_stat_ack0      (ddr_sh_stat_ack0),
-        .ddr_sh_stat_rdata0    (ddr_sh_stat_rdata0),
-        .ddr_sh_stat_int0      (ddr_sh_stat_int0),
-
-        .sh_ddr_stat_addr1     (sh_ddr_stat_addr1),
-        .sh_ddr_stat_wr1       (sh_ddr_stat_wr1),
-        .sh_ddr_stat_rd1       (sh_ddr_stat_rd1),
-        .sh_ddr_stat_wdata1    (sh_ddr_stat_wdata1),
-        .ddr_sh_stat_ack1      (ddr_sh_stat_ack1),
-        .ddr_sh_stat_rdata1    (ddr_sh_stat_rdata1),
-        .ddr_sh_stat_int1      (ddr_sh_stat_int1),
-
-        .sh_ddr_stat_addr2     (sh_ddr_stat_addr2),
-        .sh_ddr_stat_wr2       (sh_ddr_stat_wr2),
-        .sh_ddr_stat_rd2       (sh_ddr_stat_rd2),
-        .sh_ddr_stat_wdata2    (sh_ddr_stat_wdata2),
-        .ddr_sh_stat_ack2      (ddr_sh_stat_ack2),
-        .ddr_sh_stat_rdata2    (ddr_sh_stat_rdata2),
-        .ddr_sh_stat_int2      (ddr_sh_stat_int2), 
-
-        .ddr_ready_2d(ddr_ready_2d)
-
-    );
+        );
+    `else 
+        `include "unused_ddr_c_template.inc"
+        `include "unused_dma_pcis_template.inc"
     `endif
 
 
@@ -536,11 +399,11 @@ assign cl_sh_id1 = `CL_SH_ID1;
 ///////////////// aws uart module /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
 
-    logic shell_tx;
-    logic shell_rx;
+    logic shell_uart_tx;
+    logic shell_uart_rx;
 
-    assign shell_rx = piton_tx;
-    assign piton_rx = shell_tx;
+    assign shell_uart_rx = piton_uart_tx;
+    assign piton_uart_rx = shell_uart_tx;
 
     (* dont_touch = "true" *) logic aws_uart_sync_rst_n;
     lib_pipe #(.WIDTH(1), .STAGES(4)) aws_uart_slc_rst_n (.clk(shell_clk), .rst_n(1'b1), .in_bus(shell_rst_n), .out_bus(aws_uart_sync_rst_n));
@@ -580,31 +443,106 @@ assign cl_sh_id1 = `CL_SH_ID1;
 
 
         // UART interface
-        .rx          (shell_rx),
-        .tx          (shell_tx)
+        .rx(shell_uart_rx),
+        .tx(shell_uart_tx)
     );
 
 ///////////////////////////////////////////////////////////////////////
 ///////////////// aws uart module /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
 
-//---------------------------- 
-// Debug bridge
-//---------------------------- 
- cl_debug_bridge CL_DEBUG_BRIDGE (
-      .clk(shell_clk),
-      .S_BSCAN_drck(drck),
-      .S_BSCAN_shift(shift),
-      .S_BSCAN_tdi(tdi),
-      .S_BSCAN_update(update),
-      .S_BSCAN_sel(sel),
-      .S_BSCAN_tdo(tdo),
-      .S_BSCAN_tms(tms),
-      .S_BSCAN_tck(tck),
-      .S_BSCAN_runtest(runtest),
-      .S_BSCAN_reset(reset),
-      .S_BSCAN_capture(capture),
-      .S_BSCAN_bscanid_en(bscanid_en)
-   );
+///////////////////////////////////////////////////////////////////////
+///////////////// aws eth  module /////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+
+    `ifdef PITON_FPGA_ETHERNETLITE
+
+        logic [3:0] shell_eth_rx_data;
+        logic [3:0] shell_eth_tx;
+        logic shell_eth_rx_val_data;
+        logic shell_eth_tx_val;
+
+        assign shell_eth_rx_data = piton_eth_tx_data;
+        assign piton_eth_rx_data = shell_eth_tx_data;
+        assign shell_eth_rx_val = piton_eth_tx_val;
+        assign piton_eth_rx_val = shell_eth_tx_val;
+
+        (* dont_touch = "true" *) logic aws_eth_sync_rst_n;
+        lib_pipe #(.WIDTH(1), .STAGES(4)) aws_eth_slc_rst_n (.clk(shell_clk), .rst_n(1'b1), .in_bus(shell_rst_n), .out_bus(aws_eth_sync_rst_n));
+        piton_aws_eth piton_aws_eth (
+
+            .clk(shell_clk),
+            .sync_rst_n(aws_eth_sync_rst_n),
+
+            // AXILite slave interface
+
+            //Write address
+            .s_awvalid(sh_bar1_awvalid),
+            .s_awaddr(sh_bar1_awaddr),
+            .s_awready(bar1_sh_awready),
+                                                                                                                                       
+            //Write data                                                                                                                
+            .s_wvalid(sh_bar1_wvalid),
+            .s_wdata(sh_bar1_wdata),
+            .s_wstrb(sh_bar1_wstrb),
+            .s_wready(bar1_sh_wready),
+                                                                                                                                       
+            //Write response                                                                                                            
+            .s_bvalid(bar1_sh_bvalid),
+            .s_bresp(bar1_sh_bresp),
+            .s_bready(sh_bar1_bready),
+                                                                                                                                       
+            //Read address                                                                                                              
+            .s_arvalid(sh_bar1_arvalid),
+            .s_araddr(sh_bar1_araddr),
+            .s_arready(bar1_sh_arready),
+                                                                                                                                       
+            //Read data/response                                                                                                        
+            .s_rvalid(bar1_sh_rvalid),
+            .s_rdata(bar1_sh_rdata),
+            .s_rresp(bar1_sh_rresp),
+            .s_rready(sh_bar1_rready),
+
+            .eth_clk    (eth_clk),
+            .eth_tx_val (shell_eth_tx_val),
+            .eth_tx_data(shell_eth_tx_data),
+            .eth_rx_val (shell_eth_rx_val),
+            .eth_rx_data(shell_eth_rx_data)
+
+        );
+
+    `else 
+
+        `include "unused_sh_bar1_template.inc"
+
+    `endif
+
+///////////////////////////////////////////////////////////////////////
+///////////////// aws eth  module /////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////
+///////////////// Debug dridge ////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+
+    cl_debug_bridge CL_DEBUG_BRIDGE (
+        .clk(shell_clk),
+        .S_BSCAN_drck(drck),
+        .S_BSCAN_shift(shift),
+        .S_BSCAN_tdi(tdi),
+        .S_BSCAN_update(update),
+        .S_BSCAN_sel(sel),
+        .S_BSCAN_tdo(tdo),
+        .S_BSCAN_tms(tms),
+        .S_BSCAN_tck(tck),
+        .S_BSCAN_runtest(runtest),
+        .S_BSCAN_reset(reset),
+        .S_BSCAN_capture(capture),
+        .S_BSCAN_bscanid_en(bscanid_en)
+    );
+
+///////////////////////////////////////////////////////////////////////
+///////////////// Debug dridge ////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
 
 endmodule // aws_shell
