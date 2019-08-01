@@ -71,7 +71,7 @@ assign cl_sh_id1 = `CL_SH_ID1;
     logic eth_clk;
 
     assign shell_clk = clk_main_a0; //250 mhz, recipe a1
-    assign piton_clk = clk_extra_c0; //75 mhz, recipe c2
+    assign piton_clk = clk_extra_b1; //62.5 mhz, recipe b1
     assign eth_clk = clk_extra_b1; //62.5 mhz, recipe b1
 
 ///////////////////////////////////////////////////////////////////////
@@ -199,10 +199,9 @@ assign cl_sh_id1 = `CL_SH_ID1;
         // Clocks and resets
         .sys_clk(piton_clk),
         .sys_rst_n(sys_sync_rst_n),
-        .mc_clk(shell_clk),
-        .eth_clk(shell_clk),
 
     `ifndef PITONSYS_NO_MC
+        .mc_clk(shell_clk),
         .m_axi_awid(piton_mem_bus.awid),
         .m_axi_awaddr(piton_mem_bus.awaddr),
         .m_axi_awlen(piton_mem_bus.awlen),
@@ -261,15 +260,13 @@ assign cl_sh_id1 = `CL_SH_ID1;
     `endif
 
     `ifdef PITON_FPGA_ETHERNETLITE
+        .eth_clk            (shell_clk),
         .net_phy_txc        (eth_clk),
         .net_phy_txctl      (piton_eth_tx_val),
         .net_phy_txd        (piton_eth_tx_data),
         .net_phy_rxc        (eth_clk),
         .net_phy_rxctl      (piton_eth_rx_val),
         .net_phy_rxd        (piton_eth_rx_data),
-        .net_phy_rst_n      (),
-        .net_phy_mdio_io    (tied_io_wire),
-        .net_phy_mdc        (),
     `endif
 
     `ifdef PITONSYS_UART
@@ -458,8 +455,8 @@ assign cl_sh_id1 = `CL_SH_ID1;
     `ifdef PITON_FPGA_ETHERNETLITE
 
         logic [3:0] shell_eth_rx_data;
-        logic [3:0] shell_eth_tx;
-        logic shell_eth_rx_val_data;
+        logic [3:0] shell_eth_tx_data;
+        logic shell_eth_rx_val;
         logic shell_eth_tx_val;
 
         assign shell_eth_rx_data = piton_eth_tx_data;
@@ -524,7 +521,7 @@ assign cl_sh_id1 = `CL_SH_ID1;
 ///////////////////////////////////////////////////////////////////////
 ///////////////// Debug dridge ////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
-
+/*
     cl_debug_bridge CL_DEBUG_BRIDGE (
         .clk(shell_clk),
         .S_BSCAN_drck(drck),
@@ -540,7 +537,7 @@ assign cl_sh_id1 = `CL_SH_ID1;
         .S_BSCAN_capture(capture),
         .S_BSCAN_bscanid_en(bscanid_en)
     );
-
+*/
 ///////////////////////////////////////////////////////////////////////
 ///////////////// Debug dridge ////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////

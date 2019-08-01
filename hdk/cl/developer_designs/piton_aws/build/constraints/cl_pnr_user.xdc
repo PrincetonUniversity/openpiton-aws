@@ -2,8 +2,9 @@
 
 create_pblock pblock_CL_top
 
-# Chipset + piton_shell
+# Chipset + first core
 add_cells_to_pblock [get_pblocks pblock_CL_top] [get_cells -quiet -hierarchical -filter {NAME =~ WRAPPER_INST/CL/system/chipset}]
+add_cells_to_pblock [get_pblocks pblock_CL_top] [get_cells -quiet -hierarchical -filter {NAME =~ WRAPPER_INST/CL/system/chip/tile0}]
 add_cells_to_pblock [get_pblocks pblock_CL_top] [get_cells -quiet -hierarchical -filter {NAME =~ WRAPPER_INST/CL/piton_aws_xbar/master_axi4_src_slice}]
 
 # Set-up
@@ -17,7 +18,6 @@ create_pblock pblock_CL_mid
 add_cells_to_pblock [get_pblocks pblock_CL_mid] [get_cells -quiet -hierarchical -filter {NAME =~ WRAPPER_INST/CL/piton_aws_xbar/axi_xbar}]
 add_cells_to_pblock [get_pblocks pblock_CL_mid] [get_cells -quiet -hierarchical -filter {NAME =~ WRAPPER_INST/CL/piton_aws_xbar/dma_axi4_dest_slice}]
 add_cells_to_pblock [get_pblocks pblock_CL_mid] [get_cells -quiet -hierarchical -filter {NAME =~ WRAPPER_INST/CL/piton_aws_xbar/master_axi4_dest_slice}]
-
 add_cells_to_pblock [get_pblocks pblock_CL_mid] [get_cells -quiet -hierarchical -filter {NAME =~ WRAPPER_INST/CL/piton_aws_xbar/ddrc_axi4_src_slice}]
 add_cells_to_pblock [get_pblocks pblock_CL_mid] [get_cells -quiet -hierarchical -filter {NAME =~ WRAPPER_INST/CL/piton_aws_xbar/ddrc_axi4_dest_slice}]
 
@@ -38,9 +38,6 @@ set_property PARENT pblock_CL [get_pblocks pblock_CL_mid]
 create_pblock pblock_CL_bot
 
 add_cells_to_pblock [get_pblocks pblock_CL_bot] [get_cells -quiet -hierarchical -filter {NAME =~ WRAPPER_INST/CL/piton_aws_xbar/dma_axi4_src_slice}]
-add_cells_to_pblock [get_pblocks pblock_CL_bot] [get_cells -quiet -hierarchical -filter {NAME =~ WRAPPER_INST/CL/piton_aws_uart}]
-
-
 
 # Set-up
 resize_pblock [get_pblocks pblock_CL_bot] -add {SLICE_X88Y0:SLICE_X107Y299}

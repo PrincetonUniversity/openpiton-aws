@@ -30,6 +30,7 @@ set PITON_AWS_RTL_IMPL_FILES [list \
     "${ORIGINAL_CL_DIR}/design/axi_bus.sv" \
     "${ORIGINAL_CL_DIR}/design/piton_aws.sv" \
     "${ORIGINAL_CL_DIR}/design/piton_aws_uart.v" \
+    "${ORIGINAL_CL_DIR}/design/piton_aws_eth.sv" \
     "${ORIGINAL_CL_DIR}/design/piton_aws_xbar.sv" \
     "${ORIGINAL_CL_DIR}/design/piton_aws_addr_translator.sv" 
 ]
