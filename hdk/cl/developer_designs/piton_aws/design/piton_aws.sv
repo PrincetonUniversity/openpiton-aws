@@ -176,8 +176,14 @@ assign cl_sh_id1 = `CL_SH_ID1;
 ///////////////////////////////////////////////////////////////////////
 
     // For uart
-    logic piton_uart_tx;
-    logic piton_uart_rx;
+    `ifdef PITONSYS_UART
+        logic piton_uart_tx;
+        logic piton_uart_rx;
+        `ifdef PITONSYS_UART2
+            logic piton_uart_tx2;
+            logic piton_uart_rx2;
+        `endif
+    `endif
 
     `ifndef PITONSYS_NO_MC
     // for ddr
@@ -255,6 +261,10 @@ assign cl_sh_id1 = `CL_SH_ID1;
     `ifdef PITONSYS_UART
         .uart_tx(piton_uart_tx),
         .uart_rx(piton_uart_rx),
+        `ifdef PITONSYS_UART2
+            .uart_tx2(piton_uart_tx2),
+            .uart_rx2(piton_uart_rx2)
+        `endif
     `endif
 
         .sw(sw[7:0]), 
@@ -378,54 +388,107 @@ assign cl_sh_id1 = `CL_SH_ID1;
 ///////////////////////////////////////////////////////////////////////
 ///////////////// aws uart module /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
+    
+    `ifdef PITONSYS_UART
+        logic shell_uart_tx;
+        logic shell_uart_rx;
 
-    logic shell_uart_tx;
-    logic shell_uart_rx;
+        assign shell_uart_rx = piton_uart_tx;
+        assign piton_uart_rx = shell_uart_tx;
 
-    assign shell_uart_rx = piton_uart_tx;
-    assign piton_uart_rx = shell_uart_tx;
+        (* dont_touch = "true" *) logic aws_uart_sync_rst_n;
+        lib_pipe #(.WIDTH(1), .STAGES(4)) aws_uart_slc_rst_n (.clk(shell_clk), .rst_n(1'b1), .in_bus(shell_rst_n), .out_bus(aws_uart_sync_rst_n));
+        piton_aws_uart piton_aws_uart (
 
-    (* dont_touch = "true" *) logic aws_uart_sync_rst_n;
-    lib_pipe #(.WIDTH(1), .STAGES(4)) aws_uart_slc_rst_n (.clk(shell_clk), .rst_n(1'b1), .in_bus(shell_rst_n), .out_bus(aws_uart_sync_rst_n));
-    piton_aws_uart piton_aws_uart (
+            .clk(shell_clk),
+            .sync_rst_n(aws_uart_sync_rst_n),
 
-        .clk(shell_clk),
-        .sync_rst_n(aws_uart_sync_rst_n),
+            // AXILite slave interface
 
-        // AXILite slave interface
-
-        //Write address
-        .s_awvalid(sh_ocl_awvalid),
-        .s_awaddr(sh_ocl_awaddr),
-        .s_awready(ocl_sh_awready),
+            //Write address
+            .s_awvalid(sh_ocl_awvalid),
+            .s_awaddr(sh_ocl_awaddr),
+            .s_awready(ocl_sh_awready),
                                                                                                                                    
-        //Write data                                                                                                                
-        .s_wvalid(sh_ocl_wvalid),
-        .s_wdata(sh_ocl_wdata),
-        .s_wstrb(sh_ocl_wstrb),
-        .s_wready(ocl_sh_wready),
+            //Write data                                                                                                                
+            .s_wvalid(sh_ocl_wvalid),
+            .s_wdata(sh_ocl_wdata),
+            .s_wstrb(sh_ocl_wstrb),
+            .s_wready(ocl_sh_wready),
                                                                                                                                    
-        //Write response                                                                                                            
-        .s_bvalid(ocl_sh_bvalid),
-        .s_bresp(ocl_sh_bresp),
-        .s_bready(sh_ocl_bready),
+            //Write response                                                                                                            
+            .s_bvalid(ocl_sh_bvalid),
+            .s_bresp(ocl_sh_bresp),
+            .s_bready(sh_ocl_bready),
                                                                                                                                    
-        //Read address                                                                                                              
-        .s_arvalid(sh_ocl_arvalid),
-        .s_araddr(sh_ocl_araddr),
-        .s_arready(ocl_sh_arready),
+            //Read address                                                                                                              
+            .s_arvalid(sh_ocl_arvalid),
+            .s_araddr(sh_ocl_araddr),
+            .s_arready(ocl_sh_arready),
                                                                                                                                    
-        //Read data/response                                                                                                        
-        .s_rvalid(ocl_sh_rvalid),
-        .s_rdata(ocl_sh_rdata),
-        .s_rresp(ocl_sh_rresp),
-        .s_rready(sh_ocl_rready),
+            //Read data/response                                                                                                        
+            .s_rvalid(ocl_sh_rvalid),
+            .s_rdata(ocl_sh_rdata),
+            .s_rresp(ocl_sh_rresp),
+            .s_rready(sh_ocl_rready),
 
 
-        // UART interface
-        .rx(shell_uart_rx),
-        .tx(shell_uart_tx)
-    );
+            // UART interface
+            .rx(shell_uart_rx),
+            .tx(shell_uart_tx)
+        );
+        
+        `ifdef PITONSYS_UART2
+            logic shell_uart_tx2;
+            logic shell_uart_rx2;
+
+            assign shell_uart_rx2 = piton_uart_tx2;
+            assign piton_uart_rx2 = shell_uart_tx2;
+
+            piton_aws_uart piton_aws_uart2 (
+
+                .clk(shell_clk),
+                .sync_rst_n(aws_uart_sync_rst_n),
+
+                // AXILite slave interface
+
+                //Write address
+                .s_awvalid(sh_bar1_awvalid),
+                .s_awaddr(sh_bar1_awaddr),
+                .s_awready(bar1_sh_awready),
+                                                                                                                                   
+                //Write data                                                                                                                
+                .s_wvalid(sh_bar1_wvalid),
+                .s_wdata(sh_bar1_wdata),
+                .s_wstrb(sh_bar1_wstrb),
+                .s_wready(bar1_sh_wready),
+                                                                                                                                   
+                //Write response                                                                                                            
+                .s_bvalid(bar1_sh_bvalid),
+                .s_bresp(bar1_sh_bresp),
+                .s_bready(sh_bar1_bready),
+                                                                                                                                   
+                //Read address                                                                                                              
+                .s_arvalid(sh_bar1_arvalid),
+                .s_araddr(sh_bar1_araddr),
+                .s_arready(bar1_sh_arready),
+                                                                                                                                   
+                //Read data/response                                                                                                        
+                .s_rvalid(bar1_sh_rvalid),
+                .s_rdata(bar1_sh_rdata),
+                .s_rresp(bar1_sh_rresp),
+                .s_rready(sh_bar1_rready),
+
+                // UART interface
+                .rx(shell_uart_rx2),
+                .tx(shell_uart_tx2)
+            );
+
+        `endif
+
+    `else // PITONSYS_UART
+        `include "unused_sh_ocl_template.inc"
+    `endif
 
 ///////////////////////////////////////////////////////////////////////
 ///////////////// aws uart module /////////////////////////////////////
