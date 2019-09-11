@@ -42,7 +42,8 @@ set PITON_AWS_INCLUDE_DIRS [list \
 ]
 
 set PITON_AWS_XCI_IP_FILES [list \
-  "${ORIGINAL_CL_DIR}/design/xilinx/ip_cores/axi_crossbar_0/axi_crossbar_0.xci"
+  "${ORIGINAL_CL_DIR}/design/xilinx/ip_cores/axi_crossbar_0/axi_crossbar_0.xci" \
+  "${ORIGINAL_CL_DIR}/design/xilinx/ip_cores/phy_mmcm/phy_mmcm.xci" 
 ]
 
 

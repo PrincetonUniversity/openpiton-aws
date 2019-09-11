@@ -68,11 +68,21 @@ assign cl_sh_id1 = `CL_SH_ID1;
 
     logic shell_clk;
     logic piton_clk;
-    logic eth_clk;
 
-    assign shell_clk = clk_main_a0; //250 mhz, recipe a1
-    assign piton_clk = clk_extra_b1; //62.5 mhz, recipe b1
-    assign eth_clk = clk_extra_b1; //62.5 mhz, recipe b1
+    assign shell_clk = clk_main_a0; //125 mhz, recipe A0 OR 250 mhz, recipe A1
+    assign piton_clk = clk_extra_b1; //62.5 mhz, recipe B1 OR 125 mhz, recipe B0 OR 100 mhz, recipe B5
+
+`ifdef PITON_FPGA_ETHERNETLITE
+    logic phy_clk;
+    phy_mmcm phy_mmcm (
+        // Clock out ports
+        .clk_out1(phy_clk),     // output clk_out1
+        // Status and control signals
+        .resetn(shell_rst_n), // input resetn
+        // Clock in ports
+        .clk_in1(clk_extra_c1) // 100mhz, recipe C2
+    );   
+`endif   
 
 ///////////////////////////////////////////////////////////////////////
 //////////////////////////// clocks ///////////////////////////////////
@@ -184,7 +194,6 @@ assign cl_sh_id1 = `CL_SH_ID1;
     logic [3:0] piton_eth_tx_data;
     logic piton_eth_rx_val;
     logic piton_eth_tx_val;
-    logic tied_io_wire = 0;
 
     `ifndef PITONSYS_NO_MC
     // for ddr
@@ -261,10 +270,10 @@ assign cl_sh_id1 = `CL_SH_ID1;
 
     `ifdef PITON_FPGA_ETHERNETLITE
         .eth_clk            (shell_clk),
-        .net_phy_txc        (eth_clk),
+        .net_phy_txc        (phy_clk),
         .net_phy_txctl      (piton_eth_tx_val),
         .net_phy_txd        (piton_eth_tx_data),
-        .net_phy_rxc        (eth_clk),
+        .net_phy_rxc        (phy_clk),
         .net_phy_rxctl      (piton_eth_rx_val),
         .net_phy_rxd        (piton_eth_rx_data),
     `endif
@@ -500,7 +509,7 @@ assign cl_sh_id1 = `CL_SH_ID1;
             .s_rresp(bar1_sh_rresp),
             .s_rready(sh_bar1_rready),
 
-            .eth_clk    (eth_clk),
+            .eth_clk    (phy_clk),
             .eth_tx_val (shell_eth_tx_val),
             .eth_tx_data(shell_eth_tx_data),
             .eth_rx_val (shell_eth_rx_val),
