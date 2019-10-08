@@ -25,18 +25,18 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // ========== Copyright Header End ============================================
 
-`include "mc_define.h"
+`include "noc_axi4_bridge_define.vh"
 
 module piton_aws_addr_translator (
 	axi_bus_t.master in, 
 	axi_bus_t.slave out
 );
 
-	logic [`C_M_AXI4_ADDR_WIDTH-1:0] translated_awaddr = (in.awaddr >= 64'hfff0000000) ? in.awaddr - 64'hfff0000000 + 64'h200000000 
+	logic [`AXI4_ADDR_WIDTH-1:0] translated_awaddr = (in.awaddr >= 64'hfff0000000) ? in.awaddr - 64'hfff0000000 + 64'h200000000 
 													   : (in.awaddr >= 64'hf000000000) ? in.awaddr - 64'hf000000000 + 64'h200000000 
 													   : in.awaddr;
 													   
-	logic [`C_M_AXI4_ADDR_WIDTH-1:0] translated_araddr = (in.araddr >= 64'hfff0000000) ? in.araddr - 64'hfff0000000 + 64'h200000000 
+	logic [`AXI4_ADDR_WIDTH-1:0] translated_araddr = (in.araddr >= 64'hfff0000000) ? in.araddr - 64'hfff0000000 + 64'h200000000 
 													   : (in.araddr >= 64'hf000000000) ? in.araddr - 64'hf000000000 + 64'h200000000 
 													   : in.araddr;
 

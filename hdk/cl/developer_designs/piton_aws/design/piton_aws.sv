@@ -47,6 +47,8 @@ module piton_aws
 `include "unused_pcim_template.inc"
 `include "unused_flr_template.inc"
 `include "unused_ddr_a_b_d_template.inc"
+`include "unused_sh_bar1_template.inc"
+
 
 // Unused 'full' signals
 assign cl_sh_dma_rd_full  = 1'b0;
@@ -71,18 +73,6 @@ assign cl_sh_id1 = `CL_SH_ID1;
 
     assign shell_clk = clk_main_a0; //125 mhz, recipe A0 OR 250 mhz, recipe A1
     assign piton_clk = clk_extra_b1; //62.5 mhz, recipe B1 OR 125 mhz, recipe B0 OR 100 mhz, recipe B5
-
-`ifdef PITON_FPGA_ETHERNETLITE
-    logic phy_clk;
-    phy_mmcm phy_mmcm (
-        // Clock out ports
-        .clk_out1(phy_clk),     // output clk_out1
-        // Status and control signals
-        .resetn(shell_rst_n), // input resetn
-        // Clock in ports
-        .clk_in1(clk_extra_c1) // 100mhz, recipe C2
-    );   
-`endif   
 
 ///////////////////////////////////////////////////////////////////////
 //////////////////////////// clocks ///////////////////////////////////
@@ -189,12 +179,6 @@ assign cl_sh_id1 = `CL_SH_ID1;
     logic piton_uart_tx;
     logic piton_uart_rx;
 
-    // For eth
-    logic [3:0] piton_eth_rx_data;
-    logic [3:0] piton_eth_tx_data;
-    logic piton_eth_rx_val;
-    logic piton_eth_tx_val;
-
     `ifndef PITONSYS_NO_MC
     // for ddr
     axi_bus_t piton_mem_bus();
@@ -266,16 +250,6 @@ assign cl_sh_id1 = `CL_SH_ID1;
         .m_axi_bready(piton_mem_bus.bready),
 
         .ddr_ready(ddr_ready_piton),
-    `endif
-
-    `ifdef PITON_FPGA_ETHERNETLITE
-        .eth_clk            (shell_clk),
-        .net_phy_txc        (phy_clk),
-        .net_phy_txctl      (piton_eth_tx_val),
-        .net_phy_txd        (piton_eth_tx_data),
-        .net_phy_rxc        (phy_clk),
-        .net_phy_rxctl      (piton_eth_rx_val),
-        .net_phy_rxd        (piton_eth_rx_data),
     `endif
 
     `ifdef PITONSYS_UART
@@ -455,76 +429,6 @@ assign cl_sh_id1 = `CL_SH_ID1;
 
 ///////////////////////////////////////////////////////////////////////
 ///////////////// aws uart module /////////////////////////////////////
-///////////////////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////////////////////////
-///////////////// aws eth  module /////////////////////////////////////
-///////////////////////////////////////////////////////////////////////
-
-    `ifdef PITON_FPGA_ETHERNETLITE
-
-        logic [3:0] shell_eth_rx_data;
-        logic [3:0] shell_eth_tx_data;
-        logic shell_eth_rx_val;
-        logic shell_eth_tx_val;
-
-        assign shell_eth_rx_data = piton_eth_tx_data;
-        assign piton_eth_rx_data = shell_eth_tx_data;
-        assign shell_eth_rx_val = piton_eth_tx_val;
-        assign piton_eth_rx_val = shell_eth_tx_val;
-
-        (* dont_touch = "true" *) logic aws_eth_sync_rst_n;
-        lib_pipe #(.WIDTH(1), .STAGES(4)) aws_eth_slc_rst_n (.clk(shell_clk), .rst_n(1'b1), .in_bus(shell_rst_n), .out_bus(aws_eth_sync_rst_n));
-        piton_aws_eth piton_aws_eth (
-
-            .clk(shell_clk),
-            .sync_rst_n(aws_eth_sync_rst_n),
-
-            // AXILite slave interface
-
-            //Write address
-            .s_awvalid(sh_bar1_awvalid),
-            .s_awaddr(sh_bar1_awaddr),
-            .s_awready(bar1_sh_awready),
-                                                                                                                                       
-            //Write data                                                                                                                
-            .s_wvalid(sh_bar1_wvalid),
-            .s_wdata(sh_bar1_wdata),
-            .s_wstrb(sh_bar1_wstrb),
-            .s_wready(bar1_sh_wready),
-                                                                                                                                       
-            //Write response                                                                                                            
-            .s_bvalid(bar1_sh_bvalid),
-            .s_bresp(bar1_sh_bresp),
-            .s_bready(sh_bar1_bready),
-                                                                                                                                       
-            //Read address                                                                                                              
-            .s_arvalid(sh_bar1_arvalid),
-            .s_araddr(sh_bar1_araddr),
-            .s_arready(bar1_sh_arready),
-                                                                                                                                       
-            //Read data/response                                                                                                        
-            .s_rvalid(bar1_sh_rvalid),
-            .s_rdata(bar1_sh_rdata),
-            .s_rresp(bar1_sh_rresp),
-            .s_rready(sh_bar1_rready),
-
-            .eth_clk    (phy_clk),
-            .eth_tx_val (shell_eth_tx_val),
-            .eth_tx_data(shell_eth_tx_data),
-            .eth_rx_val (shell_eth_rx_val),
-            .eth_rx_data(shell_eth_rx_data)
-
-        );
-
-    `else 
-
-        `include "unused_sh_bar1_template.inc"
-
-    `endif
-
-///////////////////////////////////////////////////////////////////////
-///////////////// aws eth  module /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////

@@ -16,58 +16,58 @@
 `ifndef AXI_BUS
 `define AXI_BUS
 
-`include "mc_define.h"
+`include "noc_axi4_bridge_define.vh"
  
    interface axi_bus_t;
-      logic[`C_M_AXI4_ID_WIDTH-1:0]     awid;
-      logic[`C_M_AXI4_ADDR_WIDTH-1:0]   awaddr;
-      logic[`C_M_AXI4_LEN_WIDTH-1:0]    awlen;
-      logic[`C_M_AXI4_SIZE_WIDTH-1:0]   awsize;
-      logic[`C_M_AXI4_BURST_WIDTH-1:0]  awburst;
-      logic                             awlock;
-      logic[`C_M_AXI4_CACHE_WIDTH-1:0]  awcache;
-      logic[`C_M_AXI4_PROT_WIDTH-1:0]   awprot;
-      logic[`C_M_AXI4_QOS_WIDTH-1:0]    awqos;
-      logic[`C_M_AXI4_REGION_WIDTH-1:0] awregion;
-      logic[`C_M_AXI4_USER_WIDTH-1:0]   awuser;
-      logic                             awvalid;
-      logic                             awready;
+      logic[`AXI4_ID_WIDTH-1:0]     awid;
+      logic[`AXI4_ADDR_WIDTH-1:0]   awaddr;
+      logic[`AXI4_LEN_WIDTH-1:0]    awlen;
+      logic[`AXI4_SIZE_WIDTH-1:0]   awsize;
+      logic[`AXI4_BURST_WIDTH-1:0]  awburst;
+      logic                         awlock;
+      logic[`AXI4_CACHE_WIDTH-1:0]  awcache;
+      logic[`AXI4_PROT_WIDTH-1:0]   awprot;
+      logic[`AXI4_QOS_WIDTH-1:0]    awqos;
+      logic[`AXI4_REGION_WIDTH-1:0] awregion;
+      logic[`AXI4_USER_WIDTH-1:0]   awuser;
+      logic                         awvalid;
+      logic                         awready;
    
-      logic[`C_M_AXI4_ID_WIDTH-1:0]     wid;
-      logic[`C_M_AXI4_DATA_WIDTH-1:0]   wdata;
-      logic[`C_M_AXI4_STRB_WIDTH-1:0]   wstrb;
-      logic                             wlast;
-      logic[`C_M_AXI4_USER_WIDTH-1:0]   wuser;
-      logic                             wvalid;
-      logic                             wready;
+      logic[`AXI4_ID_WIDTH-1:0]     wid;
+      logic[`AXI4_DATA_WIDTH-1:0]   wdata;
+      logic[`AXI4_STRB_WIDTH-1:0]   wstrb;
+      logic                         wlast;
+      logic[`AXI4_USER_WIDTH-1:0]   wuser;
+      logic                         wvalid;
+      logic                         wready;
          
-      logic[`C_M_AXI4_ID_WIDTH-1:0]     bid;
-      logic[`C_M_AXI4_RESP_WIDTH-1:0]   bresp;
-      logic[`C_M_AXI4_USER_WIDTH-1:0]   buser;
-      logic                             bvalid;
-      logic                             bready;
+      logic[`AXI4_ID_WIDTH-1:0]     bid;
+      logic[`AXI4_RESP_WIDTH-1:0]   bresp;
+      logic[`AXI4_USER_WIDTH-1:0]   buser;
+      logic                         bvalid;
+      logic                         bready;
          
-      logic[`C_M_AXI4_ID_WIDTH-1:0]     arid;
-      logic[`C_M_AXI4_ADDR_WIDTH-1:0]   araddr;
-      logic[`C_M_AXI4_LEN_WIDTH-1:0]    arlen;
-      logic[`C_M_AXI4_SIZE_WIDTH-1:0]   arsize;
-      logic[`C_M_AXI4_BURST_WIDTH-1:0]  arburst;
-      logic                             arlock;
-      logic[`C_M_AXI4_CACHE_WIDTH-1:0]  arcache;
-      logic[`C_M_AXI4_PROT_WIDTH-1:0]   arprot;
-      logic[`C_M_AXI4_QOS_WIDTH-1:0]    arqos;
-      logic[`C_M_AXI4_REGION_WIDTH-1:0] arregion;
-      logic[`C_M_AXI4_USER_WIDTH-1:0]   aruser;
-      logic                             arvalid;
-      logic                             arready;
+      logic[`AXI4_ID_WIDTH-1:0]     arid;
+      logic[`AXI4_ADDR_WIDTH-1:0]   araddr;
+      logic[`AXI4_LEN_WIDTH-1:0]    arlen;
+      logic[`AXI4_SIZE_WIDTH-1:0]   arsize;
+      logic[`AXI4_BURST_WIDTH-1:0]  arburst;
+      logic                         arlock;
+      logic[`AXI4_CACHE_WIDTH-1:0]  arcache;
+      logic[`AXI4_PROT_WIDTH-1:0]   arprot;
+      logic[`AXI4_QOS_WIDTH-1:0]    arqos;
+      logic[`AXI4_REGION_WIDTH-1:0] arregion;
+      logic[`AXI4_USER_WIDTH-1:0]   aruser;
+      logic                         arvalid;
+      logic                         arready;
          
-      logic[`C_M_AXI4_ID_WIDTH-1:0]     rid;
-      logic[`C_M_AXI4_DATA_WIDTH-1:0]   rdata;
-      logic[`C_M_AXI4_RESP_WIDTH-1:0]   rresp;
-      logic                             rlast;
-      logic[`C_M_AXI4_USER_WIDTH-1:0]   ruser;
-      logic                             rvalid;
-      logic                             rready;
+      logic[`AXI4_ID_WIDTH-1:0]     rid;
+      logic[`AXI4_DATA_WIDTH-1:0]   rdata;
+      logic[`AXI4_RESP_WIDTH-1:0]   rresp;
+      logic                         rlast;
+      logic[`AXI4_USER_WIDTH-1:0]   ruser;
+      logic                         rvalid;
+      logic                         rready;
 
       modport master (input awid, awaddr, awlen, awsize, awburst, awlock, awcache, awprot, awqos, awregion, awuser, awvalid, output awready,
                       input wid, wdata, wstrb, wlast, wuser, wvalid, output wready,

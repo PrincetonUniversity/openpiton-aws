@@ -42,10 +42,12 @@ set PITON_AWS_INCLUDE_DIRS [list \
 ]
 
 set PITON_AWS_XCI_IP_FILES [list \
-  "${ORIGINAL_CL_DIR}/design/xilinx/ip_cores/axi_crossbar_0/axi_crossbar_0.xci" \
-  "${ORIGINAL_CL_DIR}/design/xilinx/ip_cores/phy_mmcm/phy_mmcm.xci" 
+#  "${ORIGINAL_CL_DIR}/design/xilinx/ip_cores/ila_read/ila_read.xci" \
+  "${ORIGINAL_CL_DIR}/design/xilinx/ip_cores/ila_write/ila_write.xci" \
+  "${ORIGINAL_CL_DIR}/design/xilinx/ip_cores/ila_buffer/ila_buffer.xci" \
+  "${ORIGINAL_CL_DIR}/design/xilinx/ip_cores/axi_protocol_checker_0/axi_protocol_checker_0.xci" \
+  "${ORIGINAL_CL_DIR}/design/xilinx/ip_cores/ila_axi_protocol_checker/ila_axi_protocol_checker.xci" 
 ]
-
 
 #---- End of section replaced by Developr ---
 
