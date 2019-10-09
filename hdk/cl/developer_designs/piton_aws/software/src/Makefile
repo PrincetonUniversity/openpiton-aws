@@ -20,20 +20,26 @@ CFLAGS = -D_GNU_SOURCE -D_XOPEN_SOURCE -DCONFIG_LOGLEVEL=4 -std=gnu11 -g -Wall -
 
 LDLIBS = -lfpga_mgmt -lpthread -lbsd -lutil 
 
-SRC = common.c dma_os.c uart.c
+SRC =  dma_os.c uart2.c read_mem.c uart.c
 OBJ = $(SRC:.c=.o)
 
 
-all: uart dma_os check_env $(BIN)
+all: uart uart2 dma_os check_env read_mem $(BIN)
 
-dma_os: $(OBJ)
-	$(CC) $(CFLAGS) -o dma_os dma_os.o common.o  $(LDFLAGS) $(LDLIBS)
+dma_os: $(OBJ) ../include/dma_os.h
+	$(CC) $(CFLAGS) -o dma_os dma_os.o  $(LDFLAGS) $(LDLIBS)
 
-uart: $(OBJ)
+read_mem: $(OBJ) ../include/dma_os.h
+	$(CC) $(CFLAGS) -o read_mem read_mem.o  $(LDFLAGS) $(LDLIBS)
+
+uart: $(OBJ) ../include/uart.h
 	$(CC) $(CFLAGS) -o uart uart.o $(LDFLAGS) $(LDLIBS) 
 
+uart2: $(OBJ) ../include/uart.h
+	$(CC) $(CFLAGS) -o uart2 uart2.o $(LDFLAGS) $(LDLIBS) 
+
 clean:
-	rm -f *.o dma_os uart
+	rm -f *.o dma_os uart uart2 read_mem
 
 check_env:
 ifndef SDK_DIR

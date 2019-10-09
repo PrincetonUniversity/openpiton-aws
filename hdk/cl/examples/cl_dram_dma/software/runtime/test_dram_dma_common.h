@@ -34,9 +34,11 @@ uint64_t buffer_compare(uint8_t *bufa, uint8_t *bufb,
  * Checks to make sure that the slot has a recognized AFI loaded.
  */
 int check_slot_config(int slot_id);
-
-
-#if defined(SV_TEST)
-void setup_send_rdbuf_to_c(uint8_t *read_buffer, size_t buffer_size);
-int send_rdbuf_to_c(char* rd_buf);
-#endif
+void usage(const char* program_name);
+int get_fds(int slot_id, int* read_fd, int* write_fd);
+int dma_os(int read_df, int write_fd, const char* os_img_filename, size_t begin);
+int fill_ariane_mem_region(int read_fd, int write_fd);
+#define MEM_1MB              (1ULL << 20)
+#define MEM_1GB              (1ULL << 30)
+#define	MEM_16GB              (1ULL << 34)
+#define OS_OFFSET            (8 * MEM_1GB)

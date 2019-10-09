@@ -25,6 +25,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <stdint.h>
+#include <assert.h>
 
 #include <fpga_pci.h>
 #include <fpga_mgmt.h>
@@ -36,20 +37,11 @@
 
 /* use the standard out logger */
 static const struct logger *logger = &logger_stdout;
+int read_mem(int read_fd, size_t begin, size_t end, size_t buffer_size);
 
 int main(int argc, char **argv) {
     int rc;
     int slot_id = 0;
-    char os_img_filename[1024] = {0};
-
-    switch (argc) {
-    case 2:
-        sscanf(argv[1], "%s", os_img_filename);
-        break;
-    default:
-        usage(argv[0]);
-        return 1;
-    }
 
     /* setup logging to print to stdout */
     rc = log_init("test_dram_dma");
@@ -72,9 +64,9 @@ int main(int argc, char **argv) {
     rc = get_fds(slot_id, &read_fd, &write_fd);
     fail_on(rc, out, "Couldn't get file descriptors for DMA");
 
-    /* load os */
-    rc = dma_os(read_fd, write_fd, os_img_filename, 8 * MEM_1GB);
-    fail_on(rc, out, "OS DMA failed!");
+    /* read mem */ 
+    rc = read_mem(read_fd, 2*MEM_1GB, 2*MEM_1GB + 32*MEM_1MB, MEM_1MB);
+    fail_on(rc, out, "read_mem failed!");
 
 out:
     if (write_fd >= 0) {
@@ -228,7 +220,6 @@ int dma_os(int read_fd, int write_fd, const char* os_img_filename, size_t begin)
         pos += bytes_read;
     }
 
-    printf("written %zu bytes\n", pos - begin);
     if (passed) {
         log_info("OS image written!");
     } else { 
@@ -253,4 +244,119 @@ out:
 }
 
 
+int fill_mem(int read_fd, int write_fd, size_t begin, size_t end, uint8_t byte, size_t buffer_size) {
+    int rc = 0;
+    
+    if ( (end <= begin) || ((end - begin) % buffer_size != 0) ) {
+        rc = -1;
+    }
+    fail_on(rc, out, "Wrong mem filling params");
 
+    uint8_t *write_buffer = calloc(buffer_size, sizeof(uint8_t));
+    uint8_t *read_buffer = calloc(buffer_size, sizeof(uint8_t));
+    if (write_buffer == NULL || read_buffer == NULL) {
+        rc = -ENOMEM;
+        goto out;
+    }
+
+    memset(read_buffer, byte, buffer_size);
+    memset(write_buffer, byte, buffer_size);
+
+    size_t pos = begin;
+    bool passed = true;
+    while(1) {
+        rc = fpga_dma_burst_write(write_fd, write_buffer, buffer_size, pos);
+        fail_on(rc, out, "DMA write failed");
+
+        rc = fpga_dma_burst_read(read_fd, read_buffer, buffer_size, pos);
+        fail_on(rc, out, "DMA read failed");
+
+        uint64_t differ = buffer_compare(read_buffer, write_buffer, buffer_size);
+    
+        if (differ != 0) {
+            log_error("Filling memory failed with %lu bytes which differ", differ);
+            passed = false;
+            break;
+        }
+
+        pos += buffer_size;
+        if (pos >= end) {
+            break;
+        } 
+    }
+
+    if (passed) {
+        log_info("Filling memory: success!");
+    } else { 
+        log_info("Filling memory: failure!");
+    }
+
+    rc = (passed) ? 0 : 1;
+
+out:
+    if (write_buffer != NULL) {
+        free(write_buffer);
+    }
+    if (read_buffer != NULL) {
+        free(read_buffer);
+    }
+    
+    /* if there is an error code, exit with status 1 */
+    return (rc != 0 ? 1 : 0);
+}
+
+int read_mem(int read_fd, size_t begin, size_t end, size_t buffer_size) {
+    int rc = 0;
+    
+    if ( (end <= begin) || ((end - begin) % buffer_size != 0) ) {
+        rc = -1;
+    }
+    fail_on(rc, out, "Wrong mem filling params");
+
+    uint8_t *read_buffer = calloc(buffer_size, sizeof(uint8_t));
+    if (read_buffer == NULL) {
+        rc = -ENOMEM;
+        goto out;
+    }
+
+    memset(read_buffer, 0x00, buffer_size);
+    FILE*  file = fopen("memory3.bin", "wb");
+    assert(file != NULL);
+
+    size_t pos = begin;
+    bool passed = true;
+    while(1) {
+        rc = fpga_dma_burst_read(read_fd, read_buffer, buffer_size, pos);
+        fail_on(rc, out, "DMA read failed");
+
+	for (uint64_t i = 0; i < buffer_size; i++) {
+            //printf("%02x", read_buffer[i]);
+        }
+        //printf("\n");
+
+        fwrite(read_buffer, buffer_size, 1, file); 
+
+        pos += buffer_size;
+        if (pos >= end) {
+            break;
+        } 
+    }
+
+    fclose(file);
+
+    if (passed) {
+        log_info("Reading memory: success!");
+    } else { 
+        log_info("Reading memory: failure!");
+    }
+
+    rc = (passed) ? 0 : 1;
+
+out:
+    if (read_buffer != NULL) {
+        free(read_buffer);
+    }
+    
+    /* if there is an error code, exit with status 1 */
+    return (rc != 0 ? 1 : 0);
+}
